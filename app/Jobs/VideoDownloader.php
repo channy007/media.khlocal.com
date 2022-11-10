@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Str;
 
 class VideoDownloader implements ShouldQueue
 {
@@ -36,8 +37,10 @@ class VideoDownloader implements ShouldQueue
     public function handle()
     {
         $mediaSource = $this->data['mediaSource'];
-        $cmd = 'sh ' . public_path() . '/shell_scripts/youtube_download.sh ' . $mediaSource->source_url;
-        $process = new Process([$cmd]);
+        $shellFile = public_path() . '/shell_scripts/youtube_download.sh';
+        $fileName = "/var/www/share/".Str::slug($mediaSource->source_name).'.mp4';
+        $process = new Process(['bash',$shellFile,$mediaSource->source_url,$fileName]);
+        $process->setTimeout(3600);
         $process->run();
         // executes after the command finishes
         if (!$process->isSuccessful()) {
