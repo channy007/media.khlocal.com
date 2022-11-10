@@ -20,7 +20,7 @@ class MediaSourceController extends Controller
                     $query->select('id', 'name');
                 }
             ]
-        )->paginate(10);
+        )->orderBy('id','desc')->paginate(10);
 
         return view('media_source.index', compact('datas'));
     }
