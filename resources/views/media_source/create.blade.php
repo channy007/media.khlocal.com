@@ -12,12 +12,12 @@
             </div>
         @endif
 
-        <form action="{{ route('media-source-create') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('media-source-store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputEmail4">Project Name *</label>
-                    <select name="channel" class="form-control">
+                    <select name="project_name" class="form-control">
                         @foreach ($projects as $project)
                             <option value="{{ $project->name }}">{{ $project->name }}</option>
                         @endforeach
@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputPassword4">Source From *</label>
-                    <select name="channel" class="form-control">
+                    <select name="source_from" class="form-control">
                         <option value="youtube">Youtube</option>
                         <option value="facebook">Facebook</option>
                         <option value="tiktok">Tiktok</option>

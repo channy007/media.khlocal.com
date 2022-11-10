@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\VideoDownloader;
 use App\Models\MediaProject;
 use App\Models\MediaSource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class MediaSourceController extends Controller
 {
@@ -18,12 +21,25 @@ class MediaSourceController extends Controller
     public function create(Request $request)
     {
         $projects = MediaProject::all();
-        return view('media_source.create',compact('projects'));
+        return view('media_source.create', compact('projects'));
     }
 
     public function store(Request $request)
     {
-        return view('media_source.create');
+        $request['created_at'] = Carbon::now();
+        $mediaSource = MediaSource::create($request->all());
+
+        if ($mediaSource) {
+            $mediaSource->refresh();
+            dispatch(new VideoDownloader(
+                [
+                    'mediaSource' => $mediaSource
+                ]
+            ));
+        }
+
+        return redirect()->route('media-source-index')
+            ->with('success', 'Create successfully.');
     }
 
 
@@ -31,17 +47,6 @@ class MediaSourceController extends Controller
     {
         $data = MediaSource::whereId($id)->first();
 
-
         return view('media_source.edit', compact('data'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $mediaProject = MediaSource::whereId($id)->first();
-        if ($mediaProject) {
-            $mediaProject->update($request->all());
-        }
-        return redirect()->route('media-project-index')
-            ->with('success', 'Update successfully.');
     }
 }
