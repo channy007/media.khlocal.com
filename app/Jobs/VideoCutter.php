@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Utils\enums\MediaSourceStatus;
+use App\Utils\enums\QueueName;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -59,11 +61,12 @@ class VideoCutter implements ShouldQueue
             throw new ProcessFailedException($process);
             return;
         }
+        $mediaSource->update(['status' => MediaSourceStatus::CUT]);
 
         dispatch(new Uploader([
             'mediaSource' => $mediaSource,
             'fileProperty' => $fileProperty
-        ]));
+        ]))->onQueue(QueueName::UPLOADER);
 
         Log::info("============ video cutter output: " . $process->getOutput());
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\VideoDownloader;
 use App\Models\MediaProject;
 use App\Models\MediaSource;
+use App\Utils\enums\MediaSourceStatus;
 use App\Utils\enums\QueueName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -34,6 +35,7 @@ class MediaSourceController extends Controller
     public function store(Request $request)
     {
         $request['created_at'] = Carbon::now();
+        $request['status'] = MediaSourceStatus::NEW;
         $mediaSource = MediaSource::create($request->all());
 
         if ($mediaSource) {

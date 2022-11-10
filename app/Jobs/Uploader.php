@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\MediaProject;
+use App\Utils\enums\MediaSourceStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -64,6 +65,8 @@ class Uploader implements ShouldQueue
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
+
+        $mediaSource->update(['status' => MediaSourceStatus::UPLOADED]);
         Log::info("============ upload output: " . $process->getOutput());
     }
 }

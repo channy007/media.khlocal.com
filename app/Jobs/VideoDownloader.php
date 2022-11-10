@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Utils\enums\MediaSourceStatus;
+use App\Utils\enums\QueueName;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -50,13 +52,13 @@ class VideoDownloader implements ShouldQueue
             throw new ProcessFailedException($process);
         }
         Log::info("============ download output: " . $process->getOutput());
-
+        $mediaSource->update(['status' => MediaSourceStatus::DOWNLOADED]);
         dispatch(new VideoCutter(
             [
                 'mediaSource' => $mediaSource,
                 'fileProperty' => $fileProperty
             ]
-        ));
+        ))->onQueue(QueueName::VIDEO_CUTTER);
     }
 
     private function prepareFileProperties($mediaSource)
