@@ -12,7 +12,8 @@
         "laravel/horizon": "^5.10",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "norkunas/youtube-dl-php": "dev-master"
+        "norkunas/youtube-dl-php": "dev-master",
+        "predis/predis": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
