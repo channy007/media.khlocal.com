@@ -37,8 +37,11 @@ class VideoDownloader implements ShouldQueue
     public function handle()
     {
         $mediaSource = $this->data['mediaSource'];
+        $fileProperty = $this->prepareFileProperties($mediaSource);
+
         $shellFile = public_path() . '/shell_scripts/youtube_download.sh';
-        $fileName = "/var/www/share/" . Str::slug($mediaSource->source_name) . '.mp4';
+
+        $fileName = $fileProperty['path'] . $fileProperty['originalName'] . $fileProperty['extension'];
         $process = new Process(['bash', $shellFile, $mediaSource->source_url, $fileName]);
         $process->setTimeout(3600);
         $process->run();
@@ -51,8 +54,20 @@ class VideoDownloader implements ShouldQueue
         dispatch(new VideoCutter(
             [
                 'mediaSource' => $mediaSource,
-                'fileName' => $fileName
+                'fileProperty' => $fileProperty
             ]
         ));
+    }
+
+    private function prepareFileProperties($mediaSource)
+    {
+        $fileProperty = [
+            'path' => '/var/www/share',
+            'originalName' => Str::slug($mediaSource->source_name),
+            'extension' => '.mp4',
+            'cuttedFileName' => Str::slug($mediaSource->source_name) . '_cut'
+        ];
+
+        return $fileProperty;
     }
 }

@@ -12,7 +12,7 @@ class MediaSource extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'project_name',
+        'project_id',
         'source_name',
         'source_url',
         'source_from',

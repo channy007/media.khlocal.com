@@ -17,9 +17,9 @@
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputEmail4">Project Name *</label>
-                    <select name="project_name" class="form-control">
+                    <select name="project_id" class="form-control">
                         @foreach ($projects as $project)
-                            <option value="{{ $project->name }}">{{ $project->name }}</option>
+                            <option value="{{ $project->id }}">{{ $project->name }}</option>
                         @endforeach
                     </select>
 

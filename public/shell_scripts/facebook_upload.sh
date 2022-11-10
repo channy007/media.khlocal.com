@@ -1,12 +1,12 @@
 #!/bin/bash
-#usage facebook-link page-id access-token source(full path) description title
+#usage page-id access-token source(full path) description title
 
-facebook_link="$1"
-page_id="$2"
-access_token="$3"
-source="source=@$4"
-description="description=$5"
-title="title=$6"
+facebook_link="https://graph.facebook.com/v15.0"
+page_id="$1"
+access_token="$2"
+source="source=@$3"
+description="description=$4"
+title="title=$5"
 url="$facebook_link/$page_id/videos?access_token=$access_token"
 
 #upload video to facebook
