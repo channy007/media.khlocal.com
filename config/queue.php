@@ -71,6 +71,15 @@ return [
             'after_commit' => false,
         ],
 
+        'redis-long-process' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+            'queue' => env('REDIS_QUEUE', 'default'),
+            'retry_after' => 18060,
+            'block_for' => null,
+            'after_commit' => false,
+        ],
+
     ],
 
     /*
