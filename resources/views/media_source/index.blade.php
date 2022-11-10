@@ -18,6 +18,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Project Name</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Source Name</th>
                         <th scope="col">Source URL</th>
                         <th scope="col">Source From</th>
@@ -40,7 +41,8 @@
                     @foreach ($datas as $count => $mediaSource)
                         <tr>
                             <td>{{ $count }}</td>
-                            <td>{{ $mediaSource->project_name }}</td>
+                            <td>{{ optional($mediaSource->project)->name }}</td>
+                            <td>{{ $mediaSource->status }}</td>
                             <td>{{ $mediaSource->source_name }}</td>
                             <td>{{ $mediaSource->source_url }}</td>
                             <td>{{ $mediaSource->source_from }}</td>

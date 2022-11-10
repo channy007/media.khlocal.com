@@ -28,4 +28,8 @@ class MediaSource extends Model
         'flip_v',
         'status'
     ];
+
+    public function project(){
+        return $this->belongsTo(MediaProject::class,'project_id','id');
+    }
 }

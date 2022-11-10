@@ -14,7 +14,13 @@ class MediaSourceController extends Controller
 {
     public function index(Request $request)
     {
-        $datas = MediaSource::paginate(10);
+        $datas = MediaSource::with(
+            [
+                'project' => function ($query) {
+                    $query->select('id', 'name');
+                }
+            ]
+        )->paginate(10);
 
         return view('media_source.index', compact('datas'));
     }
