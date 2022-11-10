@@ -11,7 +11,7 @@ url="$facebook_link/$page_id/videos?access_token=$access_token"
 
 #upload video to facebook
 curl --location --request POST $url \
---form "$source"
+--form "$source" \
 --form "$description" \
 --form "$title"
 
