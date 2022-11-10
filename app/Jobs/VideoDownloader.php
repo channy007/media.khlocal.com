@@ -38,14 +38,21 @@ class VideoDownloader implements ShouldQueue
     {
         $mediaSource = $this->data['mediaSource'];
         $shellFile = public_path() . '/shell_scripts/youtube_download.sh';
-        $fileName = "/var/www/share/".Str::slug($mediaSource->source_name).'.mp4';
-        $process = new Process(['bash',$shellFile,$mediaSource->source_url,$fileName]);
+        $fileName = "/var/www/share/" . Str::slug($mediaSource->source_name) . '.mp4';
+        $process = new Process(['bash', $shellFile, $mediaSource->source_url, $fileName]);
         $process->setTimeout(3600);
         $process->run();
         // executes after the command finishes
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
-        Log::info("============ download output: ".$process->getOutput()); 
+        Log::info("============ download output: " . $process->getOutput());
+
+        dispatch(new VideoCutter(
+            [
+                'mediaSource' => $mediaSource,
+                'fileName' => $fileName
+            ]
+        ));
     }
 }
