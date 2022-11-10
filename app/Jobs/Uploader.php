@@ -38,7 +38,7 @@ class Uploader implements ShouldQueue
     {
         $mediaSource = $this->data['mediaSource'];
         $fileProperty = $this->data['fileProperty'];
-
+        $fileName = $fileProperty['path'] .'/'. $fileProperty['cuttedFileName'] . $fileProperty['extension'];
         $project = MediaProject::whereId($mediaSource->project_id)->first();
 
         if(!$project){
@@ -52,7 +52,7 @@ class Uploader implements ShouldQueue
                 $shellFile,
                 $project->page_id,
                 $project->access_token,
-                $fileProperty['cuttedFileName'].$fileProperty['extension'],
+                $fileName,
                 $mediaSource->source_text,
                 $mediaSource->source_name
             ]
