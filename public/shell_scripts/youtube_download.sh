@@ -4,7 +4,9 @@
 youtube_url="$1"
 file_name="$2"
 
-youtube-dl -o "$file_name" $youtube_url
+youtube-dl -f best $youtube_url -o $file_name
+
+# youtube-dl -o "$file_name" $youtube_url
 
 # youtube-dl -o "/var/www/share/$filename.%(ext)s" $youtube_url
 
