@@ -1,8 +1,6 @@
-## Stop process
-sudo supervisorctl stop video-downloader-queue:*
-## Reread process
-sudo supervisorctl reread video-downloader-queue:*
-## Update process
-sudo supervisorctl update video-downloader-queue:*
+sudo supervisorctl reread
+ 
+sudo supervisorctl update
+
 ## Start process
 sudo supervisorctl start video-downloader-queue:*
