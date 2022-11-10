@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\VideoDownloader;
 use App\Models\MediaProject;
 use App\Models\MediaSource;
+use App\Utils\enums\QueueName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -35,7 +36,7 @@ class MediaSourceController extends Controller
                 [
                     'mediaSource' => $mediaSource
                 ]
-            ));
+            ))->onQueue(QueueName::VIDEO_DOWNLOADER);
         }
 
         return redirect()->route('media-source-index')
