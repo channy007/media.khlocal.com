@@ -232,7 +232,7 @@
                 <div class="form-group col-md-4">
                     <label for="flip">Flip</label>
                     <select name="flip" class="form-control">
-                        <option value="">Choose Video Flip..</option>
+                        <option value="" selected>Choose Video Flip..</option>
                         <option value="horizontal">Horizontal</option>
                         <option value="vertical" selected>Vertical</option>
                     </select>
