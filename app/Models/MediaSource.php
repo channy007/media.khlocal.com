@@ -26,6 +26,7 @@ class MediaSource extends Model
         'segment',
         'flip_h',
         'flip_v',
+        'flip',
         'status'
     ];
 

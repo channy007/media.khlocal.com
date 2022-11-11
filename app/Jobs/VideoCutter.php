@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Utils\enums\MediaSourceStatus;
 use App\Utils\enums\QueueName;
+use App\Utils\enums\VideoFlip;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -40,9 +41,9 @@ class VideoCutter implements ShouldQueue
     {
         $mediaSource = $this->data['mediaSource'];
         $fileProperty = $this->data['fileProperty'];
-        $fileName = $fileProperty['path'] .'/'. $fileProperty['originalName'] . $fileProperty['extension'];
+        $fileName = $fileProperty['path'] . '/' . $fileProperty['originalName'] . $fileProperty['extension'];
         $shellFile = public_path() . '/shell_scripts/ffmpeg_cut.sh';
-
+        $flip =  $mediaSource->flip ? (VideoFlip::HORIZONTAL ? '-vf hflip' : '-vf vflip') : '';
         $process = new Process(
             [
                 'bash',
@@ -50,7 +51,8 @@ class VideoCutter implements ShouldQueue
                 $fileName, $mediaSource->transition,
                 $mediaSource->seg_start,
                 $mediaSource->seg_length,
-                $mediaSource->seg_gap
+                $mediaSource->seg_gap,
+                $flip
             ]
         );
 

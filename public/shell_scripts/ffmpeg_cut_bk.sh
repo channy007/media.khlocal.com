@@ -1,23 +1,13 @@
 #!/bin/bash
 #usage: ./ffmpeg.sh filename transition seg_start seg_length seg_gap fliph flipv
-#new usage: ./ffmpeg.sh filename transition seg_start seg_length seg_gap flip
-
 
 file="$1"
 file_name="${file%.*}"
 extension="${file##*.}"
 video_length=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${file}")
-seg_start="$3"
-length="$4"
-gap="$5"
-flip="$6"
-if [[ -v flip ]];
-then
-    echo "variable named a is already set"
-else
-    echo "variable a is not set"
-    flip=""
-fi
+seg_start=5
+length=90
+gap=25
 ##################################################################################################################
 rm -rf "${file_name}"
 mkdir "${file_name}"
@@ -59,7 +49,7 @@ fade_prev=$(( fade_prev - 1 ))
 all_video_fade="[v0]copy[vfade0];$all_video_fade[vfade$fade_prev]format=yuv420p"
 all_audio_fade="[a0]acopy[afade0];$all_audio_fade[afade$fade_prev]acopy"
 set -vx
-ffmpeg -y -hide_banner $inputs $flip\
+ffmpeg -y -hide_banner $inputs \
         -filter_complex "$video_scale$all_video_fade;$audio_scale$all_audio_fade" \
         -movflags +faststart \
         "${file_name}_cut.${extension}" > /dev/null 2>&1
