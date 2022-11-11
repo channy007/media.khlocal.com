@@ -30,8 +30,7 @@
                         <th scope="col">Segment Length</th>
                         <th scope="col">Segment Gap</th>
                         <th scope="col">Segment</th>
-                        <th scope="col">Flip H</th>
-                        <th scope="col">Flip V</th>
+                        <th scope="col">Flip</th>
                         <th scope="col">Created At</th>
     
     
@@ -54,8 +53,7 @@
                             <td>{{ $mediaSource->seg_length }}</td>
                             <td>{{ $mediaSource->seg_gap }}</td>
                             <td>{{ $mediaSource->segment }}</td>
-                            <td>{{ $mediaSource->flip_h }}</td>
-                            <td>{{ $mediaSource->flip_v }}</td>
+                            <td>{{ $mediaSource->flip }}</td>
                             <td>{{ $mediaSource->created_at }}</td>
                         </tr>
                     @endforeach
