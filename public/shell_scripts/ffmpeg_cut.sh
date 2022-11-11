@@ -5,9 +5,9 @@ file="$1"
 file_name="${file%.*}"
 extension="${file##*.}"
 video_length=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${file}")
-seg_start=5
-length=90
-gap=25
+seg_start="$3"
+length="$4"
+gap="$5"
 ##################################################################################################################
 rm -rf "${file_name}"
 mkdir "${file_name}"

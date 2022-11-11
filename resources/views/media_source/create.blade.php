@@ -16,8 +16,9 @@
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="inputEmail4">Project Name *</label>
-                    <select name="project_id" class="form-control">
+                    <label for="project_id">Project Name *</label>
+                    <select name="project_id" class="form-control" id="project-id"
+                        onchange="projectChange({{ $projects }})">
                         @foreach ($projects as $project)
                             <option value="{{ $project->id }}">{{ $project->name }}</option>
                         @endforeach
@@ -55,7 +56,7 @@
 
                 <div class="form-group col-md-4">
                     <label for="trainsition">Transition *</label>
-                    <select name="transition" class="form-control" >
+                    <select name="transition" class="form-control">
                         <option value="circleclose">
                             circleclose
                         </option>
@@ -202,7 +203,7 @@
 
                 <div class="form-group col-md-4">
                     <label for="resolution">Resolution *</label>
-                    <select name="resolution" class="form-control">
+                    <select name="resolution" class="form-control" id="resolution">
                         <option value="16:9">16:9</option>
                         <option value="4:3" selected>4:3</option>
                         <option value="1:1">1:1</option>
@@ -211,18 +212,21 @@
 
                 <div class="form-group col-md-4">
                     <label for="segment_start">Segment Start *</label>
-                    <input type="number" class="form-control" name="segment_start" placeholder="Segment Start" required value="5">
+                    <input type="number" class="form-control" name="segment_start" placeholder="Segment Start" required
+                        value="5">
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="segment_length">Segment Length *</label>
-                    <input type="number" class="form-control" name="segment_length" placeholder="Segment Length" required value="90">
-                    
+                    <input type="number" class="form-control" name="segment_length" placeholder="Segment Length"
+                        required value="90">
+
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="sagment_gap">Segment Gap *</label>
-                    <input type="number" class="form-control" name="segment_gap" placeholder="Segment Gap" required value="25">
+                    <input type="number" class="form-control" name="segment_gap" placeholder="Segment Gap" required
+                        value="25">
 
                 </div>
             </div>
@@ -239,4 +243,20 @@
             </div>
         </form>
     </div>
+@stop
+
+@section('scripts')
+    <script type="text/javascript">
+        function projectChange(projects) {
+            var projectId = document.getElementById('project-id').value;
+            var selectedProject = projects.find(function(e) {
+                return e.id == projectId;
+            });
+            $("#resolution option").each(function() {
+                if ($(this).val() == selectedProject.resolution) { // EDITED THIS LINE
+                    $(this).prop("selected",true);
+                }
+            });
+        }
+    </script>
 @stop
