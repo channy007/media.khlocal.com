@@ -38,8 +38,8 @@ class MediaSourceController extends Controller
         $request['created_at'] = Carbon::now();
         $request['status'] = MediaSourceStatus::NEW;
 
-        if($request->hasFile('thumb')){
-            $thumb = $request['thumb'];
+        if($request->hasFile('thumbnail')){
+            $thumb = $request['thumbnail'];
             $request['thumb'] = Storage::disk('public')->put('images', $thumb);
         }
         $mediaSource = MediaSource::create($request->all());
