@@ -56,8 +56,8 @@ class Uploader implements ShouldQueue
                 $project->page_id,
                 $project->access_token,
                 $fileName,
-                $mediaSource->source_text,
-                $mediaSource->source_name,
+                $mediaSource->source_text??"",
+                $mediaSource->source_name??"",
                 $thumb
             ]
         );
