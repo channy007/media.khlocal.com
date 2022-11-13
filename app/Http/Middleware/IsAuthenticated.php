@@ -22,6 +22,6 @@ class IsAuthenticated
             return $next($request);
         }
 
-        return redirect()->route('login')->withSuccess('Oppes! You have entered invalid credentials');
+        return redirect()->route('login')->withSuccess('Oppes! You have entered invalid credentials!');
     }
 }
