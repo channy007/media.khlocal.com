@@ -31,4 +31,17 @@ class MediaProjectController extends Controller
         return redirect()->route('media-project-index')
             ->with('success', 'Update successfully.');
     }
+
+    public function create(Request $request)
+    {
+        return view('media_project.create');
+    }
+
+    public function store(Request $request)
+    {
+        $mediaSource = MediaProject::create($request->all());
+
+        return redirect()->route('media-project-index')
+            ->with('success', 'Create successfully.');
+    }
 }

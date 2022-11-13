@@ -28,6 +28,8 @@ Route::middleware(['isAuthenticated'])->group(function () {
     Route::get('/project/index', [MediaProjectController::class, 'index'])->name('media-project-index');
     Route::get('/project/edit/{id}', [MediaProjectController::class, 'edit'])->name('media-project-edit');
     Route::post('/project/update/{id}', [MediaProjectController::class, 'update'])->name('media-project-update');
+    Route::get('/project/create', [MediaProjectController::class, 'create'])->name('media-project-create');
+    Route::post('/project/store', [MediaProjectController::class, 'store'])->name('media-project-store');
 
     Route::get('/source/index', [MediaSourceController::class, 'index'])->name('media-source-index');
     Route::get('/source/edit/{id}', [MediaSourceController::class, 'edit'])->name('media-source-edit');

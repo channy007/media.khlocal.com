@@ -4,6 +4,12 @@
         @if ($message = Session::get('success'))
             @include('includes.alerts.success')
         @endif
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-primary" href="{{ route('media-source-create') }}">
+                <i class="fas fa-plus"></i> <span class="remove-mobile">{{ __('Add New') }}<span>
+            </a>
+        </div>
+        <br>
 
         <div class="table-responsive text-nowrap">
             <table class="table table-bordered table-striped">
