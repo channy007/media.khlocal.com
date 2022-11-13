@@ -8,5 +8,5 @@ class MediaSourceStatus
     const NEW = 'new';
     const DOWNLOADED = 'downloaded';
     const CUT = 'cut';
-    const UPLOADED = 'UPLOADED';
+    const UPLOADED = 'uploaded';
 }

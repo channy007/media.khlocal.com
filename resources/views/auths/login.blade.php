@@ -2,49 +2,116 @@
 
 @section('style')
     <style type="text/css">
-        .img-container {
-            /* width: 50px; */
-            margin: 10px 0px 10px 0px;
+        .divider:after,
+        .divider:before {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee;
         }
 
-        .form-group {
-            margin-top: 25px;
+        .h-custom {
+            height: calc(100% - 73px);
+        }
+
+        @media (max-width: 450px) {
+            .h-custom {
+                height: 100%;
+            } 
         }
     </style>
 @stop
 
-@section('content')
-    <div class="content">
-        <form action="">
-            <div class="container" style="width: 50%; margin-top: 5%;background-color: #e3f2fd;border-radius: 25px;">
-                <div class="row text-black">
-                    <div class="col-lg-5">
-                        <div class="img-container">
-                            <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg">
+@section('body')
+    <section class="vh-100">
+        <div class="container-fluid h-custom">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-md-9 col-lg-6 col-xl-5">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                        class="img-fluid" alt="Sample image">
+                </div>
+                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                    <form action="{{ route('post-login') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                            <p class="lead fw-normal mb-0 me-3">Sign in with</p>
+                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                                <i class="fab fa-facebook-f"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                                <i class="fab fa-twitter"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </button>
                         </div>
-                    </div>
 
-                    <div class="col-lg-7">
-                        <div class="mx-auto form p-4">
-                            <h2 class="justify-content-center text-start">
-                                <b>Welcom to Codelab!</b>
-                            </h2>
-
-                            <form action="" class="justify-content-start">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="username" placeholder="username">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" id="email" placeholder="password">
-                                </div>
-                                <button type="submit" class="btn btn-primary" style="width: 150px;">Login</button>
-                            </form>
-
+                        <div class="divider d-flex align-items-center my-4">
+                            <p class="text-center fw-bold mx-3 mb-0">Or</p>
                         </div>
-                    </div>
 
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <input type="text" id="form3Example3" name="username" class="form-control form-control-lg"
+                                placeholder="Enter email or username" />
+                            <label class="form-label" for="form3Example3">Email or Username</label>
+                        </div>
+
+                        <!-- Password input -->
+                        <div class="form-outline mb-3">
+                            <input type="password" id="form3Example4" name="password" class="form-control form-control-lg"
+                                placeholder="Enter password" />
+                            <label class="form-label" for="form3Example4">Password</label>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- Checkbox -->
+                            <div class="form-check mb-0">
+                                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                                <label class="form-check-label" for="form2Example3">
+                                    Remember me
+                                </label>
+                            </div>
+                            <a href="#!" class="text-body">Forgot password?</a>
+                        </div>
+
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" class="btn btn-primary btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+                            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
+                                    class="link-danger">Register</a></p>
+                        </div>
+
+                    </form>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+        <div
+            class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+            <!-- Copyright -->
+            <div class="text-white mb-3 mb-md-0">
+                Copyright © 2020. All rights reserved.
+            </div>
+            <!-- Copyright -->
+
+            <!-- Right -->
+            <div>
+                <a href="#!" class="text-white me-4">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#!" class="text-white me-4">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#!" class="text-white me-4">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="#!" class="text-white">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </div>
+    </section>
 @stop
