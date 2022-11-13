@@ -47,6 +47,8 @@ class Uploader implements ShouldQueue
         }
 
         $shellFile = public_path() . '/shell_scripts/facebook_upload.sh';
+        $thumb = $mediaSource->thumb?public_path($mediaSource->thumb):"";
+
         $process = new Process(
             [
                 'bash',
@@ -55,7 +57,8 @@ class Uploader implements ShouldQueue
                 $project->access_token,
                 $fileName,
                 $mediaSource->source_text,
-                $mediaSource->source_name
+                $mediaSource->source_name,
+                $thumb
             ]
         );
 

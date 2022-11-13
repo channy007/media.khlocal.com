@@ -15,43 +15,63 @@
         <form action="{{ route('media-source-store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="project_id">Project Name *</label>
-                    <select name="project_id" class="form-control" id="project-id"
-                        onchange="projectChange({{ $projects }})">
-                        @foreach ($projects as $project)
-                            <option value="{{ $project->id }}">{{ $project->name }}</option>
-                        @endforeach
-                    </select>
+                <div class="col-md-4">
+                    <div class="form-group col-md-12">
+                        <label for="project_id">Thumbnail</label>
+                        <div class="containerImg" style="width: 100%;height:100%;">
+                            <img class="img-thumb" src="{{ asset('images/default_image.png') }}"
+                                style="width: 100%;height: 100%;object-fit: cover" />
+                            <input name="thumbnail" type='file' class="input-file" style="display: none" />
+                        </div>
 
+                    </div>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="inputPassword4">Source From *</label>
-                    <select name="source_from" class="form-control">
-                        <option value="youtube">Youtube</option>
-                        <option value="facebook">Facebook</option>
-                        <option value="tiktok">Tiktok</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="source_channel">Source Channel *</label>
-                    <input type="text" class="form-control" name="source_channel" placeholder="Source Channel">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="source_name">Source Name *</label>
-                    <input type="text" class="form-control" name="source_name" placeholder="Source Name">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="project_id">Project Name *</label>
+                            <select name="project_id" class="form-control" id="project-id"
+                                onchange="projectChange({{ $projects }})">
+                                @foreach ($projects as $project)
+                                    <option value="{{ $project->id }}">{{ $project->name }}</option>
+                                @endforeach
+                            </select>
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword4">Source From *</label>
+                            <select name="source_from" class="form-control">
+                                <option value="youtube">Youtube</option>
+                                <option value="facebook">Facebook</option>
+                                <option value="tiktok">Tiktok</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="source_channel">Source Channel *</label>
+                            <input type="text" class="form-control" name="source_channel" placeholder="Source Channel">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="source_name">Source Name *</label>
+                            <input type="text" class="form-control" name="source_name" placeholder="Source Name">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="source_url">Source URL *</label>
+                            <input type="text" class="form-control" name="source_url" placeholder="Source URL">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="source_text">Source Text</label>
+                            <input type="text" class="form-control" name="source_text" placeholder="Source Text"
+                                required>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group col-md-4">
-                    <label for="source_url">Source URL *</label>
-                    <input type="text" class="form-control" name="source_url" placeholder="Source URL">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="source_text">Source Text</label>
-                    <input type="text" class="form-control" name="source_text" placeholder="Source Text" required>
-                </div>
+
+
 
             </div>
+
             <div class="form-row">
 
                 <div class="form-group col-md-4">
@@ -229,15 +249,6 @@
                         value="25">
 
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="flip">Flip</label>
-                    <select name="flip" class="form-control">
-                        <option value="" selected>Choose Video Flip..</option>
-                        <option value="horizontal">Horizontal</option>
-                        <option value="vertical" selected>Vertical</option>
-                    </select>
-
-                </div>
             </div>
 
             <br>
@@ -263,9 +274,29 @@
             });
             $("#resolution option").each(function() {
                 if ($(this).val() == selectedProject.resolution) { // EDITED THIS LINE
-                    $(this).prop("selected",true);
+                    $(this).prop("selected", true);
                 }
             });
         }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $(input).parent().find('.img-thumb').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).on('change', '.input-file', function() {
+            readURL(this);
+        });
+        $(document).on('click', '.img-thumb', function() {
+            var inputPhoto = $(this).parent().find(".input-file");
+            inputPhoto.click();
+        });
     </script>
 @stop

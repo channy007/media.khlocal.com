@@ -43,7 +43,6 @@ class VideoCutter implements ShouldQueue
         $fileProperty = $this->data['fileProperty'];
         $fileName = $fileProperty['path'] . '/' . $fileProperty['originalName'] . $fileProperty['extension'];
         $shellFile = public_path() . '/shell_scripts/ffmpeg_cut.sh';
-        $flip =  $mediaSource->flip ? (VideoFlip::HORIZONTAL ? '-vf hflip' : '-vf vflip') : '';
         $process = new Process(
             [
                 'bash',
@@ -51,8 +50,7 @@ class VideoCutter implements ShouldQueue
                 $fileName, $mediaSource->transition,
                 $mediaSource->seg_start,
                 $mediaSource->seg_length,
-                $mediaSource->seg_gap,
-                $flip
+                $mediaSource->seg_gap
             ]
         );
 

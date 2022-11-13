@@ -10,6 +10,7 @@ use App\Utils\enums\QueueName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class MediaSourceController extends Controller
 {
@@ -36,6 +37,11 @@ class MediaSourceController extends Controller
     {
         $request['created_at'] = Carbon::now();
         $request['status'] = MediaSourceStatus::NEW;
+
+        if($request->hasFile('thumb')){
+            $thumb = $request['thumb'];
+            $request['thumb'] = Storage::disk('public')->put('images', $thumb);
+        }
         $mediaSource = MediaSource::create($request->all());
 
         if ($mediaSource) {
