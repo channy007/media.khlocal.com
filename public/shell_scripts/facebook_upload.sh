@@ -7,7 +7,16 @@ access_token="$2"
 source="source=@$3"
 description="description=$4"
 title="title=$5"
-thumb="thumb=@$6"
+thumb="$6"
+if [[ -z "${thumb}" ]];
+then
+    echo "thumbnail is not set"
+    thumb="thumb=''"
+    
+else
+    echo "thumbnail has been set"
+    thumb="thumb=@$6"
+fi
 url="$facebook_link/$page_id/videos?access_token=$access_token"
 
 #upload video to facebook
