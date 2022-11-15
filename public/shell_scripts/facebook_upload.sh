@@ -8,7 +8,7 @@ source="source=@$3"
 description="description=$4"
 title="title=$5"
 thumb="$6"
-if [[ -z "${thumb}" ]];
+if [[ -z "$thumb" ]];
 then
     echo "thumbnail is not set"
     thumb="thumb=''"
