@@ -41,7 +41,7 @@
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Source From *</label>
                             <select name="source_from" class="form-control">
-                                <option value="youtube">Youtube</option>
+                                <option value="youtube" selected>Youtube</option>
                                 <option value="facebook">Facebook</option>
                                 <option value="tiktok">Tiktok</option>
                             </select>
@@ -52,12 +52,12 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="source_name">Source Name *</label>
-                            <input type="text" class="form-control" name="source_name" placeholder="Source Name">
+                            <input type="text" class="form-control" name="source_name" placeholder="Source Name" required>
                         </div>
 
                         <div class="form-group col-md-6">
                             <label for="source_url">Source URL *</label>
-                            <input type="text" class="form-control" name="source_url" placeholder="Source URL">
+                            <input type="text" class="form-control" name="source_url" placeholder="Source URL" required>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="source_text">Source Text</label>
