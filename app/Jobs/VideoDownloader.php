@@ -49,7 +49,9 @@ class VideoDownloader implements ShouldQueue
         $process->run();
         // executes after the command finishes
         if (!$process->isSuccessful()) {
+            $mediaSource->update(['status' => MediaSourceStatus::DOWNLOAD_ERROR]);
             throw new ProcessFailedException($process);
+            return;
         }
         Log::info("============ download output: " . $process->getOutput());
         $mediaSource->update(['status' => MediaSourceStatus::DOWNLOADED]);

@@ -39,15 +39,15 @@ class Uploader implements ShouldQueue
     {
         $mediaSource = $this->data['mediaSource'];
         $fileProperty = $this->data['fileProperty'];
-        $fileName = $fileProperty['path'] .'/'. $fileProperty['cuttedFileName'] . $fileProperty['extension'];
+        $fileName = $fileProperty['path'] . '/' . $fileProperty['cuttedFileName'] . $fileProperty['extension'];
         $project = MediaProject::whereId($mediaSource->project_id)->first();
 
-        if(!$project){
+        if (!$project) {
             return;
         }
 
         $shellFile = public_path() . '/shell_scripts/facebook_upload.sh';
-        $thumb = $mediaSource->thumb?public_path('storage').'/'.$mediaSource->thumb:"";
+        $thumb = $mediaSource->thumb ? public_path('storage') . '/' . $mediaSource->thumb : "";
 
         $process = new Process(
             [
@@ -56,8 +56,8 @@ class Uploader implements ShouldQueue
                 $project->page_id,
                 $project->access_token,
                 $fileName,
-                $mediaSource->source_text??"",
-                $mediaSource->source_name??"",
+                $mediaSource->source_text ?? "",
+                $mediaSource->source_name ?? "",
                 $thumb
             ]
         );
@@ -66,7 +66,10 @@ class Uploader implements ShouldQueue
         $process->run();
         // executes after the command finishes
         if (!$process->isSuccessful()) {
+            $mediaSource->update(['status' => MediaSourceStatus::UPLOAD_ERROR]);
+
             throw new ProcessFailedException($process);
+            return;
         }
 
         $mediaSource->update(['status' => MediaSourceStatus::UPLOADED]);

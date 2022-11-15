@@ -9,4 +9,9 @@ class MediaSourceStatus
     const DOWNLOADED = 'downloaded';
     const CUT = 'cut';
     const UPLOADED = 'uploaded';
+
+    const CUT_ERROR = 'cut_error';
+    const UPLOAD_ERROR = 'upload_error';
+    const DOWNLOAD_ERROR = 'download_error';
+
 }

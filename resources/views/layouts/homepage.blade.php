@@ -22,7 +22,7 @@
             <!-- Sidebar Holder -->
             <nav id="sidebar">
                 <div class="sidebar-header">
-                    <h3>MEDIA PROJECT</h3>
+                    <h3>MEDIA KH LOCAL</h3>
                 </div>
 
                 <ul class="list-unstyled components navbar-nav">
