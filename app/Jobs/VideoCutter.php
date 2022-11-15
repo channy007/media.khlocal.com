@@ -43,6 +43,7 @@ class VideoCutter implements ShouldQueue
         $fileProperty = $this->data['fileProperty'];
         $fileName = $fileProperty['path'] . '/' . $fileProperty['originalName'] . $fileProperty['extension'];
         $shellFile = public_path() . '/shell_scripts/ffmpeg_cut.sh';
+        $mediaSource->update(['status' => MediaSourceStatus::CUTTING]);
         $process = new Process(
             [
                 'bash',

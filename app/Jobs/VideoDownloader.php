@@ -44,6 +44,8 @@ class VideoDownloader implements ShouldQueue
         $shellFile = public_path() . '/shell_scripts/youtube_download.sh';
 
         $fileName = $fileProperty['path'] .'/'. $fileProperty['originalName'] . $fileProperty['extension'];
+        $mediaSource->update(['status' => MediaSourceStatus::DOWNLOADING]);
+
         $process = new Process(['bash', $shellFile, $mediaSource->source_url, $fileName]);
         $process->setTimeout(7200);
         $process->run();
