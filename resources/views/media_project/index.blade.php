@@ -22,7 +22,6 @@
                         <th scope="col"></th>
                         <th scope="col">App ID</th>
                         <th scope="col">Page ID</th>
-                        <th scope="col">Access Token</th>
                         <th scope="col">Status</th>
                     </tr>
                 </thead>
@@ -42,7 +41,6 @@
                             </td>
                             <td>{{ $mediaProject->app_id }}</td>
                             <td>{{ $mediaProject->page_id }}</td>
-                            <td>{{ $mediaProject->access_token }}</td>
                             <td>{{ ucfirst($mediaProject->status) }}</td>
                         </tr>
                     @endforeach
