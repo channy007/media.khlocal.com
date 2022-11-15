@@ -11,7 +11,7 @@ thumb="$6"
 if [[ -z "$thumb" ]];
 then
     echo "thumbnail is not set"
-    thumb="thumb=''"
+    thumb="test=''"
     
 else
     echo "thumbnail has been set"
