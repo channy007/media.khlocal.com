@@ -62,7 +62,7 @@ class Uploader implements ShouldQueue
             ]
         );
 
-        $process->setTimeout(3600);
+        $process->setTimeout(7200);
         $process->run();
         // executes after the command finishes
         if (!$process->isSuccessful()) {

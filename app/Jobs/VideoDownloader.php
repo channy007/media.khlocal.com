@@ -45,7 +45,7 @@ class VideoDownloader implements ShouldQueue
 
         $fileName = $fileProperty['path'] .'/'. $fileProperty['originalName'] . $fileProperty['extension'];
         $process = new Process(['bash', $shellFile, $mediaSource->source_url, $fileName]);
-        $process->setTimeout(3600);
+        $process->setTimeout(7200);
         $process->run();
         // executes after the command finishes
         if (!$process->isSuccessful()) {
