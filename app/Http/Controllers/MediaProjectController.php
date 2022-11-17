@@ -30,7 +30,7 @@ class MediaProjectController extends Controller
     public function update(Request $request, $id)
     {
         $mediaProject = MediaProject::whereId($id)->first();
-        if ($mediaProject) {
+        if (!$mediaProject) {
             return redirect()->route('media-project-index')
                 ->with('error', 'Error selected media project not found!');
         }
