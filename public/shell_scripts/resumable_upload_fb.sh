@@ -1,5 +1,5 @@
 #!/bin/bash
-#usage facebook_page(1) access_token(2) source(3)(full path source file) description(4) title(5) thumbnail(6) 
+#usage facebook_page_id(1) access_token(2) source(3)(full path source file) description(4) title(5) thumbnail(6) 
 
 ##### capture arguments
 facebook_link="https://graph.facebook.com/v15.0"
@@ -39,9 +39,13 @@ split_video(){
     split -b 25485760 "$filename.$file_extension" "$filename/"
 }
 
+remove_spit_video(){
+    rm -rf $filename
+}
+
 init_facebook_seasion(){
     output=$(curl -X POST \
-    "https://graph-video.facebook.com/v15.0/$facebook_page_id/videos" \
+    "$facebook_link/$facebook_page_id/videos" \
     -F "upload_phase=start" \
     -F "access_token=$access_token" \
     -F "file_size=$filesize" 2>/dev/null)
@@ -67,9 +71,10 @@ init_facebook_seasion(){
 }
 
 upload_chunk_to_facebook(){
+    echo "===== starting upload chunk with session $upload_session_id offset $start_offset====="
     video_chuck="$1"
     upload_response=$(curl -X POST \
-    "https://graph-video.facebook.com/v15.0/$facebook_page_id/videos"  \
+    "$facebook_link/$facebook_page_id/videos"  \
     -F "upload_phase=transfer" \
     -F "upload_session_id=$upload_session_id" \
     -F "access_token=$access_token" \
@@ -80,9 +85,14 @@ upload_chunk_to_facebook(){
     # Capture the response into variable
     ##
     start_offset=$(echo $output | jq .start_offset)
+
+    echo "===== end upload chunk with session $upload_session_id offset $start_offset ====="
+
 }
 
 upload_end_session(){
+    echo "===== start upload end session with session $upload_session_id ====="
+
     curl -X POST \
     "https://graph-video.facebook.com/v15.0/$facebook_page_id/videos"  \
     -F "upload_phase=finish" \
@@ -91,6 +101,8 @@ upload_end_session(){
     -F "$description" \
     -F "$title" \
     -F "$thumb"
+
+    echo "===== end upload end session with session $upload_session_id ====="
 }
 
 split_video
@@ -105,3 +117,6 @@ for file_path in "$filename/*";
 
 ## tell facebook the end of upload session
 upload_end_session
+
+## remove split video from storage
+remove_spit_video
