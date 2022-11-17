@@ -31,7 +31,14 @@ class MediaProjectController extends Controller
     {
         $mediaProject = MediaProject::whereId($id)->first();
         if ($mediaProject) {
-            $mediaProject->update($request->all());
+            return redirect()->route('media-project-index')
+                ->with('error', 'Error selected media project not found!');
+        }
+        $oldToken = $mediaProject->access_token;
+        $mediaProject->update($request->all());
+
+        if ($oldToken != $request['access_token']) {
+            $this->generateLongLifeToken($mediaProject);
         }
         return redirect()->route('media-project-index')
             ->with('success', 'Update successfully.');
@@ -55,6 +62,9 @@ class MediaProjectController extends Controller
 
     private function generateLongLifeToken($mediaProject)
     {
+        if (!isset($mediaProject->access_token)) {
+            return;
+        }
         $application = Application::whereId($mediaProject->application_id)->first();
 
         try {

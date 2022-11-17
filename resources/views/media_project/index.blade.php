@@ -22,6 +22,7 @@
                         <th scope="col"></th>
                         <th scope="col">App ID</th>
                         <th scope="col">Page ID</th>
+                        <th scope="col">Expire At</th>
                         <th scope="col">Status</th>
                     </tr>
                 </thead>
@@ -41,6 +42,7 @@
                             </td>
                             <td>{{ $mediaProject->app_id }}</td>
                             <td>{{ $mediaProject->page_id }}</td>
+                            <td>{{ $mediaProject->expire_at ? getDateString($mediaProject->expire_at, 'd-m-Y') : '' }}</td>
                             <td>{{ ucfirst($mediaProject->status) }}</td>
                         </tr>
                     @endforeach
