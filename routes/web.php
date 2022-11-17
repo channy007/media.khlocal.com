@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\MediaProjectController;
 use App\Http\Controllers\MediaSourceController;
 use App\Http\Controllers\UserAuthController;
@@ -36,6 +37,12 @@ Route::middleware(['isAuthenticated'])->group(function () {
     Route::post('/source/update/{id}', [MediaSourceController::class, 'update'])->name('media-source-update');
     Route::get('/source/create', [MediaSourceController::class, 'create'])->name('media-source-create');
     Route::post('/source/store', [MediaSourceController::class, 'store'])->name('media-source-store');
+
+    Route::get('/app/index', [ApplicationController::class, 'index'])->name('app-index');
+    Route::get('/app/edit/{id}', [ApplicationController::class, 'edit'])->name('app-edit');
+    Route::post('/app/update/{id}', [ApplicationController::class, 'update'])->name('app-update');
+    Route::get('/app/create', [ApplicationController::class, 'create'])->name('app-create');
+    Route::post('/app/store', [ApplicationController::class, 'store'])->name('app-store');
 });
 
 

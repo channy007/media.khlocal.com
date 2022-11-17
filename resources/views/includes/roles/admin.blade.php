@@ -1,5 +1,8 @@
 <ul class="list-unstyled components navbar-nav">
     <li>
+        <a href="{{ route('app-index') }}" @if(request()->is('app-index')) class="active" @endif>Application</a>
+    </li>
+    <li>
         <a href="{{ route('media-project-index') }}" @if(request()->is('media-project-index')) class="active" @endif>Media Project</a>
     </li>
     <li>
