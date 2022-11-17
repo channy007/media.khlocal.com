@@ -65,8 +65,8 @@ ffmpeg -y -hide_banner $inputs \
         -filter_complex "$video_scale$all_video_fade;$audio_scale$all_audio_fade" \
         -metadata brand="mp42" \
         -metadata creation_time="$(date -u +%FT%T.%NZ)" \
-        -metadata:s:v:0 handler_name="ISO Media file produced by $prject_name Project. Created on : $(date -u +%m/%d/%Y)." \
-        -metadata:s:a:0 handler_name="ISO Media file produced by $prject_name Project. Created on : $(date -u +%m/%d/%Y)." \
+        -metadata:s:v:0 handler_name="ISO Media file produced by $project_name Project. Created on : $(date -u +%m/%d/%Y)." \
+        -metadata:s:a:0 handler_name="ISO Media file produced by $project_name Project. Created on : $(date -u +%m/%d/%Y)." \
         -movflags +faststart \
         "${file_name}_cut.${extension}" > /dev/null 2>&1
 ##################################################################################################################
