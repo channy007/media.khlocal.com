@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\VideoDownloader;
 use App\Models\MediaProject;
 use App\Models\MediaSource;
+use App\Utils\enums\MediaProjectStatus;
 use App\Utils\enums\MediaSourceStatus;
 use App\Utils\enums\QueueName;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class MediaSourceController extends Controller
 
     public function create(Request $request)
     {
-        $projects = MediaProject::all();
+        $projects = MediaProject::whereStatus(MediaProjectStatus::ACTIVE)->get();
         return view('media_source.create', compact('projects'));
     }
 
