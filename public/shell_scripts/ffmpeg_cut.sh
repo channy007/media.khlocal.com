@@ -74,3 +74,4 @@ ffmpeg -y -hide_banner $inputs \
 end_time=$(/bin/date +%s)
 elapsed=$((end_time - start_time))
 eval "echo Elapsed time: $(date -ud "@$elapsed" +'$((%s/3600/24)) days %H hr %M min %S sec')"
+rm -rf "${file_name}"

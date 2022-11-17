@@ -43,6 +43,10 @@ remove_spit_video(){
     rm -rf $filename
 }
 
+remove_cut_video(){
+    rm -rf "$filename.$file_extension"
+}
+
 init_facebook_seasion(){
     output=$(curl -X POST \
     "$facebook_link/$facebook_page_id/videos" \
@@ -120,3 +124,6 @@ upload_end_session
 
 ## remove split video from storage
 remove_spit_video
+
+## remove cut video from storage
+remove_cut_video
