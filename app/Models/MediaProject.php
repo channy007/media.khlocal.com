@@ -19,7 +19,7 @@ class MediaProject extends Model
         'page_id',
         'access_token',
         'long_access_token',
-        'expire_in',
+        'expire_at',
         'status',
         'client_secret',
         'application_id'

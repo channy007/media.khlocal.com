@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use App\Models\MediaProject;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -73,7 +74,8 @@ class MediaProjectController extends Controller
             if ($facebookResponse->successful()) {
                 $result = json_decode($facebookResponse->body());
                 $mediaProject->long_access_token = $result->access_token;
-                $mediaProject->expire_in = $result->expires_in;
+                $mediaProject->expire_at = Carbon::now()->addDays((int)($result->expires_in / 86400));
+
                 $mediaProject->save();
                 Log::info("============ generat long life token success response: " . $facebookResponse->body());
             }
