@@ -4,6 +4,7 @@
 
 
 file="$1"
+transition="$2"
 file_name="${file%.*}"
 extension="${file##*.}"
 video_length=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${file}")
@@ -11,6 +12,8 @@ seg_start="$3"
 length="$4"
 gap="$5"
 flip="$6"
+project_name="$7"
+
 if [[ -v flip ]];
 then
     echo "variable named a is already set"
@@ -29,7 +32,6 @@ seg_gap=$seg_start
 seg_length=$(( $RANDOM%$length+1 ))
 seg_end=$(( $seg_start+$seg_length ))
 fade_duration=1
-transition="$2"
 fade_prev=0
 fade_next=1
 all_duration=0
@@ -42,7 +44,7 @@ while (($(echo "$video_length >= $seg_end" | bc))); do
         all_duration=$(bc -l <<< "$all_duration + $seg_length * $speed")
         offset=$(bc -l <<< "$all_duration - $fade_duration * $fade_next")
 	
-	video_scale="$video_scale[$fade_prev:v]trim=start=$seg_start:end=$seg_end,crop=ih*4/3:ih,scale=640:480,setpts=$speed*(PTS-STARTPTS),hflip[v$fade_prev];"
+	video_scale="$video_scale[$fade_prev:v]trim=start=$seg_start:end=$seg_end,crop=ih*4/3:ih,scale=640:480,setpts=$speed*(PTS-STARTPTS),$flip[v$fade_prev];"
         video_fade="[vfade$fade_prev][v$fade_next]xfade=transition=$transition:duration=$fade_duration:offset=$offset[vfade$fade_next];"
 
 	audio_scale="$audio_scale[$fade_prev:a]atrim=start=$seg_start:end=$seg_end,asetpts=PTS-STARTPTS,atempo=1/$speed[a$fade_prev];"
@@ -61,6 +63,10 @@ all_audio_fade="[a0]acopy[afade0];$all_audio_fade[afade$fade_prev]acopy"
 set -vx
 ffmpeg -y -hide_banner $inputs \
         -filter_complex "$video_scale$all_video_fade;$audio_scale$all_audio_fade" \
+        -metadata brand="mp42" \
+        -metadata creation_time="$(date -u +%FT%T.%NZ)" \
+        -metadata:s:v:0 handler_name="ISO Media file produced by $prject_name Project. Created on : $(date -u +%m/%d/%Y)." \
+        -metadata:s:a:0 handler_name="ISO Media file produced by $prject_name Project. Created on : $(date -u +%m/%d/%Y)." \
         -movflags +faststart \
         "${file_name}_cut.${extension}" > /dev/null 2>&1
 ##################################################################################################################

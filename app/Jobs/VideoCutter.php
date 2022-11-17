@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\MediaProject;
 use App\Utils\enums\MediaSourceStatus;
 use App\Utils\enums\QueueName;
 use App\Utils\enums\VideoFlip;
@@ -44,14 +45,26 @@ class VideoCutter implements ShouldQueue
         $fileName = $fileProperty['path'] . '/' . $fileProperty['originalName'] . $fileProperty['extension'];
         $shellFile = public_path() . '/shell_scripts/ffmpeg_cut.sh';
         $mediaSource->update(['status' => MediaSourceStatus::CUTTING]);
+
+        $project = MediaProject::whereId($mediaSource->project_id)->first();
+
+        if ($project) {
+            $projectName = $project->name;
+        }else{
+            $projectName="Media KHLocal";
+        }
+
         $process = new Process(
             [
                 'bash',
                 $shellFile,
-                $fileName, $mediaSource->transition,
+                $fileName, 
+                $mediaSource->transition,
                 $mediaSource->seg_start,
                 $mediaSource->seg_length,
-                $mediaSource->seg_gap
+                $mediaSource->seg_gap,
+                $mediaSource->flip,
+                $projectName
             ]
         );
 

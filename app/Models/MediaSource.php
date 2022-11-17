@@ -27,7 +27,8 @@ class MediaSource extends Model
         'flip_h',
         'flip_v',
         'status',
-        'thumb'
+        'thumb',
+        'flip'
     ];
 
     public function project(){

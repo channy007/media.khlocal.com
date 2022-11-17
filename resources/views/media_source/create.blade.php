@@ -249,6 +249,17 @@
                         value="25">
 
                 </div>
+
+                <div class="form-group col-md-4">
+                    <label for="flip">Flip</label>
+                    <select name="flip" class="form-control" id="resolution">
+                        <option value="">Choose video flip..</option>
+                        <option value="hflip">hflip</option>
+                        <option value="vflip">vflip</option>
+                    </select>
+
+                </div>
+
             </div>
 
             <br>
