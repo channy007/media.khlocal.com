@@ -1,12 +1,12 @@
 #!/bin/bash
-#usage facebook_page_id(1) access_token(2) source(3)(full path source file) description(4) title(5) thumbnail(6) 
+#usage facebook_page_id(1) access_token(2) source(3)(full path source file) title(4) description(5)  thumbnail(6) 
 
 ##### capture arguments
 facebook_link="https://graph.facebook.com/v15.0"
 facebook_page_id="$1"
 access_token="$2"
-description="description=$4"
-title="title=$5"
+title="title=$4"
+description="description=$5"
 thumb="$6"
 if [[ -z "$thumb" ]];
 then

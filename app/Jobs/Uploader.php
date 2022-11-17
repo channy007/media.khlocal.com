@@ -46,7 +46,7 @@ class Uploader implements ShouldQueue
             return;
         }
 
-        $shellFile = public_path() . '/shell_scripts/facebook_upload.sh';
+        $shellFile = public_path() . '/shell_scripts/resumable_upload_fb.sh';
         $thumb = $mediaSource->thumb ? public_path('storage') . '/' . $mediaSource->thumb : "";
         $mediaSource->update(['status' => MediaSourceStatus::UPLOADING]);
 
@@ -57,8 +57,8 @@ class Uploader implements ShouldQueue
                 $mediaProject->page_id,
                 $mediaProject->long_access_token,
                 $fileName,
-                $mediaSource->source_text ?? "",
                 $mediaSource->source_name ?? "",
+                $mediaSource->source_text ?? "",
                 $thumb
             ]
         );
