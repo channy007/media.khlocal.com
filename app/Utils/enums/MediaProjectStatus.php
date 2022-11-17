@@ -5,6 +5,6 @@ namespace App\Utils\enums;
 class MediaProjectStatus
 {
 
-    const ACTIVE = 'new';
+    const ACTIVE = 'active';
     const IN_ACTIVE = 'inactive';
 }
