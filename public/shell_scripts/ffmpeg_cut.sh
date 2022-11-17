@@ -14,12 +14,13 @@ gap="$5"
 flip="$6"
 project_name="$7"
 
-if [[ -v flip ]];
+if [[ -z "$flip" ]];
 then
-    echo "variable named a is already set"
-else
-    echo "variable a is not set"
+    echo "flip is not set"
     flip=""
+    
+else
+    echo "flip has been set"
 fi
 ##################################################################################################################
 rm -rf "${file_name}"
