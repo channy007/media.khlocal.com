@@ -18,9 +18,9 @@ if [[ -z "$flip" ]];
 then
     echo "flip is not set"
     flip=""
-    
 else
     echo "flip has been set"
+    flip=",$flip"
 fi
 ##################################################################################################################
 rm -rf "${file_name}"
@@ -45,7 +45,7 @@ while (($(echo "$video_length >= $seg_end" | bc))); do
         all_duration=$(bc -l <<< "$all_duration + $seg_length * $speed")
         offset=$(bc -l <<< "$all_duration - $fade_duration * $fade_next")
 	
-	video_scale="$video_scale[$fade_prev:v]trim=start=$seg_start:end=$seg_end,crop=ih*4/3:ih,scale=640:480,setpts=$speed*(PTS-STARTPTS),$flip[v$fade_prev];"
+	video_scale="$video_scale[$fade_prev:v]trim=start=$seg_start:end=$seg_end,crop=ih*4/3:ih,scale=640:480,setpts=$speed*(PTS-STARTPTS)$flip[v$fade_prev];"
         video_fade="[vfade$fade_prev][v$fade_next]xfade=transition=$transition:duration=$fade_duration:offset=$offset[vfade$fade_next];"
 
 	audio_scale="$audio_scale[$fade_prev:a]atrim=start=$seg_start:end=$seg_end,asetpts=PTS-STARTPTS,atempo=1/$speed[a$fade_prev];"
