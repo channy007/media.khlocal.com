@@ -50,20 +50,20 @@ class VideoCutter implements ShouldQueue
 
         if ($project) {
             $projectName = $project->name;
-        }else{
-            $projectName="Media KHLocal";
+        } else {
+            $projectName = "Media KHLocal";
         }
 
         $process = new Process(
             [
                 'bash',
                 $shellFile,
-                $fileName, 
+                $fileName,
                 $mediaSource->transition,
                 $mediaSource->seg_start,
                 $mediaSource->seg_length,
                 $mediaSource->seg_gap,
-                $mediaSource->flip??"",
+                $mediaSource->flip ?? "",
                 $projectName
             ]
         );
