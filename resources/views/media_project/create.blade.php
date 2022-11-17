@@ -16,9 +16,18 @@
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-4">
+                    <label for="project_id">Application *</label>
+                    <select name="application_id" class="form-control" id="project-id" required>
+                        <option value="" selected>Choose Application..</option>
+                        @foreach ($applications as $app)
+                            <option value="{{ $app->id }}">{{ $app->name }}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+                <div class="form-group col-md-4">
                     <label for="inputEmail4">Name *</label>
-                    <input type="text" class="form-control" name="name" placeholder="Name"
-                        required>
+                    <input type="text" class="form-control" name="name" placeholder="Name" required>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputPassword4">Channel *</label>
@@ -36,31 +45,14 @@
                         <option value="1:1">1:1</option>
                     </select>
                 </div>
-
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="inputPassword4">App ID</label>
-                    <input type="text" class="form-control" name="app_id"
-                        placeholder="App ID">
-                </div>
                 <div class="form-group col-md-4">
                     <label for="inputEmail4">Page ID *</label>
-                    <input type="text" class="form-control" name="page_id"
-                        placeholder="Page ID" required>
+                    <input type="text" class="form-control" name="page_id" placeholder="Page ID" required>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputEmail4">Access Token *</label>
-                    <input type="text" class="form-control" name="access_token"
-                        placeholder="Access Token" required>
+                    <input type="text" class="form-control" name="access_token" placeholder="Access Token" required>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="inputEmail4">Client Secret Key *</label>
-                    <input type="text" class="form-control" name="client_secret"
-                        placeholder="Client Secret Key" required>
-                </div>
-            </div>
-            <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputState">Status</label>
                     <select name="status" class="form-control">
@@ -69,6 +61,7 @@
                     </select>
                 </div>
             </div>
+
             <br>
 
             <div class="form-row">

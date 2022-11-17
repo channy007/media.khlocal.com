@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\MediaProject;
 use Illuminate\Http\Request;
 
@@ -17,9 +18,9 @@ class MediaProjectController extends Controller
     public function edit(Request $request, $id)
     {
         $data = MediaProject::whereId($id)->first();
+        $applications = Application::all();
 
-
-        return view('media_project.edit', compact('data'));
+        return view('media_project.edit', compact('data','applications'));
     }
 
     public function update(Request $request, $id)
@@ -34,7 +35,8 @@ class MediaProjectController extends Controller
 
     public function create(Request $request)
     {
-        return view('media_project.create');
+        $applications = Application::all();
+        return view('media_project.create',compact('applications'));
     }
 
     public function store(Request $request)

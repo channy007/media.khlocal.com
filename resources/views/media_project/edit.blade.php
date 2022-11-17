@@ -15,6 +15,19 @@
         <form action="{{ route('media-project-update', $data->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-row">
+
+                <div class="form-group col-md-4">
+                    <label for="project_id">Application *</label>
+                    <select name="application_id" class="form-control" id="project-id" required>
+                        <option value="" selected>Choose Application..</option>
+                        @foreach ($applications as $app)
+                            <option value="{{ $app->id }}" {{ $data->application_id == $app->id ? 'selected' : '' }}>
+                                {{ $app->name }}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+
                 <div class="form-group col-md-4">
                     <label for="inputEmail4">Name *</label>
                     <input type="text" class="form-control" name="name" value="{{ $data->name }}" placeholder="Name"
@@ -37,13 +50,6 @@
                     </select>
                 </div>
 
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="inputPassword4">App ID</label>
-                    <input type="text" class="form-control" name="app_id" value="{{ $data->app_id }}"
-                        placeholder="App ID">
-                </div>
                 <div class="form-group col-md-4">
                     <label for="inputEmail4">Page ID *</label>
                     <input type="text" class="form-control" name="page_id" value="{{ $data->page_id }}"
@@ -54,13 +60,6 @@
                     <input type="text" class="form-control" name="access_token" value="{{ $data->access_token }}"
                         placeholder="Access Token" required>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="inputEmail4">Client Secret Key *</label>
-                    <input type="text" class="form-control" name="client_secret" value="{{ $data->client_secret }}"
-                        placeholder="Client Secret Key" required>
-                </div>
-            </div>
-            <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputState">Status</label>
                     <select name="status" class="form-control">
