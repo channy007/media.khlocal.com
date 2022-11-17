@@ -18,12 +18,15 @@ class MediaProject extends Model
         'app_id',
         'page_id',
         'access_token',
+        'long_access_token',
+        'expire_in',
         'status',
         'client_secret',
         'application_id'
     ];
 
-    public function application(){
-        return $this->belongsTo(Application::class,'application_id','id');
+    public function application()
+    {
+        return $this->belongsTo(Application::class, 'application_id', 'id');
     }
 }
