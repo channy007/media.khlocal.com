@@ -81,7 +81,7 @@ class VideoCutter implements ShouldQueue
         dispatch(new Uploader([
             'mediaSource' => $mediaSource,
             'fileProperty' => $fileProperty
-        ]))->onQueue(QueueName::UPLOADER);
+        ]))->onQueue(QueueName::UPLOADER)->delay(2);
 
         Log::info("============ video cutter output: " . $process->getOutput());
     }

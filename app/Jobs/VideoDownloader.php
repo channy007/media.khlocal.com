@@ -63,7 +63,7 @@ class VideoDownloader implements ShouldQueue
                 'mediaSource' => $mediaSource,
                 'fileProperty' => $fileProperty
             ]
-        ))->onQueue(QueueName::VIDEO_CUTTER);
+        ))->onQueue(QueueName::VIDEO_CUTTER)->delay(3);
     }
 
     private function prepareFileProperties($mediaSource)
