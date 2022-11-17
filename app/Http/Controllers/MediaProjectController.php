@@ -14,7 +14,7 @@ class MediaProjectController extends Controller
 {
     public function index(Request $request)
     {
-        $datas = MediaProject::paginate(10);
+        $datas = MediaProject::with('application')->paginate(10);
 
         return view('media_project.index', compact('datas'));
     }

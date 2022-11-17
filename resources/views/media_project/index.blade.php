@@ -16,11 +16,11 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Application</th>
                         <th scope="col">Resolutions</th>
                         <th scope="col">Channel</th>
                         <th scope="col">Name</th>
                         <th scope="col"></th>
-                        <th scope="col">App ID</th>
                         <th scope="col">Page ID</th>
                         <th scope="col">Expire At</th>
                         <th scope="col">Status</th>
@@ -30,6 +30,7 @@
                     @foreach ($datas as $count => $mediaProject)
                         <tr>
                             <td>{{ $count }}</td>
+                            <td>{{ optional($mediaProject->application)->name }}</td>
                             <td>{{ $mediaProject->resolution }}</td>
                             <td>{{ ucfirst($mediaProject->channel) }}</td>
                             <td>{{ $mediaProject->name }}</td>
@@ -40,7 +41,6 @@
                                     <i class="far fa-edit"></i>
                                 </a>
                             </td>
-                            <td>{{ $mediaProject->app_id }}</td>
                             <td>{{ $mediaProject->page_id }}</td>
                             <td>{{ $mediaProject->expire_at ? getDateString($mediaProject->expire_at, 'd-m-Y') : '' }}</td>
                             <td>{{ ucfirst($mediaProject->status) }}</td>
