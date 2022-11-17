@@ -54,6 +54,11 @@
                     <input type="text" class="form-control" name="access_token"
                         placeholder="Access Token" required>
                 </div>
+                <div class="form-group col-md-4">
+                    <label for="inputEmail4">Client Secret Key *</label>
+                    <input type="text" class="form-control" name="client_secret"
+                        placeholder="Client Secret Key" required>
+                </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">

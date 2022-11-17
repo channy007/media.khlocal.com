@@ -18,6 +18,7 @@ class MediaProject extends Model
         'app_id',
         'page_id',
         'access_token',
-        'status'
+        'status',
+        'client_secret'
     ];
 }
