@@ -1,14 +1,14 @@
 <ul class="list-unstyled components navbar-nav">
-    <li>
-        <a href="{{ route('app-index') }}" @if(request()->is('app-index')) class="active" @endif>Application</a>
+    <li @if(request()->route()->getName() == 'app-index') class="active" @endif>
+        <a href="{{ route('app-index') }}">Application</a>
     </li>
-    <li>
-        <a href="{{ route('media-project-index') }}" @if(request()->is('media-project-index')) class="active" @endif>Media Project</a>
+    <li @if(request()->route()->getName() == 'media-project-index') class="active" @endif>
+        <a href="{{ route('media-project-index') }}">Media Project</a>
     </li>
-    <li>
+    <li @if(request()->route()->getName() == 'media-source-index') class="active" @endif>
         <a href="{{ route('media-source-index') }}">Media Source</a>
     </li>
-    <li>
+    <li @if(request()->route()->getName() == 'about') class="active" @endif>
         <a href="#">About</a>
     </li>
 
