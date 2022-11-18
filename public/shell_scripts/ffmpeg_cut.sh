@@ -39,7 +39,7 @@ else
         scale="crop=ih*4/3:ih,scale=640:480" 
 fi
 
-echo "resolution is $resolution, scal $scal"
+echo "resolution is $resolution, scal $scale"
 
 
 
