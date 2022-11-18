@@ -114,10 +114,10 @@ split_video
 init_facebook_seasion
 
 ## start upload all video's chunks to facebook
-for file_path in "$filename/*";
-    do 
-        upload_chunk_to_facebook $file_path
-    done
+for file_path in "$filename"/*
+do 
+    upload_chunk_to_facebook $file_path
+done
 
 ## tell facebook the end of upload session
 upload_end_session
