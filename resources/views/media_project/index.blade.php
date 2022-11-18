@@ -43,7 +43,7 @@
                                 </a>
                             </td>
                             <td>{{ $mediaProject->page_id }}</td>
-                            <td>{{ $mediaProject->created_token_at ? getDateString($mediaProject->expire_at, 'd-m-Y') : '' }}</td>
+                            <td>{{ $mediaProject->created_token_at ? getDateString($mediaProject->created_token_at, 'd-m-Y') : '' }}</td>
                             <td>{{ $mediaProject->expire_at ? getDateString($mediaProject->expire_at, 'd-m-Y') : '' }}</td>
                             <td>{{ ucfirst($mediaProject->status) }}</td>
                         </tr>
