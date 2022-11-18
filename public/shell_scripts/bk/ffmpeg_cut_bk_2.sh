@@ -12,8 +12,7 @@ seg_start="$3"
 length="$4"
 gap="$5"
 flip="$6"
-resolution="$7"
-project_name="$8"
+project_name="$7"
 scale=""
 
 if [[ -z "$flip" ]];
@@ -24,20 +23,6 @@ else
     echo "flip has been set"
     flip=",$flip"
 fi
-
-## finding scal base on resolution
-if [[ $resolution -eq '1:1' ]] then
-        scale="crop=ih:ih,scale=1080:1080"
-elif [[ $resolution -eq '4:3']] then
-        scale="crop=ih*4/3:ih,scale=640:480" 
-elif [[ $resolution -eq '16:9' ]] then
-        scale="crop=ih*16/9:ih,scale=1280:720"
-else
-        scale="crop=ih*4/3:ih,scale=640:480" 
-if
-
-echo "resolution is $resolution, scal $scal"
-
 
 
 ##################################################################################################################
@@ -63,7 +48,7 @@ while (($(echo "$video_length >= $seg_end" | bc))); do
         all_duration=$(bc -l <<< "$all_duration + $seg_length * $speed")
         offset=$(bc -l <<< "$all_duration - $fade_duration * $fade_next")
 	
-	video_scale="$video_scale[$fade_prev:v]trim=start=$seg_start:end=$seg_end,$scale,setpts=$speed*(PTS-STARTPTS)$flip[v$fade_prev];"
+	video_scale="$video_scale[$fade_prev:v]trim=start=$seg_start:end=$seg_end,crop=ih*4/3:ih,scale=640:480,setpts=$speed*(PTS-STARTPTS)$flip[v$fade_prev];"
         video_fade="[vfade$fade_prev][v$fade_next]xfade=transition=$transition:duration=$fade_duration:offset=$offset[vfade$fade_next];"
 
 	audio_scale="$audio_scale[$fade_prev:a]atrim=start=$seg_start:end=$seg_end,asetpts=PTS-STARTPTS,atempo=1/$speed[a$fade_prev];"
