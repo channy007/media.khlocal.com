@@ -32,8 +32,8 @@
                         <th scope="col">Segment</th>
                         <th scope="col">Flip</th>
                         <th scope="col">Created At</th>
-    
-    
+
+
                     </tr>
                 </thead>
                 <tbody>
@@ -48,13 +48,13 @@
                             <td>{{ $mediaSource->source_channel }}</td>
                             <td>{{ $mediaSource->source_text }}</td>
                             <td>{{ $mediaSource->transition }}</td>
-                            <td>{{$mediaSource->resolution }}</td>
+                            <td>{{ $mediaSource->resolution }}</td>
                             <td>{{ $mediaSource->seg_start }}</td>
                             <td>{{ $mediaSource->seg_length }}</td>
                             <td>{{ $mediaSource->seg_gap }}</td>
                             <td>{{ $mediaSource->segment }}</td>
                             <td>{{ $mediaSource->flip }}</td>
-                            <td>{{ $mediaSource->created_at }}</td>
+                            <td>{{ $mediaSource->created_at ? getDateString($mediaSource->created_at, 'd-M-Y h:i a') : '' }}</td>
                         </tr>
                     @endforeach
                 </tbody>
