@@ -7,6 +7,7 @@ use App\Models\MediaProject;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -31,14 +32,23 @@ class MediaProjectController extends Controller
     {
         $mediaProject = MediaProject::whereId($id)->first();
         if (!$mediaProject) {
-            return redirect()->route('media-project-index')
-                ->with('error', 'Error selected media project not found!');
+            return redirect()->back()->withErrors("Selected Application not found!");
         }
-        $oldToken = $mediaProject->access_token;
-        $mediaProject->update($request->all());
+        $result = DB::transaction(function () use ($mediaProject, $request) {
+            $oldToken = $mediaProject->access_token;
+            $mediaProject->update($request->all());
+            $result = ['success' => true, 'message' => 'Successful', 'errors' => null];
+            if ($oldToken != $request['access_token']) {
+                $result = $this->generateLongLifeToken($mediaProject);
+            }
 
-        if ($oldToken != $request['access_token']) {
-            $this->generateLongLifeToken($mediaProject);
+            if (!$result['success']) {
+                DB::rollBack();
+            }
+            return $result;
+        });
+        if (!$result['success']) {
+            return redirect()->back()->withErrors($result['errors']);
         }
         return redirect()->route('media-project-index')
             ->with('success', 'Update successfully.');
@@ -65,6 +75,7 @@ class MediaProjectController extends Controller
         if (!isset($mediaProject->access_token)) {
             return;
         }
+        $result = ['sucess' => true, 'message' => 'Successful', 'errors' => null];
         $application = Application::whereId($mediaProject->application_id)->first();
 
         try {
@@ -91,9 +102,17 @@ class MediaProjectController extends Controller
             }
             if ($facebookResponse->failed()) {
                 Log::info("============ generat long life token fails response: " . $facebookResponse->body());
+                $result['success'] = false;
+                $result['errors'] = "Facebook generate long token ". json_decode($facebookResponse->body())->error->message;
             }
+
+            return $result;
         } catch (Exception $e) {
             Log::info("============ generat long life token error ============" . $e->getMessage());
+            $result['success'] = false;
+            $result['errors'] = $e->getMessage();
+        } finally {
+            return $result;
         }
     }
 }

@@ -10,8 +10,8 @@ use App\Utils\enums\MediaSourceStatus;
 use App\Utils\enums\QueueName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class MediaSourceController extends Controller
 {
@@ -23,7 +23,7 @@ class MediaSourceController extends Controller
                     $query->select('id', 'name');
                 }
             ]
-        )->orderBy('id','desc')->paginate(10);
+        )->orderBy('id', 'desc')->paginate(10);
 
         return view('media_source.index', compact('datas'));
     }
@@ -39,7 +39,11 @@ class MediaSourceController extends Controller
         $request['created_at'] = Carbon::now();
         $request['status'] = MediaSourceStatus::NEW;
 
-        if($request->hasFile('thumbnail')){
+        $validator = Validator::make($request->all(), ['source_url' => 'unique:media_sources,source_url']);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+        if ($request->hasFile('thumbnail')) {
             $thumb = $request['thumbnail'];
             $request['thumb'] = Storage::disk('public')->put('images', $thumb);
         }
