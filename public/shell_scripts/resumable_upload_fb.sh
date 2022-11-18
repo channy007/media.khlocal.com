@@ -88,7 +88,7 @@ upload_chunk_to_facebook(){
     ##
     # Capture the response into variable
     ##
-    start_offset=$(echo $output | jq .start_offset)
+    start_offset=$(echo $upload_response | jq .start_offset)
 
     echo "===== end upload chunk with session $upload_session_id offset $start_offset ====="
 
