@@ -47,7 +47,7 @@ class VideoDownloader implements ShouldQueue
         $mediaSource->update(['status' => MediaSourceStatus::DOWNLOADING]);
 
         $process = new Process(['bash', $shellFile, $mediaSource->source_url, $fileName]);
-        $process->setTimeout(7200);
+        $process->setTimeout(10800);
         $process->run();
         
         // executes after the command finishes

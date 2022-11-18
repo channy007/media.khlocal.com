@@ -68,7 +68,7 @@ class VideoCutter implements ShouldQueue
             ]
         );
 
-        $process->setTimeout(7200);
+        $process->setTimeout(10800);
         $process->run();
         // executes after the command finishes
         if (!$process->isSuccessful()) {

@@ -174,7 +174,7 @@ return [
             'maxJobs' => 0,
             'memory' => 128,
             'tries' => 1,
-            'timeout' => 7200,
+            'timeout' => 12600,
             'nice' => 0,
         ],
         'supervisor-long-process' => [
@@ -186,7 +186,7 @@ return [
             'maxJobs' => 0,
             'memory' => 512,
             'tries' => 1,
-            'timeout' => 7200,
+            'timeout' => 12600,
             'nice' => 0,
         ],
     ],
