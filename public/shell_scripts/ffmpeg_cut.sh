@@ -34,7 +34,7 @@ elif [[ $resolution -eq '16:9' ]] then
         scale="crop=ih*16/9:ih,scale=1280:720"
 else
         scale="crop=ih*4/3:ih,scale=640:480" 
-if
+fi
 
 echo "resolution is $resolution, scal $scal"
 
