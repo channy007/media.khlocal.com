@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MediaSource extends Model
 {
     use HasFactory;
-    
-    public $timestamps = false;
 
     protected $fillable = [
         'project_id',

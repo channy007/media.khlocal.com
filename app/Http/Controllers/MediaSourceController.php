@@ -36,7 +36,6 @@ class MediaSourceController extends Controller
 
     public function store(Request $request)
     {
-        $request['created_at'] = Carbon::now();
         $request['status'] = MediaSourceStatus::NEW;
 
         $validator = Validator::make($request->all(), ['source_url' => 'unique:media_sources,source_url']);
