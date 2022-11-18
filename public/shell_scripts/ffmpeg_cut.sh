@@ -29,10 +29,10 @@ fi
 if [[ "$resolution" -eq "1:1" ]];
 then
         scale="crop=ih:ih,scale=1080:1080"
-elif [[ $resolution -eq "4:3"]];
+elif [[ "$resolution" -eq "4:3" ]];
 then
         scale="crop=ih*4/3:ih,scale=640:480" 
-elif [[ $resolution -eq "16:9" ]];
+elif [[ "$resolution" -eq "16:9" ]];
 then
         scale="crop=ih*16/9:ih,scale=1280:720"
 else
