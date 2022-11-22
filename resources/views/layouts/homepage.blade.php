@@ -64,6 +64,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
+            // collapse and uncollapse drop down menu
             $('#sidebarCollapse').on('click', function() {
                 $('#sidebar').toggleClass('active');
             });

@@ -1,5 +1,7 @@
 #!/bin/bash
-#usage: ./ffmpeg.sh filename(1) transition(2) seg_start(3) seg_length(4) seg_gap(5) flip(6) resolution(7) project-name(8) cut_off(9)
+#usage: ./ffmpeg.sh filename transition seg_start seg_length seg_gap fliph flipv
+#new usage: ./ffmpeg.sh filename transition seg_start seg_length seg_gap flip
+
 
 file="$1"
 transition="$2"
@@ -12,8 +14,8 @@ gap="$5"
 flip="$6"
 resolution="$7"
 project_name="$8"
-cutoff="$9"
-##### 
+scale=""
+
 if [[ -z "$flip" ]];
 then
     echo "flip is not set"
@@ -22,43 +24,22 @@ else
     echo "flip has been set"
     flip=",$flip"
 fi
-#####
 
-
-#####################33
-
-width=$(ffprobe -v error -show_entries stream=width -of default=noprint_wrappers=1:nokey=1 "${file}")
-height=$(ffprobe -v error -show_entries stream=height -of default=noprint_wrappers=1:nokey=1 "${file}")
-if [[ "$resolution" == "1:1" ]]; then
-        scale="1080:1080"
-elif [[ "$resolution" == "4:3" ]]; then
-        scale="640:480"
-elif [[ "$resolution" == "16:9" ]]; then
-        scale="1280:720"
-fi
-IFS=":" read -a resolution <<< $resolution
-if [[ $width -gt $height ]]; then
-        if [[ $width -gt $(( ($height-$height*$cutoff/10)*${resolution[0]}/${resolution[1]} )) ]]; then
-                width=$(( ($height-$height*$cutoff/10)*${resolution[0]}/${resolution[1]} ))
-                height=$(( $height-$height*$cutoff/10 ))
-        else
-                height=$(( $width*${resolution[1]}/${resolution[0]} ))
-        fi
+## finding scal base on resolution
+if [[ "$resolution" -eq "1:1" ]];
+then
+        scale="crop=ih:ih,scale=1080:1080"
+elif [[ "$resolution" -eq "4:3" ]];
+then
+        scale="crop=ih*4/3:ih,scale=640:480" 
+elif [[ "$resolution" -eq "16:9" ]];
+then
+        scale="crop=ih*16/9:ih,scale=1280:720"
 else
-        if [[ $height -gt $(( ($width-$width*$cutoff/10)*${resolution[1]}/${resolution[0]} )) ]]; then
-                height=$(( ($width-$width*$cutoff/10)*${resolution[1]}/${resolution[0]} ))
-                width=$(( $width-$width*$cutoff/10 ))
-        else
-                width=$(( $height*${resolution[1]}/${resolution[0]} ))
-        fi
+        scale="crop=ih*4/3:ih,scale=640:480" 
 fi
 
-echo ",crop=${width}:${height}"
-echo ",scale=${scale}"
-
-video_crop="crop=${width}:${height},scale=${scale}"
-
-#################33
+echo "resolution is $resolution, scal $scale"
 
 
 
@@ -85,7 +66,7 @@ while (($(echo "$video_length >= $seg_end" | bc))); do
         all_duration=$(bc -l <<< "$all_duration + $seg_length * $speed")
         offset=$(bc -l <<< "$all_duration - $fade_duration * $fade_next")
 	
-	video_scale="$video_scale[$fade_prev:v]trim=start=$seg_start:end=$seg_end,$video_crop,setpts=$speed*(PTS-STARTPTS)$flip[v$fade_prev];"
+	video_scale="$video_scale[$fade_prev:v]trim=start=$seg_start:end=$seg_end,$scale,setpts=$speed*(PTS-STARTPTS)$flip[v$fade_prev];"
         video_fade="[vfade$fade_prev][v$fade_next]xfade=transition=$transition:duration=$fade_duration:offset=$offset[vfade$fade_next];"
 
 	audio_scale="$audio_scale[$fade_prev:a]atrim=start=$seg_start:end=$seg_end,asetpts=PTS-STARTPTS,atempo=1/$speed[a$fade_prev];"
