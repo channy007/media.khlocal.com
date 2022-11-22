@@ -144,8 +144,6 @@ a.article:hover {
     color: #fff !important;
 }
 
-
-
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -179,3 +177,9 @@ a.article:hover {
 .data-display{
     overflow-x: auto;
 }
+
+/*
+ * custom css
+ */
+ .link { color: #212529; } /* CSS link color (red) */
+ .link:hover { color: #0091ff; } /* CSS link hover (green) */

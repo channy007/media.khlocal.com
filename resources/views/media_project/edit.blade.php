@@ -1,4 +1,8 @@
 @extends('layouts.homepage')
+@section('style')
+    {{-- Select 2 --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@stop
 @section('content')
     <div class="my-container shadow p-3 mb-5 bg-white rounded">
         @if ($errors->any())
@@ -61,6 +65,11 @@
                         placeholder="Access Token" required>
                 </div>
                 <div class="form-group col-md-4">
+                    <label for="tags">Tags</label>
+                    <input type="text" class="form-control" name="tags" value="{{ $data->tags }}" placeholder="Tags">
+                </div>
+
+                <div class="form-group col-md-4">
                     <label for="inputState">Status</label>
                     <select name="status" class="form-control">
                         <option value="active" {{ $data->status == 'active' ? 'selected' : '' }}>Active</option>
@@ -68,6 +77,22 @@
                     </select>
                 </div>
             </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="inputState">Channel Sources</label>
+                    <select name="channel_source_ids[]" class="channel-sources form-control" multiple="multiple">
+                        @foreach ($data->channel_sources as $projectChannleSource)
+                            @if (isset($projectChannleSource->channel_source))
+                                <option value="{{ $projectChannleSource->channel_source->id }}" selected>
+                                    {{ $projectChannleSource->channel_source->name }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+
             <br>
 
             <div class="form-row">
@@ -80,4 +105,40 @@
             </div>
         </form>
     </div>
+@stop
+@section('scripts')
+    {{-- Select 2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script type="text/javascript">
+        var url = "{{ route('channel-source-list') }}";
+        $('.channel-sources').select2({
+            placeholder: "Select channel sources..",
+            ajax: {
+                url: url,
+                data: function(params) {
+                    var query = {
+                        search: params.term,
+                        type: 'public'
+                    };
+                    return query;
+                },
+                processResults: function(data) {
+                    var newdata = data.data.map(function(channelSource) {
+                        return {
+                            id: channelSource.id,
+                            text: channelSource.name + `(${channelSource.channel})`
+                        };
+                    });
+                    newdata.unshift({
+                        id: '',
+                        text: 'Select channel sources..'
+                    });
+                    return {
+                        results: newdata
+                    };
+                }
+            }
+        });
+    </script>
 @stop

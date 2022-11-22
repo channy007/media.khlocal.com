@@ -97,7 +97,20 @@ function customPluck($value, $key)
     throw new Exception("Incorrect value provided, Array or Collection required!");
 }
 
+/*
+    return the count of array or collection
+*/
+function getCount($source)
+{
+    if (is_array($source)) {
+        return sizeof($source);
+    }
+    if ($source instanceof Collection) {
+        return $source->count();
+    }
 
+    throw new Exception("Incorrect value provided, Array or Collection required!");
+}
 
 ### ========== Related to Date ==========
 
@@ -197,61 +210,4 @@ function applyLifeTimestampLongFormat($records, $key, $tz = NULL)
     }
 
     return $records;
-}
-
-
-/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-/*::                                                                         :*/
-/*::  This routine calculates the distance between two points (given the     :*/
-/*::  latitude/longitude of those points). It is being used to calculate     :*/
-/*::  the distance between two locations using GeoDataSource(TM) Products    :*/
-/*::                                                                         :*/
-/*::  Definitions:                                                           :*/
-/*::    South latitudes are negative, east longitudes are positive           :*/
-/*::                                                                         :*/
-/*::  Passed to function:                                                    :*/
-/*::    lat1, lon1 = Latitude and Longitude of point 1 (in decimal degrees)  :*/
-/*::    lat2, lon2 = Latitude and Longitude of point 2 (in decimal degrees)  :*/
-/*::    unit = the unit you desire for results                               :*/
-/*::           where: 'MI' is statute miles (default)                         :*/
-/*::                  'K' is kilometers                                      :*/
-/*::                  'M' is kilometers                                      :*/
-/*::                  'N' is nautical miles                                  :*/
-/*::  Worldwide cities and other features databases with latitude longitude  :*/
-/*::  are available at https://www.geodatasource.com                         :*/
-/*::                                                                         :*/
-/*::  For enquiries, please contact sales@geodatasource.com                  :*/
-/*::                                                                         :*/
-/*::  Official Web site: https://www.geodatasource.com                       :*/
-/*::                                                                         :*/
-/*::         GeoDataSource.com (C) All Rights Reserved 2022                  :*/
-/*::                                                                         :*/
-/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-function distance($lat1, $lon1, $lat2, $lon2, $unit)
-{
-    if (($lat1 == $lat2) && ($lon1 == $lon2)) {
-        return 0;
-    } else {
-        $theta = $lon1 - $lon2;
-        $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
-        $dist = acos($dist);
-        $dist = rad2deg($dist);
-        $miles = $dist * 60 * 1.1515;
-        $unit = strtoupper($unit);
-
-        switch ($unit) {
-            case 'M':
-                $result = ($miles * 1609);
-                break;
-            case 'K':
-                $result = ($miles * 1.609344);
-                break;
-            case 'N':
-                $result = ($miles * 0.8684);
-                break;
-            default:
-                $result = $miles;
-        }
-        return $result;
-    }
 }

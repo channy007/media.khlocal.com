@@ -5,6 +5,9 @@
     <li @if(request()->route()->getName() == 'media-project-index') class="active" @endif>
         <a href="{{ route('media-project-index') }}">Media Project</a>
     </li>
+    <li @if(request()->route()->getName() == 'channel-source-index') class="active" @endif>
+        <a href="{{ route('channel-source-index') }}">Channel Source</a>
+    </li>
     <li @if(request()->route()->getName() == 'media-source-index') class="active" @endif>
         <a href="{{ route('media-source-index') }}">Media Source</a>
     </li>

@@ -38,21 +38,16 @@
                             </select>
 
                         </div>
+
                         <div class="form-group col-md-6">
-                            <label for="inputPassword4">Source From *</label>
-                            <select name="source_from" class="form-control">
-                                <option value="youtube" selected>Youtube</option>
-                                <option value="facebook">Facebook</option>
-                                <option value="tiktok">Tiktok</option>
+                            <label for="inputPassword4">Channel Source *</label>
+                            <select name="channel_source_id" class="form-control source-from" required>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="source_channel">Source Channel *</label>
-                            <input type="text" class="form-control" name="source_channel" placeholder="Source Channel">
-                        </div>
-                        <div class="form-group col-md-6">
                             <label for="source_name">Source Name *</label>
-                            <input type="text" class="form-control" name="source_name" placeholder="Source Name" required>
+                            <input type="text" class="form-control" name="source_name" placeholder="Source Name"
+                                required>
                         </div>
 
                         <div class="form-group col-md-6">
@@ -64,11 +59,12 @@
                             <input type="text" class="form-control" name="source_text" placeholder="Source Text"
                                 required>
                         </div>
+                        <div class="form-group col-md-6">
+                            <label for="tag">Tags</label>
+                            <input type="text" class="form-control" name="tags" id="tags" placeholder="Tags">
+                        </div>
                     </div>
                 </div>
-
-
-
 
             </div>
 
@@ -260,6 +256,17 @@
 
                 </div>
 
+                <div class="form-group col-md-4">
+                    <label for="flip">Cut Off</label>
+                    <select name="cut_off" class="form-control" id="resolution">
+                        <option value="0" selected>Choose cut off..</option>
+                        @foreach (range(1, 10) as $item)
+                            <option value="{{ $item }}">{{ $item }}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+
             </div>
 
             <br>
@@ -278,6 +285,10 @@
 
 @section('scripts')
     <script type="text/javascript">
+        $(document).ready(function() {
+            $('#project-id').change();
+        });
+
         function projectChange(projects) {
             var projectId = document.getElementById('project-id').value;
             var selectedProject = projects.find(function(e) {
@@ -288,6 +299,15 @@
                     $(this).prop("selected", true);
                 }
             });
+
+            var sourceFromOptions = `<option value="" selected>{{ __('Choose source from..') }}</option>`;
+            selectedProject.channel_sources.forEach(channelSource => {
+                sourceFromOptions +=
+                    `<option value="${channelSource.channel_source.id}">${channelSource.channel_source.name}</option>`;
+            });
+            $('.source-from').html(sourceFromOptions);
+
+            $('#tags').val(selectedProject.tags)
         }
 
         function readURL(input) {

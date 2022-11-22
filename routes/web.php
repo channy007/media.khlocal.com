@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\ChannelSourceController;
 use App\Http\Controllers\MediaProjectController;
 use App\Http\Controllers\MediaSourceController;
 use App\Http\Controllers\UserAuthController;
@@ -43,6 +44,13 @@ Route::middleware(['isAuthenticated'])->group(function () {
     Route::post('/app/update/{id}', [ApplicationController::class, 'update'])->name('app-update');
     Route::get('/app/create', [ApplicationController::class, 'create'])->name('app-create');
     Route::post('/app/store', [ApplicationController::class, 'store'])->name('app-store');
+
+    Route::get('/channel-source/index', [ChannelSourceController::class, 'index'])->name('channel-source-index');
+    Route::get('/channel-source/edit/{id}', [ChannelSourceController::class, 'edit'])->name('channel-source-edit');
+    Route::post('/channel-source/update/{id}', [ChannelSourceController::class, 'update'])->name('channel-source-update');
+    Route::get('/channel-source/create', [ChannelSourceController::class, 'create'])->name('channel-source-create');
+    Route::post('/channel-source/store', [ChannelSourceController::class, 'store'])->name('channel-source-store');
+    Route::get('/channel-source-list', [ChannelSourceController::class, 'listChannelSources'])->name('channel-source-list');
 });
 
 

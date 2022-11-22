@@ -43,7 +43,8 @@
                             <td>{{ optional($mediaSource->project)->name }}</td>
                             <td>{{ $mediaSource->status }}</td>
                             <td>{{ $mediaSource->source_name }}</td>
-                            <td>{{ $mediaSource->source_url }}</td>
+                            
+                            <td><a class="link" href="{{ $mediaSource->source_url }}" target="__blank">{{ $mediaSource->source_url }}</a></td>
                             <td>{{ $mediaSource->source_from }}</td>
                             <td>{{ $mediaSource->source_channel }}</td>
                             <td>{{ $mediaSource->source_text }}</td>

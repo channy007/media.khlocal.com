@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
+use App\Models\ChannelSource;
 use App\Models\MediaProject;
+use App\Models\ProjectChannelSource;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -15,7 +17,7 @@ class MediaProjectController extends Controller
 {
     public function index(Request $request)
     {
-        $datas = MediaProject::with('application')->paginate(10);
+        $datas = MediaProject::with('application', 'channel_sources.channel_source')->paginate(10);
 
         return view('media_project.index', compact('datas'));
     }
@@ -24,8 +26,9 @@ class MediaProjectController extends Controller
     {
         $data = MediaProject::whereId($id)->first();
         $applications = Application::all();
+        $channelSources = ChannelSource::all();
 
-        return view('media_project.edit', compact('data', 'applications'));
+        return view('media_project.edit', compact('data', 'applications', 'channelSources'));
     }
 
     public function update(Request $request, $id)
@@ -41,6 +44,7 @@ class MediaProjectController extends Controller
             if ($oldToken != $request['access_token']) {
                 $result = $this->generateLongLifeToken($mediaProject);
             }
+            $this->updateOrCreateProjectChannelSources($mediaProject, $request);
 
             if (!$result['success']) {
                 DB::rollBack();
@@ -50,6 +54,7 @@ class MediaProjectController extends Controller
         if (!$result['success']) {
             return redirect()->back()->withErrors($result['errors']);
         }
+
         return redirect()->route('media-project-index')
             ->with('success', 'Update successfully.');
     }
@@ -62,20 +67,32 @@ class MediaProjectController extends Controller
 
     public function store(Request $request)
     {
-        $mediaProject = MediaProject::create($request->all());
-        if ($mediaProject) {
-            $this->generateLongLifeToken($mediaProject);
+        $result = DB::transaction(function () use ($request) {
+            $mediaProject = MediaProject::create($request->all());
+            $result = ['success' => true, 'message' => 'Successful', 'errors' => null];
+            if ($mediaProject) {
+                $result = $this->generateLongLifeToken($mediaProject);
+            }
+            $this->updateOrCreateProjectChannelSources($mediaProject, $request);
+            if (!$result['success']) {
+                DB::rollBack();
+            }
+            return $result;
+        });
+        if (!$result['success']) {
+            return redirect()->back()->withErrors($result['errors']);
         }
         return redirect()->route('media-project-index')
-            ->with('success', 'Create successfully.');
+            ->with('success', 'Update successfully.');
     }
 
     private function generateLongLifeToken($mediaProject)
     {
-        if (!isset($mediaProject->access_token)) {
-            return;
-        }
         $result = ['sucess' => true, 'message' => 'Successful', 'errors' => null];
+
+        if (!isset($mediaProject->access_token)) {
+            return $result;
+        }
         $application = Application::whereId($mediaProject->application_id)->first();
 
         try {
@@ -103,7 +120,7 @@ class MediaProjectController extends Controller
             if ($facebookResponse->failed()) {
                 Log::info("============ generat long life token fails response: " . $facebookResponse->body());
                 $result['success'] = false;
-                $result['errors'] = "Facebook generate long token ". json_decode($facebookResponse->body())->error->message;
+                $result['errors'] = "Facebook generate long token " . json_decode($facebookResponse->body())->error->message;
             }
 
             return $result;
@@ -113,6 +130,30 @@ class MediaProjectController extends Controller
             $result['errors'] = $e->getMessage();
         } finally {
             return $result;
+        }
+    }
+
+    private function updateOrCreateProjectChannelSources($mediaProject, $request)
+    {
+        $channelSourceIds =  $request['channel_source_ids'];
+        if (!isset($channelSourceIds) || empty($channelSourceIds)) {
+            $channelSourceIds = [];
+        }
+
+        ProjectChannelSource::whereProjectId($mediaProject->id)
+            ->whereNotIn('channel_source_id', $channelSourceIds)->delete();
+
+        foreach ($channelSourceIds as $channelSourceId) {
+            ProjectChannelSource::updateOrCreate(
+                [
+                    'project_id' => $mediaProject->id,
+                    'channel_source_id' => $channelSourceId
+                ],
+                [
+                    'project_id' => $mediaProject->id,
+                    'channel_source_id' => $channelSourceId
+                ]
+            );
         }
     }
 }

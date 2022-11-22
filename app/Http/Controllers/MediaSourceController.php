@@ -30,7 +30,7 @@ class MediaSourceController extends Controller
 
     public function create(Request $request)
     {
-        $projects = MediaProject::whereStatus(MediaProjectStatus::ACTIVE)->get();
+        $projects = MediaProject::with('channel_sources.channel_source')->whereStatus(MediaProjectStatus::ACTIVE)->get();
         return view('media_source.create', compact('projects'));
     }
 

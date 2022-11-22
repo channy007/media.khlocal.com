@@ -12,8 +12,8 @@ class MediaSource extends Model
     protected $fillable = [
         'project_id',
         'source_name',
+        'channel_source_id',
         'source_url',
-        'source_from',
         'source_channel',
         'source_text',
         'transition',
