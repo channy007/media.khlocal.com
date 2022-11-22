@@ -65,7 +65,8 @@ class VideoCutter implements ShouldQueue
                 $mediaSource->seg_gap,
                 $mediaSource->flip ?? "",
                 $mediaSource->resolution,
-                $projectName
+                $projectName,
+                $mediaSource->cut_off??0
             ]
         );
 

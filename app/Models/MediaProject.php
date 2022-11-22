@@ -24,8 +24,8 @@ class MediaProject extends Model
         'status',
         'client_secret',
         'application_id',
-        'tags',
-        'cut_off'
+        'tags'
+        
     ];
 
     public function application()
