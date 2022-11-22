@@ -31,6 +31,7 @@
                         <th scope="col">Segment Gap</th>
                         <th scope="col">Segment</th>
                         <th scope="col">Flip</th>
+                        <th scope="col">Cut Off</th>
                         <th scope="col">Created At</th>
 
 
@@ -55,6 +56,7 @@
                             <td>{{ $mediaSource->seg_gap }}</td>
                             <td>{{ $mediaSource->segment }}</td>
                             <td>{{ $mediaSource->flip }}</td>
+                            <td>{{ $mediaSource->cut_off }}</td>
                             <td>{{ $mediaSource->created_at ? getDateString($mediaSource->created_at, 'd-M-Y h:i a') : '' }}</td>
                         </tr>
                     @endforeach
