@@ -54,7 +54,7 @@ Route::middleware(['isAuthenticated'])->group(function () {
 
 
     Route::get('/source-retry-download/{id}', [MediaSourceController::class, 'retryDownload'])->name('media-source-retry-download');
-    Route::get('/source-retry-cut/{id}', [MediaSourceController::class, 'retryCut'])->name('media-source-retry-cut');
+    Route::post('/source-retry-cut/{id}', [MediaSourceController::class, 'retryCut'])->name('media-source-retry-cut');
     Route::get('/source-retry-upload/{id}', [MediaSourceController::class, 'retryUpload'])->name('media-source-retry-upload');
 
 });

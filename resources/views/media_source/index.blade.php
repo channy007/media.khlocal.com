@@ -81,6 +81,7 @@
                                         @case('downloaded')
                                         @case('cut_error')
                                             <a data-href="{{ route('media-source-retry-cut', $mediaSource->id) }}"
+                                                data-media="{{ $mediaSource }}"
                                                 class="btn btn-warning btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
                                                 style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;"
                                                 data-toggle="modal" data-target="#cut-modal">
@@ -89,6 +90,21 @@
                                         @break
 
                                         @case('cutted')
+                                            <a data-href="{{ route('media-source-retry-cut', $mediaSource->id) }}"
+                                                data-media="{{ $mediaSource }}"
+                                                class="btn btn-warning btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
+                                                style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;"
+                                                data-toggle="modal" data-target="#cut-modal">
+                                                <i class="fas fa-cut"></i>
+                                            </a>
+                                            <a data-href="{{ route('media-source-retry-upload', $mediaSource->id) }}"
+                                                class="btn btn-info btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
+                                                style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;"
+                                                data-toggle="modal" data-target="#upload-modal">
+                                                <i class="fas fa-upload"></i>
+                                            </a>
+                                        @break
+
                                         @case('upload_error')
                                             <a data-href="{{ route('media-source-retry-upload', $mediaSource->id) }}"
                                                 class="btn btn-info btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
@@ -147,31 +163,71 @@
                 searchBtn.click();
             }
         }
-
         function selectChange() {
             var searchBtn = document.getElementById('searchBtn');
             searchBtn.click();
         }
 
-        $(document).ready(function() {
-            $('.toast').toast('show')
+        
+        $('#cut-form').on('submit', function(e) {
+            e.preventDefault();
+            url = $('#cut-modal .btn-ok').attr('href');
+            $.post(url,
+                $('#cut-form').serialize(),
+                function(data, status, xhr) {
+                    // do something here with response;
+                    $('#cut-modal').modal('toggle');
+                }
+            );
         });
-
         //Cut Operation
         $('#cut-modal').on('show.bs.modal', function(e) {
+            var mediaSource = $(e.relatedTarget).data('media');
+
             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-        });
-        $('#cut-modal .btn-ok').on('click', function(e) {
-            $.ajax({
-                type: "GET",
-                url: $(this).attr('href'),
-                success: function(data) {
-                    $('#cut-modal').modal('toggle');
-                    location.reload(true);
+
+            $(this).find("#transition option").each(function() {
+                if ($(this).val() == mediaSource.transition) { // EDITED THIS LINE
+                    $(this).prop("selected", true);
                 }
             });
-            return false;
+
+            $(this).find("#resolution option").each(function() {
+                if ($(this).val() == mediaSource.resolution) { // EDITED THIS LINE
+                    $(this).prop("selected", true);
+                }
+            });
+
+            $(this).find('#seg-start').val(mediaSource.segment_start);
+            $(this).find('#seg-length').val(mediaSource.seg_length);
+            $(this).find('#seg-gap').val(mediaSource.seg_gap);
+            $(this).find("#flip option").each(function() {
+                if ($(this).val() == mediaSource.flip) { // EDITED THIS LINE
+                    $(this).prop("selected", true);
+                }
+            });
+            
+            $(this).find("#cut-off option").each(function() {
+                if ($(this).val() == mediaSource.cut_off) { // EDITED THIS LINE
+                    $(this).prop("selected", true);
+                }
+            });
+
         });
+        // $('#cut-modal .btn-ok').on('click', function(e) {
+        //     $.ajax({
+        //         type: "GET",
+        //         url: $(this).attr('href'),
+        //         success: function(data) {
+        //             $('#cut-modal').modal('toggle');
+        //             location.reload(true);
+        //         }
+        //     });
+        //     return false;
+        // });
+
+
+
 
         //Upload Operation
         $('#upload-modal').on('show.bs.modal', function(e) {

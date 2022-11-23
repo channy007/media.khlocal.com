@@ -227,21 +227,21 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="segment_start">Segment Start *</label>
-                    <input type="number" class="form-control" name="segment_start" placeholder="Segment Start" required
+                    <label for="seg_start">Segment Start *</label>
+                    <input type="number" class="form-control" name="seg_start" placeholder="Segment Start" required
                         value="5">
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="segment_length">Segment Length *</label>
-                    <input type="number" class="form-control" name="segment_length" placeholder="Segment Length"
+                    <label for="seg_length">Segment Length *</label>
+                    <input type="number" class="form-control" name="seg_length" placeholder="Segment Length"
                         required value="90">
 
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="sagment_gap">Segment Gap *</label>
-                    <input type="number" class="form-control" name="segment_gap" placeholder="Segment Gap" required
+                    <label for="seg_gap">Segment Gap *</label>
+                    <input type="number" class="form-control" name="seg_gap" placeholder="Segment Gap" required
                         value="25">
 
                 </div>

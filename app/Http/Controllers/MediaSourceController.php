@@ -102,12 +102,13 @@ class MediaSourceController extends Controller
 
     public function retryCut(Request $request, $mediaSourceId)
     {
-        Log::info("===== retry cut =====");
+
         $mediaSource = MediaSource::whereId($mediaSourceId)->first();
         $fileStorage = FileStorage::whereMediaSourceId($mediaSource->id)->first();
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
+        $mediaSource->update($request->all());
 
         dispatch(new VideoCutter(
             [
