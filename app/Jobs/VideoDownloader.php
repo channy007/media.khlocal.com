@@ -92,7 +92,7 @@ class VideoDownloader implements ShouldQueue
             $fileStorage = new FileStorage();
         }
         $fileStorage->media_source_id = $mediaSource->id;
-        $fileStorage->name = slug($mediaSource->source_name, 45, '', Str::random(15));
+        $fileStorage->name = strtolower(Str::random(45));
         $fileStorage->name_cutted = $fileStorage->name . '_cut';
         $fileStorage->extension = FileExtension::MP4;
         $fileStorage->path = public_path('storage') . '/videos';
