@@ -5,7 +5,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="upload-modal">Do you want to download this media source again?</h5>
+                    <h5 class="modal-title" id="download-modal">Do you want to download this media source again?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
