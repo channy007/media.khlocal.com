@@ -88,7 +88,7 @@ class MediaProjectController extends Controller
 
     private function generateLongLifeToken($mediaProject)
     {
-        $result = ['sucess' => true, 'message' => 'Successful', 'errors' => null];
+        $result = ['success' => true, 'message' => 'Successful', 'errors' => null];
 
         if (!isset($mediaProject->access_token)) {
             return $result;
