@@ -5,6 +5,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 
 const DEFAULT_TIMESTAMP_FORMAT = array(
     'y' => ' y',
@@ -210,4 +211,12 @@ function applyLifeTimestampLongFormat($records, $key, $tz = NULL)
     }
 
     return $records;
+}
+
+
+function slug($text, $limit = null, $prefix = '', $suffix = '')
+{
+    $slug = $limit ? (Str::limit(Str::slug($text), $limit)) : Str::slug($text);
+
+    return $prefix . $slug . $suffix;
 }

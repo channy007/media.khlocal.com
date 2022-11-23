@@ -38,16 +38,17 @@ class Uploader implements ShouldQueue
     public function handle()
     {
         $mediaSource = $this->data['mediaSource'];
-        $fileProperty = $this->data['fileProperty'];
-        $fileName = $fileProperty['path'] . '/' . $fileProperty['cuttedFileName'] . $fileProperty['extension'];
+        $fileStorage = $this->data['fileStorage'];
+        $fileName = $fileStorage->path . '/' . $fileStorage->name_cutted . '.' . $fileStorage->extension;
         $mediaProject = MediaProject::whereId($mediaSource->project_id)->first();
 
         if (!$mediaProject) {
+            $mediaSource->update(['status' => MediaSourceStatus::UPLOAD_ERROR, 'error' => 'Media Project not found!']);
             return;
         }
 
-        if(!file_exists($fileName)){
-            $mediaSource->update(['status' => MediaSourceStatus::UPLOAD_ERROR,'error' => 'File cut not found!']);
+        if (!file_exists($fileName)) {
+            $mediaSource->update(['status' => MediaSourceStatus::UPLOAD_ERROR, 'error' => 'File cut not found!']);
             return;
         }
 
@@ -70,15 +71,21 @@ class Uploader implements ShouldQueue
 
         $process->setTimeout(10800);
         $process->run();
+
+        $this->updateMediaSource($mediaSource, $process);
+        Log::info("============ upload output: " . $process->getOutput());
+    }
+
+    private function updateMediaSource($mediaSource, $process)
+    {
         // executes after the command finishes
         if (!$process->isSuccessful()) {
-            $mediaSource->update(['status' => MediaSourceStatus::UPLOAD_ERROR]);
+            $mediaSource->update(['status' => MediaSourceStatus::UPLOAD_ERROR, 'error' => 'Error while uploading!']);
 
             throw new ProcessFailedException($process);
             return;
         }
 
         $mediaSource->update(['status' => MediaSourceStatus::UPLOADED]);
-        Log::info("============ upload output: " . $process->getOutput());
     }
 }

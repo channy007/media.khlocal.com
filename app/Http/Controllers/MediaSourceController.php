@@ -5,17 +5,16 @@ namespace App\Http\Controllers;
 use App\Jobs\Uploader;
 use App\Jobs\VideoCutter;
 use App\Jobs\VideoDownloader;
+use App\Models\FileStorage;
 use App\Models\MediaProject;
 use App\Models\MediaSource;
 use App\Utils\enums\MediaProjectStatus;
 use App\Utils\enums\MediaSourceStatus;
 use App\Utils\enums\QueueName;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class MediaSourceController extends Controller
 {
@@ -98,7 +97,7 @@ class MediaSourceController extends Controller
     {
         Log::info("===== retry cut =====");
         $mediaSource = MediaSource::whereId($mediaSourceId)->first();
-
+        $fileStorage = FileStorage::whereMediaSourceId($mediaSource->id)->first();
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
@@ -106,7 +105,7 @@ class MediaSourceController extends Controller
         dispatch(new VideoCutter(
             [
                 'mediaSource' => $mediaSource,
-                'fileProperty' => $this->prepareFileProperties($mediaSource)
+                'fileStorage' => $fileStorage
             ]
         ))->onQueue(QueueName::VIDEO_CUTTER)->delay(5);
 
@@ -114,31 +113,19 @@ class MediaSourceController extends Controller
             ->with('success', 'Record start cutting.');
     }
 
-    private function prepareFileProperties($mediaSource)
-    {
-        $fileProperty = [
-            'path' => public_path('storage') . '/videos',
-            'originalName' => Str::slug($mediaSource->source_name),
-            'extension' => '.mp4',
-            'cuttedFileName' => Str::slug($mediaSource->source_name) . '_cut'
-        ];
-
-        return $fileProperty;
-    }
-
     public function retryUpload(Request $request, $mediaSourceId)
     {
         Log::info("===== retry upload =====");
 
         $mediaSource = MediaSource::whereId($mediaSourceId)->first();
-
+        $fileStorage = FileStorage::whereMediaSourceId($mediaSource->id)->first();
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
 
         dispatch(new Uploader([
             'mediaSource' => $mediaSource,
-            'fileProperty' => $this->prepareFileProperties($mediaSource)
+            'fileStorage' => $fileStorage
         ]))->onQueue(QueueName::UPLOADER)->delay(2);
 
         return redirect()->route('media-source-index')

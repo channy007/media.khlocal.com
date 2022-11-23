@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Models\FileStorage;
+use App\Utils\enums\FileExtension;
 use App\Utils\enums\MediaSourceStatus;
 use App\Utils\enums\QueueName;
 use Illuminate\Bus\Queueable;
@@ -38,28 +40,27 @@ class VideoDownloader implements ShouldQueue
      */
     public function handle()
     {
-        $mediaSource = $this->data['mediaSource'];
-        $fileProperty = $this->prepareFileProperties($mediaSource);
-
         $shellFile = public_path() . '/shell_scripts/youtube_download.sh';
 
-        $fileName = $fileProperty['path'] . '/' . $fileProperty['originalName'] . $fileProperty['extension'];
+        $mediaSource = $this->data['mediaSource'];
+
+        $fileStorage = $this->createFileStorage($mediaSource);
+        $fileName = $fileStorage->path . '/' . $fileStorage->name . '.' . $fileStorage->extension;
+
         $mediaSource->update(['status' => MediaSourceStatus::DOWNLOADING]);
 
         $process = new Process(['bash', $shellFile, $mediaSource->source_url, $fileName]);
         $process->setTimeout(10800);
         $process->run();
-
+        
         // executes after the command finishes
         if (!$process->isSuccessful()) {
-            $mediaSource->update(['status' => MediaSourceStatus::DOWNLOAD_ERROR]);
+            $mediaSource->update(['status' => MediaSourceStatus::DOWNLOAD_ERROR, 'error' => 'File download error!']);
             throw new ProcessFailedException($process);
             return;
         }
-        Log::info("============ download output: " . $process->getOutput());
-
-        if(!file_exists($fileName)){
-            $mediaSource->update(['status' => MediaSourceStatus::DOWNLOAD_ERROR,'error' => 'File download error!']);
+        if (!file_exists($fileName)) {
+            $mediaSource->update(['status' => MediaSourceStatus::DOWNLOAD_ERROR, 'error' => 'File download error!']);
             return;
         }
 
@@ -72,20 +73,22 @@ class VideoDownloader implements ShouldQueue
         dispatch(new VideoCutter(
             [
                 'mediaSource' => $mediaSource,
-                'fileProperty' => $fileProperty
+                'fileStorage' => $fileStorage
             ]
         ))->onQueue(QueueName::VIDEO_CUTTER)->delay(5);
     }
 
-    private function prepareFileProperties($mediaSource)
+    private function createFileStorage($mediaSource)
     {
-        $fileProperty = [
-            'path' => public_path('storage') . '/videos',
-            'originalName' => Str::slug($mediaSource->source_name),
-            'extension' => '.mp4',
-            'cuttedFileName' => Str::slug($mediaSource->source_name) . '_cut'
-        ];
-
-        return $fileProperty;
+        $fileStorage = FileStorage::whereMediaSourceId($mediaSource->id)->first();
+        if (!$fileStorage) {
+            $fileStorage = new FileStorage();
+        }
+        $fileStorage->name = slug($mediaSource->source_name, 50);
+        $fileStorage->name_cutted = $fileStorage->name . '_cut';
+        $fileStorage->extension = FileExtension::MP4;
+        $fileStorage->path = public_path('storage') . '/videos';
+        $fileStorage->save();
+        return $fileStorage;
     }
 }

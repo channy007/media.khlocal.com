@@ -4,8 +4,6 @@ namespace App\Jobs;
 
 use App\Models\MediaProject;
 use App\Utils\enums\MediaSourceStatus;
-use App\Utils\enums\QueueName;
-use App\Utils\enums\VideoFlip;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,7 +13,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
-use Illuminate\Support\Str;
 
 class VideoCutter implements ShouldQueue
 {
@@ -40,25 +37,21 @@ class VideoCutter implements ShouldQueue
      */
     public function handle()
     {
-        $mediaSource = $this->data['mediaSource'];
-        $fileProperty = $this->data['fileProperty'];
-        $fileName = $fileProperty['path'] . '/' . $fileProperty['originalName'] . $fileProperty['extension'];
+        Log::info("===== START CUTTING VIDEO =====");
+
         $shellFile = public_path() . '/shell_scripts/ffmpeg_cut.sh';
 
-        if(!file_exists($fileName)){
-            $mediaSource->update(['status' => MediaSourceStatus::CUT_ERROR,'error' => 'File download not found!']);
+        $mediaSource = $this->data['mediaSource'];
+        $fileStorage = $this->data['fileStorage'];
+        $fileName = $fileStorage->path . '/' . $fileStorage->name . '.' . $fileStorage->extension;
+
+        if (!file_exists($fileName)) {
+            $mediaSource->update(['status' => MediaSourceStatus::CUT_ERROR, 'error' => 'File download not found!']);
             return;
         }
 
         $mediaSource->update(['status' => MediaSourceStatus::CUTTING]);
-
-        $project = MediaProject::whereId($mediaSource->project_id)->first();
-
-        if ($project) {
-            $projectName = $project->name;
-        } else {
-            $projectName = "Media KHLocal";
-        }
+        $projectName = $this->getProjectName($mediaSource->project_id);
 
         $process = new Process(
             [
@@ -78,24 +71,31 @@ class VideoCutter implements ShouldQueue
 
         $process->setTimeout(10800);
         $process->run();
+
+        $this->updateMediaSource($mediaSource, $process);
+
+        Log::info("===== END CUTTING VIDEO OUTPUT: " . $process->getOutput());
+    }
+
+    private function updateMediaSource($mediaSource, $process)
+    {
         // executes after the command finishes
         if (!$process->isSuccessful()) {
-            $mediaSource->update(['status' => MediaSourceStatus::CUT_ERROR]);
+            $mediaSource->update(['status' => MediaSourceStatus::CUT_ERROR, 'error' => 'Error while cutting video!']);
             throw new ProcessFailedException($process);
             return;
         }
         $mediaSource->update(
             [
-                'status' => MediaSourceStatus::CUT,
-                'path_cutted' => $fileProperty['path'] . '/' . $fileProperty['cuttedFileName'] . $fileProperty['extension']
+                'status' => MediaSourceStatus::CUT
             ]
         );
+    }
 
-        // dispatch(new Uploader([
-        //     'mediaSource' => $mediaSource,
-        //     'fileProperty' => $fileProperty
-        // ]))->onQueue(QueueName::UPLOADER)->delay(2);
+    private function getProjectName($projectId)
+    {
+        $project = MediaProject::whereId($projectId)->first();
 
-        Log::info("============ video cutter output: " . $process->getOutput());
+        return $project ? $project->name : "Media KHLocal";
     }
 }
