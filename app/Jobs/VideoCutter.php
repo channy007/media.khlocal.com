@@ -81,6 +81,7 @@ class VideoCutter implements ShouldQueue
     {
         // executes after the command finishes
         if (!$process->isSuccessful()) {
+            Log::info("===== CUTTING VIDEO ERROR =====");
             $mediaSource->update(['status' => MediaSourceStatus::CUT_ERROR, 'error' => 'Error while cutting video!']);
             throw new ProcessFailedException($process);
             return;

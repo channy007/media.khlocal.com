@@ -40,6 +40,8 @@ class VideoDownloader implements ShouldQueue
      */
     public function handle()
     {
+        Log::info("===== START DOWNLOADING VIDEO =====");
+
         $shellFile = public_path() . '/shell_scripts/youtube_download.sh';
 
         $mediaSource = $this->data['mediaSource'];
@@ -55,11 +57,13 @@ class VideoDownloader implements ShouldQueue
 
         // executes after the command finishes
         if (!$process->isSuccessful()) {
+            Log::info("===== ERROR DOWNLOADING VIDEO =====");
             $mediaSource->update(['status' => MediaSourceStatus::DOWNLOAD_ERROR, 'error' => 'File download error!']);
             throw new ProcessFailedException($process);
             return;
         }
         if (!file_exists($fileName)) {
+            Log::info("===== ERROR DOWNLOADING VIDEO =====");
             $mediaSource->update(['status' => MediaSourceStatus::DOWNLOAD_ERROR, 'error' => 'File download error!']);
             return;
         }
@@ -70,12 +74,15 @@ class VideoDownloader implements ShouldQueue
                 'path_downloaded' => $fileName
             ]
         );
+
         dispatch(new VideoCutter(
             [
                 'mediaSource' => $mediaSource,
                 'fileStorage' => $fileStorage
             ]
         ))->onQueue(QueueName::VIDEO_CUTTER)->delay(5);
+
+        Log::info("===== END DOWNLOADING VIDEO =====");
     }
 
     private function createFileStorage($mediaSource)
