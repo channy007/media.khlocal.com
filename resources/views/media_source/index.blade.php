@@ -134,11 +134,7 @@
                 url: $(this).attr('href'),
                 success: function(data) {
                     $('#cut-modal').modal('toggle');
-                    if (typeof table !== 'undefined') {
-                        table.ajax.reload();
-                    } else {
-                        location.reload(true);
-                    }
+                    location.reload(true);
                 }
             });
             return false;
@@ -154,11 +150,7 @@
                 url: $(this).attr('href'),
                 success: function(data) {
                     $('#upload-modal').modal('toggle');
-                    if (typeof table !== 'undefined') {
-                        table.ajax.reload();
-                    } else {
-                        location.reload(true);
-                    }
+                    location.reload(true);
                 }
             });
             return false;
@@ -174,11 +166,7 @@
                 url: $(this).attr('href'),
                 success: function(data) {
                     $('#download-modal').modal('toggle');
-                    if (typeof table !== 'undefined') {
-                        table.ajax.reload();
-                    } else {
-                        location.reload(true);
-                    }
+                    location.reload(true);
                 }
             });
             return false;
