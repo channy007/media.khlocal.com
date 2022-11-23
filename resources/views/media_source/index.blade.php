@@ -47,7 +47,7 @@
 
                                     @switch($mediaSource->status)
                                         @case('download_error')
-                                            <a href="{{ route('media-source-retry-download',$mediaSource->id) }}"
+                                            <a data-href="{{ route('media-source-retry-download', $mediaSource->id) }}"
                                                 class="btn btn-primary btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
                                                 style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;">
                                                 <i class="fas fa-download"></i>
@@ -56,7 +56,7 @@
 
                                         @case('downloaded')
                                         @case('cut_error')
-                                            <a href="{{ route('media-source-retry-cut',$mediaSource->id) }}"
+                                            <a data-href="{{ route('media-source-retry-cut', $mediaSource->id) }}"
                                                 class="btn btn-warning btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
                                                 style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;"
                                                 data-toggle="modal" data-target="#cut-modal">
@@ -65,7 +65,7 @@
                                         @break
 
                                         @case('cutted')
-                                            <a href="{{ route('media-source-retry-upload',$mediaSource->id) }}"
+                                            <a data-href="{{ route('media-source-retry-upload', $mediaSource->id) }}"
                                                 class="btn btn-dark btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
                                                 style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;"
                                                 data-toggle="modal" data-target="#upload-modal">
@@ -111,19 +111,23 @@
     <div class="modal fade" id="cut-modal" tabindex="-1" role="dialog" aria-labelledby="cut-modal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="cut-modal">Do you want to retry to cut this file again?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
                     The file will be cut soon!
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">I'm Sure</button>
+                    <button type="button" class="btn btn-primary btn-ok">I'm Sure</button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -134,19 +138,23 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="upload-modal">Do you want to upload this file?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
                     The file will be upload soon!
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">I'm Sure</button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -159,6 +167,27 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('.toast').toast('show')
+        });
+
+        //Cut Operation
+        $('#cut-modal').on('show.bs.modal', function(e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+        });
+        $('#cut-modal .btn-ok').on('click', function(e) {
+
+            $.ajax({
+                type: "GET",
+                url: $(this).attr('href'),
+                success: function(data) {
+                    $('#cut-modal').modal('toggle');
+                    if (typeof table !== 'undefined') {
+                        table.ajax.reload();
+                    } else {
+                        location.reload(true);
+                    }
+                }
+            });
+            return false;
         });
     </script>
 @stop

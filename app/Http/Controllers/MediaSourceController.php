@@ -12,6 +12,7 @@ use App\Utils\enums\MediaSourceStatus;
 use App\Utils\enums\QueueName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -74,6 +75,8 @@ class MediaSourceController extends Controller
 
     public function retryDownload(Request $request, $mediaSourceId)
     {
+        Log::info("===== retry download =====");
+
         $mediaSource = MediaSource::whereId($mediaSourceId)->first();
 
         if (!$mediaSource) {
@@ -93,6 +96,7 @@ class MediaSourceController extends Controller
 
     public function returyCut(Request $request, $mediaSourceId)
     {
+        Log::info("===== retry cut =====");
         $mediaSource = MediaSource::whereId($mediaSourceId)->first();
 
         if (!$mediaSource) {
@@ -124,6 +128,8 @@ class MediaSourceController extends Controller
 
     public function retryUpload(Request $request, $mediaSourceId)
     {
+        Log::info("===== retry upload =====");
+
         $mediaSource = MediaSource::whereId($mediaSourceId)->first();
 
         if (!$mediaSource) {
@@ -136,6 +142,6 @@ class MediaSourceController extends Controller
         ]))->onQueue(QueueName::UPLOADER)->delay(2);
 
         return redirect()->route('media-source-index')
-        ->with('success', 'Record start uploading.');
+            ->with('success', 'Record start uploading.');
     }
 }
