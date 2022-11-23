@@ -41,7 +41,11 @@
                         <tr>
                             <td>{{ $count }}</td>
                             <td>{{ optional($mediaSource->project)->name }}</td>
-                            <td>{{ $mediaSource->status }}</td>
+                            <td>
+                                <span class="badge {{ getMediaStatusClassBadge($mediaSource->status) }}">
+                                    {{ $mediaSource->status }}</span>
+                            </td>
+
                             <td style="width: 10%;">
                                 <div class="row justify-content-center">
 

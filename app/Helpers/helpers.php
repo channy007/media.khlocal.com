@@ -1,5 +1,6 @@
 <?php
 
+use App\Utils\enums\MediaSourceStatus;
 use App\Utils\enums\Timezone;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -219,4 +220,33 @@ function slug($text, $limit = null, $prefix = '', $suffix = '')
     $slug = $limit ? (Str::limit(Str::slug($text), $limit)) : Str::slug($text);
 
     return $prefix . $slug . $suffix;
+}
+
+function getMediaStatusClassBadge($status)
+{
+
+    switch ($status) {
+        case MediaSourceStatus::NEW:
+            $badge = 'badge-secondary';
+            break;
+        case MediaSourceStatus::DOWNLOADED:
+        case MediaSourceStatus::DOWNLOADING:
+        case MediaSourceStatus::CUTTING:
+        case MediaSourceStatus::CUTTED:
+        case MediaSourceStatus::UPLOADING:
+            $badge = 'badge-info';
+            break;
+        case MediaSourceStatus::DOWNLOAD_ERROR:
+        case MediaSourceStatus::CUT_ERROR:
+        case MediaSourceStatus::UPLOAD_ERROR:
+            $badge = 'badge-danger';
+            break;
+        case MediaSourceStatus::UPLOADED:
+            $badge = 'badge-success';
+            break;
+        default:
+            $badge = '';
+    }
+
+    return $badge;
 }

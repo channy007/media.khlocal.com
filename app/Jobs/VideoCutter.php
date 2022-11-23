@@ -88,7 +88,7 @@ class VideoCutter implements ShouldQueue
         }
         $mediaSource->update(
             [
-                'status' => MediaSourceStatus::CUT
+                'status' => MediaSourceStatus::CUTTED
             ]
         );
     }
