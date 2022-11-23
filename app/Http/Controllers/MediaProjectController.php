@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class MediaProjectController extends Controller
 {
@@ -37,6 +38,12 @@ class MediaProjectController extends Controller
         if (!$mediaProject) {
             return redirect()->back()->withErrors("Selected Application not found!");
         }
+        $validator = Validator::make($request->all(), ['page_id' => 'unique:media_projects,page_id,'.$id]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+        
+
         $result = DB::transaction(function () use ($mediaProject, $request) {
             $oldToken = $mediaProject->access_token;
             $mediaProject->update($request->all());
@@ -67,6 +74,11 @@ class MediaProjectController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), ['page_id' => 'unique:media_projects,page_id']);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+        
         $result = DB::transaction(function () use ($request) {
             $mediaProject = MediaProject::create($request->all());
             $result = ['success' => true, 'message' => 'Successful', 'errors' => null];
