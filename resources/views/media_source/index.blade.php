@@ -159,5 +159,25 @@
             });
             return false;
         });
+
+        //Download Operation
+        $('#download-modal').on('show.bs.modal', function(e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+        });
+        $('#download-modal .btn-ok').on('click', function(e) {
+            $.ajax({
+                type: "GET",
+                url: $(this).attr('href'),
+                success: function(data) {
+                    $('#download-modal').modal('toggle');
+                    if (typeof table !== 'undefined') {
+                        table.ajax.reload();
+                    } else {
+                        location.reload(true);
+                    }
+                }
+            });
+            return false;
+        });
     </script>
 @stop
