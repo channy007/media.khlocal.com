@@ -67,7 +67,7 @@
 
                                         @case('cutted')
                                             <a data-href="{{ route('media-source-retry-upload', $mediaSource->id) }}"
-                                                class="btn btn-dark btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
+                                                class="btn btn-info btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
                                                 style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;"
                                                 data-toggle="modal" data-target="#upload-modal">
                                                 <i class="fas fa-upload"></i>
