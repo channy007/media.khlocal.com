@@ -18,4 +18,20 @@ class MediaSourceStatus
     const UPLOAD_ERROR = 'upload_error';
     const DOWNLOAD_ERROR = 'download_error';
 
+
+    public static function getAllStatus()
+    {
+        return [
+            'new',
+            'downloading',
+            'downloaded',
+            'download_error',
+            'cutting',
+            'cutted',
+            'cut_error',
+            'uploading',
+            'uploaded',
+            'upload_error'
+        ];
+    }
 }

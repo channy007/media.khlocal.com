@@ -5,11 +5,29 @@
             @include('includes.alerts.success')
         @endif
 
-        <div class="d-flex justify-content-end">
-            <a class="btn btn-primary" href="{{ route('media-source-create') }}">
-                <i class="fas fa-plus"></i> <span class="remove-mobile">{{ __('Add New') }}<span>
-            </a>
-        </div>
+        <form action="{{ route('media-source-index') }}" method="GET" enctype="multipart/form-data">
+            <div class="d-flex">
+                <div class="p-2" style="align-items: center;justify-content: center;text-align: center;display: flex">
+                    <span>Status</span>
+                </div>
+                <div class="p-2">
+                    <select class="form-control" name="status" onchange="selectChange()">
+                        <option value="">All</option>
+                        @foreach (getAllMediaStatuses() as $mediaStatus)
+                            <option value="{{ $mediaStatus }}" {{ $mediaStatus == $status ? 'selected' : '' }}>
+                                {{ $mediaStatus }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="ml-auto p-2">
+                    <a class="btn btn-primary" href="{{ route('media-source-create') }}">
+                        <i class="fas fa-plus"></i> <span class="remove-mobile">{{ __('Add New') }}<span>
+                    </a>
+                </div>
+            </div>
+            <input type="submit" id="searchBtn" hidden>
+        </form>
+
         <br>
 
         <div class="table-responsive text-nowrap">
@@ -123,6 +141,18 @@
 
 @section('scripts')
     <script type="text/javascript">
+        function search(ele) {
+            if (event.key === 'Enter') {
+                var searchBtn = document.getElementById('searchBtn');
+                searchBtn.click();
+            }
+        }
+
+        function selectChange() {
+            var searchBtn = document.getElementById('searchBtn');
+            searchBtn.click();
+        }
+
         $(document).ready(function() {
             $('.toast').toast('show')
         });

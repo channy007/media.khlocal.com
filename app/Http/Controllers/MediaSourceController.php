@@ -20,6 +20,8 @@ class MediaSourceController extends Controller
 {
     public function index(Request $request)
     {
+        $status = $request['status'];
+
         $datas = MediaSource::with(
             [
                 'project' => function ($query) {
@@ -27,9 +29,13 @@ class MediaSourceController extends Controller
                 },
                 'channel_source'
             ]
-        )->orderBy('id', 'desc')->paginate(10);
+            );
+        $datas->when($status,function($query) use($status){
+            $query->whereStatus($status);
+        });    
+        $datas = $datas->orderBy('id', 'desc')->paginate(10);
 
-        return view('media_source.index', compact('datas'));
+        return view('media_source.index', compact('datas','status'));
     }
 
     public function create(Request $request)

@@ -250,3 +250,8 @@ function getMediaStatusClassBadge($status)
 
     return $badge;
 }
+
+function getAllMediaStatuses()
+{
+    return MediaSourceStatus::getAllStatus();
+}
