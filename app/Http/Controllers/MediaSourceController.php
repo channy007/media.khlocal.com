@@ -130,7 +130,7 @@ class MediaSourceController extends Controller
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
-
+        $mediaSource->update($request->all());
         dispatch(new Uploader([
             'mediaSource' => $mediaSource,
             'fileStorage' => $fileStorage

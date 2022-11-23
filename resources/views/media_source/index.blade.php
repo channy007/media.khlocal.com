@@ -98,6 +98,7 @@
                                                 <i class="fas fa-cut"></i>
                                             </a>
                                             <a data-href="{{ route('media-source-retry-upload', $mediaSource->id) }}"
+                                                data-media="{{ $mediaSource }}"
                                                 class="btn btn-info btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
                                                 style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;"
                                                 data-toggle="modal" data-target="#upload-modal">
@@ -107,6 +108,7 @@
 
                                         @case('upload_error')
                                             <a data-href="{{ route('media-source-retry-upload', $mediaSource->id) }}"
+                                                data-media="{{ $mediaSource }}"
                                                 class="btn btn-info btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
                                                 style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;"
                                                 data-toggle="modal" data-target="#upload-modal">
@@ -168,7 +170,7 @@
             searchBtn.click();
         }
 
-        
+        //##### CUT #####
         $('#cut-form').on('submit', function(e) {
             e.preventDefault();
             url = $('#cut-modal .btn-ok').attr('href');
@@ -180,7 +182,6 @@
                 }
             );
         });
-        //Cut Operation
         $('#cut-modal').on('show.bs.modal', function(e) {
             var mediaSource = $(e.relatedTarget).data('media');
 
@@ -214,36 +215,30 @@
             });
 
         });
-        // $('#cut-modal .btn-ok').on('click', function(e) {
-        //     $.ajax({
-        //         type: "GET",
-        //         url: $(this).attr('href'),
-        //         success: function(data) {
-        //             $('#cut-modal').modal('toggle');
-        //             location.reload(true);
-        //         }
-        //     });
-        //     return false;
-        // });
+        //##### END CUT #####
 
-
-
-
-        //Upload Operation
-        $('#upload-modal').on('show.bs.modal', function(e) {
-            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-        });
-        $('#upload-modal .btn-ok').on('click', function(e) {
-            $.ajax({
-                type: "GET",
-                url: $(this).attr('href'),
-                success: function(data) {
+        //##### UPLOAD #####
+        $('#upload-form').on('submit', function(e) {
+            e.preventDefault();
+            url = $('#upload-modal .btn-ok').attr('href');
+            $.post(url,
+                $('#upload-form').serialize(),
+                function(data, status, xhr) {
+                    // do something here with response;
                     $('#upload-modal').modal('toggle');
-                    location.reload(true);
                 }
-            });
-            return false;
+            );
         });
+        $('#upload-modal').on('show.bs.modal', function(e) {
+            var mediaSource = $(e.relatedTarget).data('media');
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+
+            $(this).find('#source-name').val(mediaSource.source_name);
+            $(this).find('#source-text').val(mediaSource.source_text);
+            $(this).find('#tags').val(mediaSource.tags);
+
+        });
+        //##### END UPLOAD #####
 
         //Download Operation
         $('#download-modal').on('show.bs.modal', function(e) {
