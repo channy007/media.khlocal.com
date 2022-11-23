@@ -53,9 +53,9 @@ Route::middleware(['isAuthenticated'])->group(function () {
     Route::get('/channel-source-list', [ChannelSourceController::class, 'listChannelSources'])->name('channel-source-list');
 
 
-    Route::get('/source-retry-download/{id}', [MediaSourceController::class, 'retryDownload'])->name('media-source-retry-download-update');
-    Route::get('/source-retry-cut/{id}', [MediaSourceController::class, 'returyCut'])->name('media-source-retry-cut-edit');
-    Route::get('/source-retry-upload/{id}', [MediaSourceController::class, 'retryUpload'])->name('media-source-retry-upload-index');
+    Route::get('/source-retry-download/{id}', [MediaSourceController::class, 'retryDownload'])->name('media-source-retry-download');
+    Route::get('/source-retry-cut/{id}', [MediaSourceController::class, 'returyCut'])->name('media-source-retry-cut');
+    Route::get('/source-retry-upload/{id}', [MediaSourceController::class, 'retryUpload'])->name('media-source-retry-upload');
 
 });
 
