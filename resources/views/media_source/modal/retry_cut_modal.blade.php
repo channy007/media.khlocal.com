@@ -217,7 +217,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary btn-ok">I'm Sure</button>
+                        <button type="submit" class="btn btn-primary btn-ok">Yes</button>
                     </div>
                 </form>
 
