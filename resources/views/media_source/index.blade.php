@@ -174,12 +174,31 @@
             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
         });
         $('#cut-modal .btn-ok').on('click', function(e) {
-
             $.ajax({
                 type: "GET",
                 url: $(this).attr('href'),
                 success: function(data) {
                     $('#cut-modal').modal('toggle');
+                    if (typeof table !== 'undefined') {
+                        table.ajax.reload();
+                    } else {
+                        location.reload(true);
+                    }
+                }
+            });
+            return false;
+        });
+
+        //Upload Operation
+        $('#upload-modal').on('show.bs.modal', function(e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+        });
+        $('#upload-modal .btn-ok').on('click', function(e) {
+            $.ajax({
+                type: "GET",
+                url: $(this).attr('href'),
+                success: function(data) {
+                    $('#upload-modal').modal('toggle');
                     if (typeof table !== 'undefined') {
                         table.ajax.reload();
                     } else {
