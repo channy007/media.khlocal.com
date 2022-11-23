@@ -74,13 +74,12 @@ class MediaProjectController extends Controller
                 $result = $this->generateLongLifeToken($mediaProject);
             }
             $this->updateOrCreateProjectChannelSources($mediaProject, $request);
+
             if (!$result['success']) {
                 DB::rollBack();
             }
             return $result;
         });
-
-        Log::info("================= result: ".json_encode($result));
 
         if (!$result['success']) {
             return redirect()->back()->withErrors($result['errors']);
@@ -113,9 +112,9 @@ class MediaProjectController extends Controller
             );
 
             if ($facebookResponse->successful()) {
-                $result = json_decode($facebookResponse->body());
-                $mediaProject->long_access_token = $result->access_token;
-                $mediaProject->expire_at = Carbon::now()->addDays((int)($result->expires_in / 86400));
+                $facebookResult = json_decode($facebookResponse->body());
+                $mediaProject->long_access_token = $facebookResult->access_token;
+                $mediaProject->expire_at = Carbon::now()->addDays((int)($facebookResult->expires_in / 86400));
                 $mediaProject->created_token_at = Carbon::now();
                 $mediaProject->save();
                 Log::info("============ generat long life token success response: " . $facebookResponse->body());
