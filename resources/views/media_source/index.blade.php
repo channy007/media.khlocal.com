@@ -53,6 +53,7 @@
                         <th scope="col">Flip</th>
                         <th scope="col">Cut Off</th>
                         <th scope="col">Created At</th>
+                        <th scope="col">Error</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,7 +67,7 @@
                             </td>
 
                             <td style="width: 10%;">
-                                <div class="row justify-content-center">
+                                <div class="row justify-content-around">
 
                                     @switch($mediaSource->status)
                                         @case('download_error')
@@ -90,6 +91,7 @@
                                         @break
 
                                         @case('cutted')
+                                        @case('upload_error')
                                             <a data-href="{{ route('media-source-retry-cut', $mediaSource->id) }}"
                                                 data-media="{{ $mediaSource }}"
                                                 class="btn btn-warning btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
@@ -97,16 +99,6 @@
                                                 data-toggle="modal" data-target="#cut-modal">
                                                 <i class="fas fa-cut"></i>
                                             </a>
-                                            <a data-href="{{ route('media-source-retry-upload', $mediaSource->id) }}"
-                                                data-media="{{ $mediaSource }}"
-                                                class="btn btn-info btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
-                                                style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;"
-                                                data-toggle="modal" data-target="#upload-modal">
-                                                <i class="fas fa-upload"></i>
-                                            </a>
-                                        @break
-
-                                        @case('upload_error')
                                             <a data-href="{{ route('media-source-retry-upload', $mediaSource->id) }}"
                                                 data-media="{{ $mediaSource }}"
                                                 class="btn btn-info btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
@@ -137,8 +129,9 @@
                             <td>{{ $mediaSource->segment }}</td>
                             <td>{{ $mediaSource->flip }}</td>
                             <td>{{ $mediaSource->cut_off }}</td>
-                            <td>{{ $mediaSource->created_at ? getDateString($mediaSource->created_at, 'd-M-Y h:i a') : '' }}
-                            </td>
+                            <td>{{ $mediaSource->created_at ? getDateString($mediaSource->created_at, 'd-M-Y h:i a') : '' }}</td>
+                            <td>{{ $mediaSource->error }}</td>
+
                         </tr>
                     @endforeach
                 </tbody>
@@ -179,6 +172,7 @@
                 function(data, status, xhr) {
                     // do something here with response;
                     $('#cut-modal').modal('toggle');
+                    location.reload();
                 }
             );
         });
@@ -226,6 +220,7 @@
                 function(data, status, xhr) {
                     // do something here with response;
                     $('#upload-modal').modal('toggle');
+                    location.reload();
                 }
             );
         });
