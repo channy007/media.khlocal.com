@@ -24,7 +24,8 @@ class MediaSourceController extends Controller
             [
                 'project' => function ($query) {
                     $query->select('id', 'name');
-                }
+                },
+                'channel_source'
             ]
         )->orderBy('id', 'desc')->paginate(10);
 

@@ -20,11 +20,12 @@
                         <th scope="col">Project Name</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
+
                         <th scope="col">Source Name</th>
                         <th scope="col">Source URL</th>
-                        <th scope="col">Source From</th>
-                        <th scope="col">Source Channel</th>
                         <th scope="col">Source Text</th>
+                        <th scope="col">Source Channel</th>
+
                         <th scope="col">Transition</th>
                         <th scope="col">Resolution</th>
                         <th scope="col">Segment Start</th>
@@ -70,6 +71,7 @@
                                         @break
 
                                         @case('cutted')
+                                        @case('upload_error')
                                             <a data-href="{{ route('media-source-retry-upload', $mediaSource->id) }}"
                                                 class="btn btn-info btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
                                                 style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;"
@@ -85,11 +87,12 @@
 
                             <td>{{ $mediaSource->source_name }}</td>
 
-                            <td><a class="link" href="{{ $mediaSource->source_url }}"
-                                    target="__blank">{{ $mediaSource->source_url }}</a></td>
-                            <td>{{ $mediaSource->source_from }}</td>
-                            <td>{{ $mediaSource->source_channel }}</td>
+                            <td>
+                                <a class="link" href="{{ $mediaSource->source_url }}"
+                                    target="__blank">{{ $mediaSource->source_url }}</a>
+                            </td>
                             <td>{{ $mediaSource->source_text }}</td>
+                            <td>{{ optional($mediaSource->channel_source)->name }}</td>
                             <td>{{ $mediaSource->transition }}</td>
                             <td>{{ $mediaSource->resolution }}</td>
                             <td>{{ $mediaSource->seg_start }}</td>
