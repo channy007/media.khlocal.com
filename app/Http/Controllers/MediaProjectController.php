@@ -79,6 +79,9 @@ class MediaProjectController extends Controller
             }
             return $result;
         });
+
+        Log::info("================= result: ".json_encode($result));
+
         if (!$result['success']) {
             return redirect()->back()->withErrors($result['errors']);
         }
@@ -122,8 +125,6 @@ class MediaProjectController extends Controller
                 $result['success'] = false;
                 $result['errors'] = "Facebook generate long token " . json_decode($facebookResponse->body())->error->message;
             }
-
-            return $result;
         } catch (Exception $e) {
             Log::info("============ generat long life token error ============" . $e->getMessage());
             $result['success'] = false;
