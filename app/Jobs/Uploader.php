@@ -46,6 +46,11 @@ class Uploader implements ShouldQueue
             return;
         }
 
+        if(!file_exists($fileName)){
+            $mediaSource->update(['status' => MediaSourceStatus::UPLOAD_ERROR,'error' => 'File cut not found!']);
+            return;
+        }
+
         $shellFile = public_path() . '/shell_scripts/resumable_upload_fb.sh';
         $thumb = $mediaSource->thumb ? public_path('storage') . '/' . $mediaSource->thumb : "";
         $mediaSource->update(['status' => MediaSourceStatus::UPLOADING]);

@@ -30,7 +30,8 @@ class MediaSource extends Model
         'cut_off',
         'tags',
         'path_downloaded',
-        'path_cutted'
+        'path_cutted',
+        'error'
     ];
 
     public function project(){

@@ -57,6 +57,12 @@ class VideoDownloader implements ShouldQueue
             return;
         }
         Log::info("============ download output: " . $process->getOutput());
+
+        if(!file_exists($fileName)){
+            $mediaSource->update(['status' => MediaSourceStatus::DOWNLOAD_ERROR,'error' => 'File download error!']);
+            return;
+        }
+
         $mediaSource->update(
             [
                 'status' => MediaSourceStatus::DOWNLOADED,

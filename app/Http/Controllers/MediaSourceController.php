@@ -94,7 +94,7 @@ class MediaSourceController extends Controller
     }
 
 
-    public function returyCut(Request $request, $mediaSourceId)
+    public function retryCut(Request $request, $mediaSourceId)
     {
         Log::info("===== retry cut =====");
         $mediaSource = MediaSource::whereId($mediaSourceId)->first();

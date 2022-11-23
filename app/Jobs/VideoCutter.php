@@ -44,6 +44,12 @@ class VideoCutter implements ShouldQueue
         $fileProperty = $this->data['fileProperty'];
         $fileName = $fileProperty['path'] . '/' . $fileProperty['originalName'] . $fileProperty['extension'];
         $shellFile = public_path() . '/shell_scripts/ffmpeg_cut.sh';
+
+        if(!file_exists($fileName)){
+            $mediaSource->update(['status' => MediaSourceStatus::CUT_ERROR,'error' => 'File download not found!']);
+            return;
+        }
+
         $mediaSource->update(['status' => MediaSourceStatus::CUTTING]);
 
         $project = MediaProject::whereId($mediaSource->project_id)->first();
