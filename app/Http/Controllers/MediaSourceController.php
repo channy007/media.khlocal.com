@@ -83,7 +83,7 @@ class MediaSourceController extends Controller
     {
         Log::info("===== retry download =====");
 
-        $mediaSource = MediaSource::whereId($mediaSourceId)->first();
+        $mediaSource = MediaSource::whereId($mediaSourceId)->where('status','<>',MediaSourceStatus::DOWNLOADING)->first();
 
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
@@ -103,7 +103,7 @@ class MediaSourceController extends Controller
     public function retryCut(Request $request, $mediaSourceId)
     {
 
-        $mediaSource = MediaSource::whereId($mediaSourceId)->first();
+        $mediaSource = MediaSource::whereId($mediaSourceId)->where('status','<>',MediaSourceStatus::CUTTING)->first();
         $fileStorage = FileStorage::whereMediaSourceId($mediaSource->id)->first();
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
@@ -125,7 +125,7 @@ class MediaSourceController extends Controller
     {
         Log::info("===== retry upload =====");
 
-        $mediaSource = MediaSource::whereId($mediaSourceId)->first();
+        $mediaSource = MediaSource::whereId($mediaSourceId)->where('status','<>',MediaSourceStatus::UPLOADING)->first();
         $fileStorage = FileStorage::whereMediaSourceId($mediaSource->id)->first();
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
