@@ -19,6 +19,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Project Name</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Action</th>
                         <th scope="col">Source Name</th>
                         <th scope="col">Source URL</th>
                         <th scope="col">Source From</th>
@@ -33,8 +34,6 @@
                         <th scope="col">Flip</th>
                         <th scope="col">Cut Off</th>
                         <th scope="col">Created At</th>
-
-
                     </tr>
                 </thead>
                 <tbody>
@@ -43,9 +42,46 @@
                             <td>{{ $count }}</td>
                             <td>{{ optional($mediaSource->project)->name }}</td>
                             <td>{{ $mediaSource->status }}</td>
+                            <td style="width: 10%;">
+                                <div class="row justify-content-center">
+
+                                    @switch($mediaSource->status)
+                                        @case('download_error')
+                                            <a href="{{ route('media-source-retry-download',$mediaSource->id) }}"
+                                                class="btn btn-primary btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
+                                                style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;">
+                                                <i class="fas fa-download"></i>
+                                            </a>
+                                        @break
+
+                                        @case('downloaded')
+                                        @case('cut_error')
+                                            <a href="{{ route('media-source-retry-cut',$mediaSource->id) }}"
+                                                class="btn btn-warning btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
+                                                style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;"
+                                                data-toggle="modal" data-target="#cut-modal">
+                                                <i class="fas fa-cut"></i>
+                                            </a>
+                                        @break
+
+                                        @case('cutted')
+                                            <a href="{{ route('media-source-retry-upload',$mediaSource->id) }}"
+                                                class="btn btn-dark btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
+                                                style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;"
+                                                data-toggle="modal" data-target="#upload-modal">
+                                                <i class="fas fa-upload"></i>
+                                            </a>
+                                        @break
+
+                                        @default
+                                    @endswitch
+                                </div>
+                            </td>
+
                             <td>{{ $mediaSource->source_name }}</td>
-                            
-                            <td><a class="link" href="{{ $mediaSource->source_url }}" target="__blank">{{ $mediaSource->source_url }}</a></td>
+
+                            <td><a class="link" href="{{ $mediaSource->source_url }}"
+                                    target="__blank">{{ $mediaSource->source_url }}</a></td>
                             <td>{{ $mediaSource->source_from }}</td>
                             <td>{{ $mediaSource->source_channel }}</td>
                             <td>{{ $mediaSource->source_text }}</td>
@@ -57,7 +93,8 @@
                             <td>{{ $mediaSource->segment }}</td>
                             <td>{{ $mediaSource->flip }}</td>
                             <td>{{ $mediaSource->cut_off }}</td>
-                            <td>{{ $mediaSource->created_at ? getDateString($mediaSource->created_at, 'd-M-Y h:i a') : '' }}</td>
+                            <td>{{ $mediaSource->created_at ? getDateString($mediaSource->created_at, 'd-M-Y h:i a') : '' }}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -68,6 +105,54 @@
             {!! $datas->appends(request()->except('page'))->links('includes.pagination.custom') !!}
         </div>
     </div>
+
+
+    <!-- Modal Cut -->
+    <div class="modal fade" id="cut-modal" tabindex="-1" role="dialog" aria-labelledby="cut-modal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cut-modal">Do you want to retry to cut this file again?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    The file will be cut soon!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">I'm Sure</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Cut --}}
+
+    <!-- Modal Upload -->
+    <div class="modal fade" id="upload-modal" tabindex="-1" role="dialog" aria-labelledby="upload-modal"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="upload-modal">Do you want to upload this file?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    The file will be upload soon!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">I'm Sure</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Upload --}}
+
+
 @stop
 
 @section('scripts')

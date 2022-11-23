@@ -43,13 +43,13 @@ class VideoDownloader implements ShouldQueue
 
         $shellFile = public_path() . '/shell_scripts/youtube_download.sh';
 
-        $fileName = $fileProperty['path'] .'/'. $fileProperty['originalName'] . $fileProperty['extension'];
+        $fileName = $fileProperty['path'] . '/' . $fileProperty['originalName'] . $fileProperty['extension'];
         $mediaSource->update(['status' => MediaSourceStatus::DOWNLOADING]);
 
         $process = new Process(['bash', $shellFile, $mediaSource->source_url, $fileName]);
         $process->setTimeout(10800);
         $process->run();
-        
+
         // executes after the command finishes
         if (!$process->isSuccessful()) {
             $mediaSource->update(['status' => MediaSourceStatus::DOWNLOAD_ERROR]);
@@ -57,7 +57,12 @@ class VideoDownloader implements ShouldQueue
             return;
         }
         Log::info("============ download output: " . $process->getOutput());
-        $mediaSource->update(['status' => MediaSourceStatus::DOWNLOADED]);
+        $mediaSource->update(
+            [
+                'status' => MediaSourceStatus::DOWNLOADED,
+                'path_downloaded' => $fileName
+            ]
+        );
         dispatch(new VideoCutter(
             [
                 'mediaSource' => $mediaSource,
@@ -69,7 +74,7 @@ class VideoDownloader implements ShouldQueue
     private function prepareFileProperties($mediaSource)
     {
         $fileProperty = [
-            'path' => public_path('storage').'/videos',
+            'path' => public_path('storage') . '/videos',
             'originalName' => Str::slug($mediaSource->source_name),
             'extension' => '.mp4',
             'cuttedFileName' => Str::slug($mediaSource->source_name) . '_cut'

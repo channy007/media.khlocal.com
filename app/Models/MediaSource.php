@@ -28,7 +28,9 @@ class MediaSource extends Model
         'thumb',
         'flip',
         'cut_off',
-        'tags'
+        'tags',
+        'path_downloaded',
+        'path_cutted'
     ];
 
     public function project(){

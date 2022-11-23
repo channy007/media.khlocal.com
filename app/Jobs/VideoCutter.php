@@ -66,7 +66,7 @@ class VideoCutter implements ShouldQueue
                 $mediaSource->flip ?? "",
                 $mediaSource->resolution,
                 $projectName,
-                $mediaSource->cut_off??0
+                $mediaSource->cut_off ?? 0
             ]
         );
 
@@ -78,12 +78,17 @@ class VideoCutter implements ShouldQueue
             throw new ProcessFailedException($process);
             return;
         }
-        $mediaSource->update(['status' => MediaSourceStatus::CUT]);
+        $mediaSource->update(
+            [
+                'status' => MediaSourceStatus::CUT,
+                'path_cutted' => $fileProperty['path'] . '/' . $fileProperty['cuttedFileName'] . $fileProperty['extension']
+            ]
+        );
 
-        dispatch(new Uploader([
-            'mediaSource' => $mediaSource,
-            'fileProperty' => $fileProperty
-        ]))->onQueue(QueueName::UPLOADER)->delay(2);
+        // dispatch(new Uploader([
+        //     'mediaSource' => $mediaSource,
+        //     'fileProperty' => $fileProperty
+        // ]))->onQueue(QueueName::UPLOADER)->delay(2);
 
         Log::info("============ video cutter output: " . $process->getOutput());
     }
