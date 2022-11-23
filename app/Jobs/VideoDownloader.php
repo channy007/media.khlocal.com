@@ -52,7 +52,7 @@ class VideoDownloader implements ShouldQueue
         $process = new Process(['bash', $shellFile, $mediaSource->source_url, $fileName]);
         $process->setTimeout(10800);
         $process->run();
-        
+
         // executes after the command finishes
         if (!$process->isSuccessful()) {
             $mediaSource->update(['status' => MediaSourceStatus::DOWNLOAD_ERROR, 'error' => 'File download error!']);
@@ -84,6 +84,7 @@ class VideoDownloader implements ShouldQueue
         if (!$fileStorage) {
             $fileStorage = new FileStorage();
         }
+        $fileStorage->media_source_id = $mediaSource->id;
         $fileStorage->name = slug($mediaSource->source_name, 50);
         $fileStorage->name_cutted = $fileStorage->name . '_cut';
         $fileStorage->extension = FileExtension::MP4;
