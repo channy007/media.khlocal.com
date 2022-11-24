@@ -21,7 +21,7 @@
                         <div class="containerImg" style="width: 100%;height:100%;">
                             <img class="img-thumb" src="{{ asset('images/default_image.png') }}"
                                 style="width: 100%;height: 100%;object-fit: cover" />
-                            <input name="thumbnail" type='file' class="input-file" style="display: none" />
+                            <input name="thumbnail" type='file' class="input-file" style="display: none" accept=".jpeg,.png"/>
                         </div>
 
                     </div>
