@@ -25,7 +25,7 @@
                 <tbody>
                     @foreach ($datas as $count => $application)
                         <tr>
-                            <td>{{ $count }}</td>
+                            <td>{{ $count + 1 }}</td>
                             <td>{{ $application->name }}</td>
                             <td>{{ $application->app_id }}</td>
                             <td class="hidetext">{{ $application->client_secret }}</td>

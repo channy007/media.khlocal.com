@@ -58,7 +58,7 @@
                 <tbody>
                     @foreach ($datas as $count => $mediaSource)
                         <tr>
-                            <td>{{ $count }}</td>
+                            <td>{{ $count + 1 }}</td>
                             <td>{{ optional($mediaSource->project)->name }}</td>
                             <td>
                                 <span class="badge {{ getMediaStatusClassBadge($mediaSource->status) }}">
@@ -88,7 +88,7 @@
                                                 <i class="fas fa-cut"></i>
                                             </a>
                                         @break
-                                        
+
                                         @case('cutted')
                                         @case('upload_error')
                                             <a data-href="{{ route('media-source-retry-cut', $mediaSource->id) }}"
@@ -99,12 +99,13 @@
                                                 <i class="fas fa-cut"></i>
                                             </a>
 
-                                            <a href="{{ route('media-source-view-video-cutted', $mediaSource->id) }}" target="__blank"
+                                            <a href="{{ route('media-source-view-video-cutted', $mediaSource->id) }}"
+                                                target="__blank"
                                                 class="btn btn-light btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
                                                 style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;">
                                                 <i class="fas fa-play"></i>
                                             </a>
-                                            
+
                                             <a data-href="{{ route('media-source-retry-upload', $mediaSource->id) }}"
                                                 data-media="{{ $mediaSource }}"
                                                 class="btn btn-info btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
@@ -134,7 +135,8 @@
                             <td>{{ $mediaSource->seg_gap }}</td>
                             <td>{{ $mediaSource->flip }}</td>
                             <td>{{ $mediaSource->cut_off }}</td>
-                            <td>{{ $mediaSource->created_at ? getDateString($mediaSource->created_at, 'd-M-Y h:i a') : '' }}</td>
+                            <td>{{ $mediaSource->created_at ? getDateString($mediaSource->created_at, 'd-M-Y h:i a') : '' }}
+                            </td>
                             <td>{{ $mediaSource->error }}</td>
 
                         </tr>
@@ -163,6 +165,7 @@
                 searchBtn.click();
             }
         }
+
         function selectChange() {
             var searchBtn = document.getElementById('searchBtn');
             searchBtn.click();
@@ -206,7 +209,7 @@
                     $(this).prop("selected", true);
                 }
             });
-            
+
             $(this).find("#cut-off option").each(function() {
                 if ($(this).val() == mediaSource.cut_off) { // EDITED THIS LINE
                     $(this).prop("selected", true);

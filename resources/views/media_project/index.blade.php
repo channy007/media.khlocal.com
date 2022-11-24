@@ -30,7 +30,7 @@
                 <tbody>
                     @foreach ($datas as $count => $mediaProject)
                         <tr>
-                            <td>{{ $count }}</td>
+                            <td>{{ $count + 1 }}</td>
                             <td>{{ optional($mediaProject->application)->name }}</td>
                             <td>{{ $mediaProject->resolution }}</td>
                             <td>{{ ucfirst($mediaProject->channel) }}</td>

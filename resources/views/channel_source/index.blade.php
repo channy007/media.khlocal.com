@@ -25,7 +25,7 @@
                 <tbody>
                     @foreach ($datas as $count => $channelSource)
                         <tr>
-                            <td>{{ $count }}</td>
+                            <td>{{ $count + 1 }}</td>
                             <td>{{ ucfirst($channelSource->channel) }}</td>
                             <td>{{ $channelSource->name }}</td>
                             <td><a class="link" href="{{ $channelSource->url }}" target="__blank">{{ $channelSource->url }}</a></td>
