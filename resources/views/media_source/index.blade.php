@@ -88,7 +88,7 @@
                                                 <i class="fas fa-cut"></i>
                                             </a>
                                         @break
-
+                                        
                                         @case('cutted')
                                         @case('upload_error')
                                             <a data-href="{{ route('media-source-retry-cut', $mediaSource->id) }}"
@@ -98,6 +98,13 @@
                                                 data-toggle="modal" data-target="#cut-modal">
                                                 <i class="fas fa-cut"></i>
                                             </a>
+
+                                            <a href="{{ route('media-source-view-video-cutted', $mediaSource->id) }}" target="__blank"
+                                                class="btn btn-light btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
+                                                style="height: 25px;width: 25px; text-align: center;display: flex;justify-content: center;">
+                                                <i class="fas fa-play"></i>
+                                            </a>
+                                            
                                             <a data-href="{{ route('media-source-retry-upload', $mediaSource->id) }}"
                                                 data-media="{{ $mediaSource }}"
                                                 class="btn btn-info btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"

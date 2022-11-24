@@ -139,4 +139,9 @@ class MediaSourceController extends Controller
         return redirect()->route('media-source-index')
             ->with('success', 'Record start uploading.');
     }
+
+    public function viewVideoCutted(Request $request,$mediaSourceId){
+        $data = FileStorage::whereMediaSourceId($mediaSourceId)->first();
+        return view('media_source.video.display_video',compact('data'));
+    }
 }
