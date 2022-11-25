@@ -276,6 +276,13 @@
 
                 </div>
 
+
+                <div class="form-group col-md-4">
+                    <label for="cut_off_side">Custom Crop</label>
+                    <input type="text" class="form-control" name="custom_crop" placeholder="Custom Crop"
+                    id="custom-crop">
+                </div>
+
             </div>
 
             <br>
