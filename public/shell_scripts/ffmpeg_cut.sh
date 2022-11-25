@@ -1,5 +1,5 @@
 #!/bin/bash
-#usage: ./ffmpeg.sh filename(1) transition(2) seg_start(3) seg_length(4) seg_gap(5) flip(6) resolution(7) project-name(8) cut_off(9)
+#usage: ./ffmpeg.sh filename(1) transition(2) seg_start(3) seg_length(4) seg_gap(5) flip(6) resolution(7) project-name(8) cut_off(9) cut_off_side(10)
 
 file="$1"
 transition="$2"
@@ -13,6 +13,7 @@ flip="$6"
 resolution="$7"
 project_name="$8"
 cutoff="$9"
+cutoff_side="$10"
 ##### 
 if [[ -z "$flip" ]];
 then
@@ -39,25 +40,26 @@ fi
 IFS=":" read -a resolution <<< $resolution
 if [[ $width -gt $height ]]; then
         if [[ $width -gt $(( ($height-$height*$cutoff/10)*${resolution[0]}/${resolution[1]} )) ]]; then
-                width=$(( ($height-$height*$cutoff/10)*${resolution[0]}/${resolution[1]} ))
-                height=$(( $height-$height*$cutoff/10 ))
+                w=$(( ($height-$height*$cutoff/10)*${resolution[0]}/${resolution[1]} ))
+                h=$(( $height-$height*$cutoff/10 ))
         else
-                height=$(( $width*${resolution[1]}/${resolution[0]} ))
+                h=$(( $width*${resolution[1]}/${resolution[0]} ))
         fi
 else
         if [[ $height -gt $(( ($width-$width*$cutoff/10)*${resolution[1]}/${resolution[0]} )) ]]; then
-                height=$(( ($width-$width*$cutoff/10)*${resolution[1]}/${resolution[0]} ))
-                width=$(( $width-$width*$cutoff/10 ))
+                h=$(( ($width-$width*$cutoff/10)*${resolution[1]}/${resolution[0]} ))
+                w=$(( $width-$width*$cutoff/10 ))
         else
-                width=$(( $height*${resolution[1]}/${resolution[0]} ))
+                w=$(( $height*${resolution[1]}/${resolution[0]} ))
         fi
 fi
-
-echo ",crop=${width}:${height}"
-echo ",scale=${scale}"
-
-video_crop="crop=${width}:${height},scale=${scale}"
-
+if [[ $cutoff_side -eq 1 ]]; then
+        video_crop="crop=${w}:${h}:0:0,scale=${scale}"
+elif [[ $cutoff_side -eq 2 ]]; then
+        video_crop="crop=${w}:${h}:$(($width-$w)):$(($height-$h)),scale=${scale}"
+else
+        video_crop="crop=${w}:${h},scale=${scale}"
+fi
 #################33
 
 
