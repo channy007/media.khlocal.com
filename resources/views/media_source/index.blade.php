@@ -243,7 +243,7 @@
                     $(this).prop("selected", true);
                 }
             });
-            $(this).find('#custom_crop').val(mediaSource.custom_crop);
+            $(this).find('#custom-crop').val(mediaSource.custom_crop);
 
 
         });
