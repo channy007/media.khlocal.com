@@ -21,7 +21,7 @@
         </video>
     </div> --}}
 
-    <div class="container" style="display: flex;justify-content: center;">
+    <div class="container" style="display: flex;justify-content: center; max-width: 100%;max-height: 100%;">
         <video controls="" autoplay="" name="media">
             <source src="{{ $data->play_url.'/'.$data->name_cutted.'.'.$data->extension }}"
                 type="video/mp4">
