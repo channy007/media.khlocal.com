@@ -1,14 +1,17 @@
 <ul class="list-unstyled components navbar-nav">
-    <li @if(request()->route()->getName() == 'app-index') class="active" @endif>
+    @php
+        $routeName = request()->route()->getName();
+    @endphp
+    <li @if(in_array($routeName,['app-index','app-create','app-edit'])) class="active" @endif>
         <a href="{{ route('app-index') }}">Application</a>
     </li>
-    <li @if(request()->route()->getName() == 'media-project-index') class="active" @endif>
+    <li @if(in_array($routeName,['media-project-index','media-project-create','media-project-edit'])) class="active" @endif>
         <a href="{{ route('media-project-index') }}">Media Project</a>
     </li>
-    <li @if(request()->route()->getName() == 'channel-source-index') class="active" @endif>
+    <li @if(in_array($routeName,['channel-source-index','channel-source-create','channel-source-edit'])) class="active" @endif>
         <a href="{{ route('channel-source-index') }}">Channel Source</a>
     </li>
-    <li @if(request()->route()->getName() == 'media-source-index') class="active" @endif>
+    <li @if(in_array($routeName,['media-source-index','media-source-create','media-source-edit'])) class="active" @endif>
         <a href="{{ route('media-source-index') }}">Media Source</a>
     </li>
     <li @if(request()->route()->getName() == 'about') class="active" @endif>
