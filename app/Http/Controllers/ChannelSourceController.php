@@ -6,6 +6,7 @@ use App\Models\ChannelSource;
 use App\Models\ProjectChannelSource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class ChannelSourceController extends Controller
 {
@@ -38,6 +39,11 @@ class ChannelSourceController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), ['url' => 'unique:channel_sources,url,'.$id]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+
         $channelSource = ChannelSource::whereId($id)->first();
         $user = auth()->user();
         if ($channelSource) {
@@ -57,6 +63,12 @@ class ChannelSourceController extends Controller
     {
         $user = auth()->user();
         $request['created_by_id'] = optional($user)->id;
+
+        $validator = Validator::make($request->all(), ['url' => 'unique:channel_sources,url']);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+        
         $channelSource = ChannelSource::create($request->all());
         return redirect()->route('channel-source-index')
             ->with('success', 'Create successfully.');

@@ -202,7 +202,7 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label for="flip">Cut Off</label>
+                                <label for="cut_off">Cut Off</label>
                                 <select name="cut_off" class="form-control" id="cut-off">
                                     @foreach (range(0, 10) as $item)
                                         <option value="{{ $item }}">{{ $item }}</option>
