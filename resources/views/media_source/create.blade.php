@@ -21,7 +21,8 @@
                         <div class="containerImg" style="width: 100%;height:100%;">
                             <img class="img-thumb" src="{{ asset('images/default_image.png') }}"
                                 style="width: 100%;height: 100%;object-fit: cover" />
-                            <input name="thumbnail" type='file' class="input-file" style="display: none" accept=".jpeg,.png"/>
+                            <input name="thumbnail" type='file' class="input-file" style="display: none"
+                                accept=".jpeg,.png" />
                         </div>
 
                     </div>
@@ -41,7 +42,8 @@
 
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Channel Source *</label>
-                            <select name="channel_source_id" class="form-control source-from" required>
+                            <select name="channel_source_id" class="form-control source-from" onchange="channelSourceChange(this)" required
+                                id="channel-source-id">
                             </select>
                         </div>
                         <div class="form-group col-md-6">
@@ -234,8 +236,8 @@
 
                 <div class="form-group col-md-4">
                     <label for="seg_length">Segment Length *</label>
-                    <input type="number" class="form-control" name="seg_length" placeholder="Segment Length"
-                        required value="90">
+                    <input type="number" class="form-control" name="seg_length" placeholder="Segment Length" required
+                        value="90">
 
                 </div>
 
@@ -278,9 +280,9 @@
 
 
                 <div class="form-group col-md-4">
-                    <label for="cut_off_side">Custom Crop</label>
+                    <label for="custom_crop">Custom Crop</label>
                     <input type="text" class="form-control" name="custom_crop" placeholder="Custom Crop"
-                    id="custom-crop">
+                        id="custom-crop">
                 </div>
 
             </div>
@@ -319,12 +321,21 @@
             var sourceFromOptions = `<option value="" selected>{{ __('Choose source from..') }}</option>`;
             selectedProject.channel_sources.forEach(channelSource => {
                 sourceFromOptions +=
-                    `<option value="${channelSource.channel_source.id}">${channelSource.channel_source.name}</option>`;
+                    `<option value="${channelSource.channel_source.id}" data-custom_crop="${channelSource.channel_source.custom_crop}">${channelSource.channel_source.name}</option>`;
             });
             $('.source-from').html(sourceFromOptions);
 
             $('#tags').val(selectedProject.tags)
         }
+
+
+
+        function channelSourceChange(obj) {
+            var customCrop = obj.options[obj.selectedIndex].getAttribute('data-custom_crop');
+            $('#custom-crop').val(customCrop)
+        }
+
+
 
         function readURL(input) {
             if (input.files && input.files[0]) {

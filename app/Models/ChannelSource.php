@@ -15,7 +15,8 @@ class ChannelSource extends Model
         'app_id',
         'url',
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
+        'custom_crop'
     ];
 
 

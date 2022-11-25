@@ -33,6 +33,12 @@
                     <input type="text" class="form-control" name="url" value="{{ $data->url }}" placeholder="URL" required>
                 </div>
 
+                <div class="form-group col-md-4">
+                    <label for="custom_crop">Custom Crop</label>
+                    <input type="text" class="form-control" name="custom_crop" placeholder="Custom Crop" value="{{ $data->custom_crop }}"
+                    id="custom-crop">
+                </div>
+
             </div>
             
             <br>
