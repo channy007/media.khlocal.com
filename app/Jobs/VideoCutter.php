@@ -66,7 +66,8 @@ class VideoCutter implements ShouldQueue
                 $mediaSource->resolution,
                 $projectName,
                 $mediaSource->cut_off ?? 0,
-                $mediaSource->cut_off_side ?? 0
+                $mediaSource->cut_off_side ?? 0,
+                $mediaSource->custom_crop ?? ""
             ]
         );
 
