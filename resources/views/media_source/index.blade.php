@@ -136,7 +136,7 @@
                             <td>{{ $mediaSource->seg_gap }}</td>
                             <td>{{ $mediaSource->flip }}</td>
                             <td>{{ $mediaSource->cut_off }}</td>
-                            <td>{{ $mediaSource->cut_off_side = 0 ? 'Middle/Center': ($mediaSource->cut_off_side = 1 ? 'Left/Top' : 'Right/Bottom') }}</td>
+                            <td>{{ $mediaSource->cut_off_side == 0 ? 'Middle/Center': ($mediaSource->cut_off_side == 1 ? 'Left/Top' : 'Right/Bottom') }}</td>
                             <td>{{ $mediaSource->created_at ? getDateString($mediaSource->created_at, 'd-M-Y h:i a') : '' }}
                             </td>
                             <td>{{ $mediaSource->error }}</td>
