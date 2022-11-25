@@ -150,5 +150,10 @@ class MediaSourceController extends Controller
         return view('media_source.video.display_video_downloaded',compact('data'));
     }
 
+    public function viewVideo(Request $request,$mediaSourceId){
+        $data = FileStorage::whereMediaSourceId($mediaSourceId)->first();
+        return view('media_source.video.display_video',compact('data'));
+    }
+
     
 }

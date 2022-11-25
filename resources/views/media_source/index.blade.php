@@ -125,11 +125,10 @@
                                 @switch($mediaSource->status)
                                     @case('downloaded')
                                     @case('cut_error')
-
                                     @case('cutted')
                                     @case('upload_error')
                                         <a class="link"
-                                            href="{{ route('media-source-view-video-downloaded', $mediaSource->id) }}">
+                                            href="{{ route('media-source-view-video', $mediaSource->id) }}">
                                             {{ $mediaSource->source_name }}
                                         </a>
                                     @break

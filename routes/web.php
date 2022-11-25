@@ -59,6 +59,8 @@ Route::middleware(['isAuthenticated'])->group(function () {
 
     Route::get('/source-view-video-cutted/{id}', [MediaSourceController::class, 'viewVideoCutted'])->name('media-source-view-video-cutted');
     Route::get('/source-view-video-downloaded/{id}', [MediaSourceController::class, 'viewVideoDownloaded'])->name('media-source-view-video-downloaded');
+    Route::get('/source-view-video/{id}', [MediaSourceController::class, 'viewVideo'])->name('media-source-view-video');
+
 });
 
 

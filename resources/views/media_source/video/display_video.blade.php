@@ -25,7 +25,7 @@
 
     <div class="col-container">
 
-        <div class="col col-lg-6">
+        <div class="col col-lg-6 col-md-6 col-sm-12">
             <div class="row" style="display: flex;justify-content: center">
                 <h2>VIDEO DOWNLOADED</h2>
                 <video controls="" autoplay="" name="media" width="100%" height="100%">
@@ -35,7 +35,7 @@
             
         </div>
 
-        <div class="col col-lg-6">
+        <div class="col col-lg-6 col-md-6 col-sm-12">
             <div class="row" style="display: flex;justify-content: center">
                 <h2>VIDEO CUTTED</h2>
 
