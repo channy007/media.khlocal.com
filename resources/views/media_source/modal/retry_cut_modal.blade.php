@@ -213,7 +213,7 @@
 
                             <div class="form-group col-md-4">
                                 <label for="cut_off_side">Cut Off Side</label>
-                                <select name="cut_off" class="form-control" id="cut-off-side">
+                                <select name="cut_off_side" class="form-control" id="cut-off-side">
                                     <option value="0">Middle/Center</option>
                                     <option value="1">Left/Top</option>
                                     <option value="2">Right/Bottom</option>
