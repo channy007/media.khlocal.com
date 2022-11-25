@@ -30,8 +30,6 @@ class MediaSource extends Model
         'cut_off',
         'cut_off_side',
         'tags',
-        'path_downloaded',
-        'path_cutted',
         'error'
     ];
 
