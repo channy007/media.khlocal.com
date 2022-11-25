@@ -173,20 +173,20 @@
 
                             <div class="form-group col-md-4">
                                 <label for="seg_start">Segment Start *</label>
-                                <input type="number" class="form-control" name="seg_start" placeholder="Segment Start" id="seg_start"
+                                <input type="number" class="form-control" name="seg_start" placeholder="Segment Start" id="seg-start"
                                     required value="5">
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label for="seg_length">Segment Length *</label>
-                                <input type="number" class="form-control" name="seg_length" id="seg_length"
+                                <input type="number" class="form-control" name="seg_length" id="seg-length"
                                     placeholder="Segment Length" required value="90">
 
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label for="seg_gap">Segment Gap *</label>
-                                <input type="number" class="form-control" name="seg_gap" placeholder="Segment Gap" id="seg_gap"
+                                <input type="number" class="form-control" name="seg_gap" placeholder="Segment Gap" id="seg-gap"
                                     required value="25">
 
                             </div>
@@ -203,13 +203,24 @@
 
                             <div class="form-group col-md-4">
                                 <label for="flip">Cut Off</label>
-                                <select name="cut_off" class="form-control" id="cut_off">
+                                <select name="cut_off" class="form-control" id="cut-off">
                                     <option value="0" selected>Choose cut off..</option>
                                     @foreach (range(1, 10) as $item)
                                         <option value="{{ $item }}">{{ $item }}</option>
                                     @endforeach
                                 </select>
 
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="cut_off_side">Cut Off Side</label>
+                                <select name="cut_off" class="form-control" id="cut-off-side">
+                                    <option value="0" selected>Choose cut off Side..</option>
+                                    <option value="0">Middle or Center</option>
+                                    <option value="1">Left or Top</option>
+                                    <option value="2">Right or Bottom</option>
+                                </select>
+            
                             </div>
 
                         </div>

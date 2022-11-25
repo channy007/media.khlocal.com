@@ -28,6 +28,7 @@ class MediaSource extends Model
         'thumb',
         'flip',
         'cut_off',
+        'cut_off_side',
         'tags',
         'path_downloaded',
         'path_cutted',

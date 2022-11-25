@@ -216,6 +216,14 @@
                 }
             });
 
+            $(this).find("#cut-off-side option").each(function() {
+                if ($(this).val() == mediaSource.cut_off_side) { // EDITED THIS LINE
+                    $(this).prop("selected", true);
+                }
+            });
+
+            
+
         });
         //##### END CUT #####
 
