@@ -269,9 +269,9 @@
                 <div class="form-group col-md-4">
                     <label for="cut_off_side">Cut Off Side</label>
                     <select name="cut_off" class="form-control" id="resolution">
-                        <option value="0">Middle or Center</option>
-                        <option value="1">Left or Top</option>
-                        <option value="2">Right or Bottom</option>
+                        <option value="0">Middle/Center</option>
+                        <option value="1">Left/Top</option>
+                        <option value="2">Right/Bottom</option>
                     </select>
 
                 </div>
