@@ -26,7 +26,7 @@
     <div class="col-container">
 
         <div class="col col-lg-6 col-md-6 col-sm-12">
-            <div class="row" style="display: flex;justify-content: center">
+            <div class="row" style="display: flex;justify-content: center;max-width: 770px;max-height: 480px;">
                 <h2>VIDEO DOWNLOADED</h2>
                 <video controls="" autoplay="" name="media" width="100%" height="100%">
                     <source src="{{ $data->play_url . '/' . $data->name . '.' . $data->extension }}" type="video/mp4">
@@ -36,7 +36,7 @@
         </div>
 
         <div class="col col-lg-6 col-md-6 col-sm-12">
-            <div class="row" style="display: flex;justify-content: center">
+            <div class="row" style="display: flex;justify-content: center;max-width: 770px;max-height: 480px;">
                 <h2>VIDEO CUTTED</h2>
 
                 <video controls="" autoplay="" name="media" width="100%" height="100%" >
