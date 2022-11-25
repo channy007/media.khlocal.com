@@ -204,8 +204,7 @@
                             <div class="form-group col-md-4">
                                 <label for="flip">Cut Off</label>
                                 <select name="cut_off" class="form-control" id="cut-off">
-                                    <option value="0" selected>Choose cut off..</option>
-                                    @foreach (range(1, 10) as $item)
+                                    @foreach (range(0, 10) as $item)
                                         <option value="{{ $item }}">{{ $item }}</option>
                                     @endforeach
                                 </select>
@@ -215,7 +214,6 @@
                             <div class="form-group col-md-4">
                                 <label for="cut_off_side">Cut Off Side</label>
                                 <select name="cut_off" class="form-control" id="cut-off-side">
-                                    <option value="0" selected>Choose cut off Side..</option>
                                     <option value="0">Middle or Center</option>
                                     <option value="1">Left or Top</option>
                                     <option value="2">Right or Bottom</option>

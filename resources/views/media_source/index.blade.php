@@ -51,6 +51,7 @@
                         <th scope="col">Segment Gap</th>
                         <th scope="col">Flip</th>
                         <th scope="col">Cut Off</th>
+                        <th scope="col">Cut Off Side</th>
                         <th scope="col">Created At</th>
                         <th scope="col">Error</th>
                     </tr>
@@ -135,6 +136,7 @@
                             <td>{{ $mediaSource->seg_gap }}</td>
                             <td>{{ $mediaSource->flip }}</td>
                             <td>{{ $mediaSource->cut_off }}</td>
+                            <td>{{ $mediaSource->cut_off_side = 0 ? 'Middle or Center': ($mediaSource->cut_off_side = 1 ? 'Left or Top' : 'Right or Bottom') }}</td>
                             <td>{{ $mediaSource->created_at ? getDateString($mediaSource->created_at, 'd-M-Y h:i a') : '' }}
                             </td>
                             <td>{{ $mediaSource->error }}</td>
