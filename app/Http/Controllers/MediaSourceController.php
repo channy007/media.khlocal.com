@@ -142,6 +142,13 @@ class MediaSourceController extends Controller
 
     public function viewVideoCutted(Request $request,$mediaSourceId){
         $data = FileStorage::whereMediaSourceId($mediaSourceId)->first();
-        return view('media_source.video.display_video',compact('data'));
+        return view('media_source.video.display_video_cutted',compact('data'));
     }
+
+    public function viewVideoDownloaded(Request $request,$mediaSourceId){
+        $data = FileStorage::whereMediaSourceId($mediaSourceId)->first();
+        return view('media_source.video.display_video_downloaded',compact('data'));
+    }
+
+    
 }

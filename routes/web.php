@@ -58,7 +58,7 @@ Route::middleware(['isAuthenticated'])->group(function () {
     Route::post('/source-retry-upload/{id}', [MediaSourceController::class, 'retryUpload'])->name('media-source-retry-upload');
 
     Route::get('/source-view-video-cutted/{id}', [MediaSourceController::class, 'viewVideoCutted'])->name('media-source-view-video-cutted');
-
+    Route::get('/source-view-video-downloaded/{id}', [MediaSourceController::class, 'viewVideoDownloaded'])->name('media-source-view-video-downloaded');
 });
 
 
