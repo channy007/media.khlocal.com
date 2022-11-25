@@ -203,7 +203,7 @@
                 }
             });
 
-            $(this).find('#seg-start').val(mediaSource.segment_start);
+            $(this).find('#seg-start').val(mediaSource.seg_start);
             $(this).find('#seg-length').val(mediaSource.seg_length);
             $(this).find('#seg-gap').val(mediaSource.seg_gap);
             $(this).find("#flip option").each(function() {
