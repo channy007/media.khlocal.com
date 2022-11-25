@@ -19,6 +19,8 @@
                         <th scope="col">Channel</th>
                         <th scope="col">Name</th>
                         <th scope="col">URL</th>
+                        <th scope="col">Custom Crop</th>
+
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -29,6 +31,8 @@
                             <td>{{ ucfirst($channelSource->channel) }}</td>
                             <td>{{ $channelSource->name }}</td>
                             <td><a class="link" href="{{ $channelSource->url }}" target="__blank">{{ $channelSource->url }}</a></td>
+                            <td>{{ $channelSource->custom_crop }}</td>
+
                             <td style="text-align: center">
                                 <a href="{{ route('channel-source-edit', $channelSource->id) }}"
                                     class="btn btn-primary btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
@@ -36,7 +40,6 @@
                                     <i class="far fa-edit"></i>
                                 </a>
                             </td>
-
                         </tr>
                     @endforeach
                 </tbody>

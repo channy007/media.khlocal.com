@@ -52,6 +52,8 @@
                         <th scope="col">Flip</th>
                         <th scope="col">Cut Off</th>
                         <th scope="col">Cut Off Side</th>
+                        <th scope="col">Custom Crop</th>
+
                         <th scope="col">Created At</th>
                         <th scope="col">Error</th>
                     </tr>
@@ -153,6 +155,8 @@
                             <td>{{ $mediaSource->cut_off }}</td>
                             <td>{{ $mediaSource->cut_off_side == 0 ? 'Middle/Center' : ($mediaSource->cut_off_side == 1 ? 'Left/Top' : 'Right/Bottom') }}
                             </td>
+                            <td>{{ $mediaSource->custom_crop }}</td>
+
                             <td>{{ $mediaSource->created_at ? getDateString($mediaSource->created_at, 'd-M-Y h:i a') : '' }}
                             </td>
                             <td>{{ $mediaSource->error }}</td>
