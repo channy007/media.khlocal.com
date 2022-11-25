@@ -70,8 +70,7 @@ class VideoDownloader implements ShouldQueue
 
         $mediaSource->update(
             [
-                'status' => MediaSourceStatus::DOWNLOADED,
-                'path_downloaded' => $fileName
+                'status' => MediaSourceStatus::DOWNLOADED
             ]
         );
 
