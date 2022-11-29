@@ -55,7 +55,9 @@ class UserController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         }
-
+        if (isset($request['password'])) {
+            $request['password'] = bcrypt($request['password']);
+        }
         $user = User::create($request->all());
         $this->updateOrCreateUserProjects($user, $request);
 

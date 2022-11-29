@@ -37,7 +37,7 @@
             <!-- Page Content Holder -->
             <div id="content" style="max-width: 100%;min-width: 70%;width: 100%;padding: 0px;margin: 0px;">
 
-                <nav class="navbar navbar-default" style="margin-bottom: 0px;">
+                <nav class="navbar navbar-default justify-content-between" style="margin-bottom: 0px;">
                     <div class="container-fluid">
 
                         <div class="navbar-header">
@@ -46,7 +46,13 @@
                                 <i class="fas fa-bars"></i>
                             </button>
                         </div>
+
+                        <form class="form-inline">
+                            <span>Login as <a class="link" href="javascript:;"><b>{{ optional(auth()->user())->name }}</b></a></span>
+                        </form>
+
                     </div>
+
                 </nav>
 
                 <!-- Main Content Area Start -->

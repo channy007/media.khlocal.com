@@ -30,7 +30,7 @@
 
                 <div class="form-group col-md-4">
                     <label for="inputPassword4">Username *</label>
-                    <input type="text" class="form-control" name="username" placeholder="App ID">
+                    <input type="text" class="form-control" name="username" placeholder="Username">
                 </div>
 
                 <div class="form-group col-md-4">
@@ -48,7 +48,7 @@
 
                 <div class="form-group col-md-4">
                     <label for="inputPassword4">Email</label>
-                    <input type="text" class="form-control" name="email" placeholder="App ID">
+                    <input type="text" class="form-control" name="email" placeholder="Email">
                 </div>
 
                
