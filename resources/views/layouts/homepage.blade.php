@@ -15,6 +15,9 @@
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    {{-- Select 2 --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     @yield('style')
 </head>
 
@@ -28,7 +31,7 @@
                     <h3>MEDIA KH LOCAL</h3>
                 </div>
                 @include('includes.roles.admin')
-                
+
             </nav>
 
             <!-- Page Content Holder -->
@@ -58,6 +61,8 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"></script>
 
+    {{-- Select 2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     {{-- <script src="{{ asset('js/tag-it.js') }}"></script> --}}
 
 

@@ -16,6 +16,18 @@ use Illuminate\Support\Facades\Validator;
 
 class MediaProjectController extends Controller
 {
+
+    public function listMediaProjects(Request $request)
+    {
+        $search = $request['search'];
+        $mediaProject = MediaProject::query();
+        $mediaProject->when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        });
+        return response(['data' => $mediaProject->limit(10)->get()]);
+    }
+
+
     public function index(Request $request)
     {
         $datas = MediaProject::with('application', 'channel_sources.channel_source')->paginate(10);

@@ -5,6 +5,7 @@ use App\Http\Controllers\ChannelSourceController;
 use App\Http\Controllers\MediaProjectController;
 use App\Http\Controllers\MediaSourceController;
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,7 @@ Route::middleware(['isAuthenticated'])->group(function () {
     Route::post('/project/update/{id}', [MediaProjectController::class, 'update'])->name('media-project-update');
     Route::get('/project/create', [MediaProjectController::class, 'create'])->name('media-project-create');
     Route::post('/project/store', [MediaProjectController::class, 'store'])->name('media-project-store');
+    Route::get('/project-list', [MediaProjectController::class, 'listMediaProjects'])->name('media-project-list');
 
     Route::get('/source/index', [MediaSourceController::class, 'index'])->name('media-source-index');
     Route::get('/source/edit/{id}', [MediaSourceController::class, 'edit'])->name('media-source-edit');
@@ -60,6 +62,12 @@ Route::middleware(['isAuthenticated'])->group(function () {
     Route::get('/source-view-video-cutted/{id}', [MediaSourceController::class, 'viewVideoCutted'])->name('media-source-view-video-cutted');
     Route::get('/source-view-video-downloaded/{id}', [MediaSourceController::class, 'viewVideoDownloaded'])->name('media-source-view-video-downloaded');
     Route::get('/source-view-video/{id}', [MediaSourceController::class, 'viewVideo'])->name('media-source-view-video');
+
+    Route::get('/user/index', [UserController::class, 'index'])->name('user-index');
+    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user-edit');
+    Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user-update');
+    Route::get('/user/create', [UserController::class, 'create'])->name('user-create');
+    Route::post('/user/store', [UserController::class, 'store'])->name('user-store');
 
 });
 

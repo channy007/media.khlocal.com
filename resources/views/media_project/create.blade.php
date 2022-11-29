@@ -1,8 +1,5 @@
 @extends('layouts.homepage')
-@section('style')
-    {{-- Select 2 --}}
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-@stop
+
 @section('content')
     <nav aria-label="breadcrumb" style="margin-left: 10px;">
         <ol class="breadcrumb" style="background: none">
@@ -104,9 +101,7 @@
     </div>
 @stop
 @section('scripts')
-    {{-- Select 2 --}}
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    
     <script type="text/javascript">
         var url = "{{ route('channel-source-list') }}";
         $('.channel-sources').select2({

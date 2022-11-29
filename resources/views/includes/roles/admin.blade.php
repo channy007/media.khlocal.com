@@ -14,6 +14,12 @@
     <li @if(in_array($routeName,['media-source-index','media-source-create','media-source-edit'])) class="active" @endif>
         <a href="{{ route('media-source-index') }}">Media Source</a>
     </li>
+
+    <li @if(in_array($routeName,['user-index','user-create','user-edit'])) class="active" @endif>
+        <a href="{{ route('user-index') }}">User Management</a>
+    </li>
+
+
     <li @if(request()->route()->getName() == 'about') class="active" @endif>
         <a href="#">About</a>
     </li>
