@@ -249,8 +249,10 @@
                     $(this).prop("selected", true);
                 }
             });
-            $(this).find('#custom-crop').val(mediaSource.custom_crop);
 
+            if (mediaSource.custom_crop) {
+                $(this).find('#custom-crop').val(mediaSource.custom_crop);
+            }
 
         });
         //##### END CUT #####
