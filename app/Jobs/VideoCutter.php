@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\MediaProject;
+use App\Models\MediaSource;
 use App\Utils\enums\MediaSourceStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -39,12 +40,17 @@ class VideoCutter implements ShouldQueue
     {
         Log::info("===== START CUTTING VIDEO =====");
 
+
         $shellFile = public_path() . '/shell_scripts/ffmpeg_cut.sh';
 
         $mediaSource = $this->data['mediaSource'];
         $fileStorage = $this->data['fileStorage'];
         $fileName = $fileStorage->path . '/' . $fileStorage->name . '.' . $fileStorage->extension;
 
+        if($this->isMediaSourceCutting($mediaSource->id)){
+            Log::info("===== END CUTTING VIDEO (This source are cutting by other!)=====");
+            return;
+        }
         if (!file_exists($fileName)) {
             $mediaSource->update(['status' => MediaSourceStatus::CUT_ERROR, 'error' => 'File download not found!']);
             return;
@@ -77,6 +83,14 @@ class VideoCutter implements ShouldQueue
         $this->updateMediaSource($mediaSource, $process);
 
         Log::info("===== END CUTTING VIDEO OUTPUT: " . $process->getOutput());
+    }
+
+    private function isMediaSourceCutting($mediaSourceId){
+        $mediaSource = MediaSource::whereId($mediaSourceId)->first();
+        if($mediaSource->status == MediaSourceStatus::CUTTING){
+            return true;
+        }
+        return false;
     }
 
     private function updateMediaSource($mediaSource, $process)
