@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $datas = User::paginate(10);
+        $datas = User::with('projects.media_project')->paginate(10);
 
         return view('user.index', compact('datas'));
     }

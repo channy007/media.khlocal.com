@@ -28,6 +28,7 @@
                         <th scope="col">Email</th>
                         <th scope="col">Username</th>
                         <th scope="col">Type</th>
+                        <th scope="col">Projects</th>
                         <th scope="col">Created At</th>
                         <th scope="col"></th>
                     </tr>
@@ -40,6 +41,15 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->username }}</td>
                             <td>{{ ucfirst($user->type) }}</td>
+                            <td>
+                                @if ($user->type == 'admin')
+                                    <span class="badge badge-info">All</span>
+                                @else
+                                    @foreach ($user->projects as $project)
+                                        <span class="badge badge-info">{{ $project->media_project->name }}</span><br>
+                                    @endforeach
+                                @endif
+                            </td>
                             <td>{{ $user->created_at ? getDateString($user->created_at, 'd-M-Y') : '' }}</td>
                             <td style="text-align: center">
                                 <a href="{{ route('user-edit', $user->id) }}"
@@ -61,7 +71,5 @@
 @stop
 
 @section('scripts')
-    <script type="text/javascript">
-       
-    </script>
+    <script type="text/javascript"></script>
 @stop
