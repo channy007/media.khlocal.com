@@ -1,5 +1,11 @@
 @extends('layouts.homepage')
 @section('content')
+    <nav aria-label="breadcrumb" style="margin-left: 10px;">
+        <ol class="breadcrumb" style="background: none">
+            <li class="breadcrumb-item"><a href="#">Media Source</a></li>
+
+        </ol>
+    </nav>
     <div class="my-container shadow p-3 mb-5 bg-white rounded">
         @if ($message = Session::get('success'))
             @include('includes.alerts.success')
@@ -127,10 +133,10 @@
                                 @switch($mediaSource->status)
                                     @case('downloaded')
                                     @case('cut_error')
+
                                     @case('cutted')
                                     @case('upload_error')
-                                        <a class="link"
-                                            href="{{ route('media-source-view-video', $mediaSource->id) }}">
+                                        <a class="link" href="{{ route('media-source-view-video', $mediaSource->id) }}">
                                             {{ $mediaSource->source_name }}
                                         </a>
                                     @break

@@ -4,6 +4,14 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @stop
 @section('content')
+
+    <nav aria-label="breadcrumb" style="margin-left: 10px;">
+        <ol class="breadcrumb" style="background: none">
+            <li class="breadcrumb-item"><a href="#">Media Project</a></li>
+            <li class="breadcrumb-item"><a href="#">Edit</a></li>
+
+        </ol>
+    </nav>
     <div class="my-container shadow p-3 mb-5 bg-white rounded">
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -66,7 +74,8 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="tags">Tags</label>
-                    <input type="text" class="form-control" name="tags" value="{{ $data->tags }}" placeholder="Tags">
+                    <input type="text" class="form-control" name="tags" value="{{ $data->tags }}"
+                        placeholder="Tags">
                 </div>
 
                 <div class="form-group col-md-4">

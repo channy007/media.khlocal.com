@@ -1,5 +1,12 @@
 @extends('layouts.homepage')
 @section('content')
+    <nav aria-label="breadcrumb" style="margin-left: 10px;">
+        <ol class="breadcrumb" style="background: none">
+            <li class="breadcrumb-item"><a href="#">Application</a></li>
+            <li class="breadcrumb-item"><a href="#">Edit</a></li>
+
+        </ol>
+    </nav>
     <div class="my-container shadow p-3 mb-5 bg-white rounded">
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -33,7 +40,7 @@
                 </div>
 
             </div>
-            
+
             <br>
 
             <div class="form-row">

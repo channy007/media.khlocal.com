@@ -1,16 +1,24 @@
 @extends('layouts.homepage')
 @section('content')
+
+    <nav aria-label="breadcrumb" style="margin-left: 10px;">
+        <ol class="breadcrumb" style="background: none">
+            <li class="breadcrumb-item"><a href="#">Application</a></li>
+        </ol>
+    </nav>
+
     <div class="my-container shadow p-3 mb-5 bg-white rounded">
+
         @if ($message = Session::get('success'))
             @include('includes.alerts.success')
         @endif
+
         <div class="d-flex justify-content-end">
             <a class="btn btn-primary" href="{{ route('app-create') }}">
                 <i class="fas fa-plus"></i> <span class="remove-mobile">{{ __('Add New') }}<span>
             </a>
         </div>
         <br>
-
         <div class="table-responsive text-nowrap">
             <table class="table table-bordered table-striped">
                 <thead>

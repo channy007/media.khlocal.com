@@ -4,6 +4,13 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @stop
 @section('content')
+    <nav aria-label="breadcrumb" style="margin-left: 10px;">
+        <ol class="breadcrumb" style="background: none">
+            <li class="breadcrumb-item"><a href="javascript:;">Media Project</a></li>
+            <li class="breadcrumb-item"><a href="#">Create</a></li>
+
+        </ol>
+    </nav>
     <div class="my-container shadow p-3 mb-5 bg-white rounded">
         @if ($errors->any())
             <div class="alert alert-danger">

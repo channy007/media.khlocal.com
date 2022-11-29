@@ -34,7 +34,7 @@
             <!-- Page Content Holder -->
             <div id="content" style="max-width: 100%;min-width: 70%;width: 100%;padding: 0px;margin: 0px;">
 
-                <nav class="navbar navbar-default">
+                <nav class="navbar navbar-default" style="margin-bottom: 0px;">
                     <div class="container-fluid">
 
                         <div class="navbar-header">

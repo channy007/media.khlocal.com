@@ -1,5 +1,11 @@
 @extends('layouts.homepage')
 @section('content')
+    <nav aria-label="breadcrumb" style="margin-left: 10px;">
+        <ol class="breadcrumb" style="background: none">
+            <li class="breadcrumb-item"><a href="#">Channel Source</a></li>
+
+        </ol>
+    </nav>
     <div class="my-container shadow p-3 mb-5 bg-white rounded">
         @if ($message = Session::get('success'))
             @include('includes.alerts.success')
@@ -30,7 +36,8 @@
                             <td>{{ $count + 1 }}</td>
                             <td>{{ ucfirst($channelSource->channel) }}</td>
                             <td>{{ $channelSource->name }}</td>
-                            <td><a class="link" href="{{ $channelSource->url }}" target="__blank">{{ $channelSource->url }}</a></td>
+                            <td><a class="link" href="{{ $channelSource->url }}"
+                                    target="__blank">{{ $channelSource->url }}</a></td>
                             <td>{{ $channelSource->custom_crop }}</td>
 
                             <td style="text-align: center">

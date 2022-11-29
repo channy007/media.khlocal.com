@@ -22,7 +22,7 @@
         <a href="{{ route('logout') }}">Logout</a>
     </li>
 
-    <li>
+    {{-- <li>
         <a class="drop-down" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages
             <i class="fa fa-caret-down"> </i>
         </a>
@@ -31,5 +31,5 @@
             <li><a href="#">Page 2</a></li>
             <li><a href="#">Page 3</a></li>
         </ul>
-    </li>
+    </li> --}}
 </ul>

@@ -1,5 +1,12 @@
 @extends('layouts.homepage')
 @section('content')
+    <nav aria-label="breadcrumb" style="margin-left: 10px;">
+        <ol class="breadcrumb" style="background: none">
+            <li class="breadcrumb-item"><a href="#">Media Source</a></li>
+            <li class="breadcrumb-item"><a href="#">Create</a></li>
+
+        </ol>
+    </nav>
     <div class="my-container shadow p-3 mb-5 bg-white rounded">
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -42,8 +49,8 @@
 
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Channel Source *</label>
-                            <select name="channel_source_id" class="form-control source-from" onchange="channelSourceChange(this)" required
-                                id="channel-source-id">
+                            <select name="channel_source_id" class="form-control source-from"
+                                onchange="channelSourceChange(this)" required id="channel-source-id">
                             </select>
                         </div>
                         <div class="form-group col-md-6">

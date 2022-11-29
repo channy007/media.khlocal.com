@@ -1,5 +1,13 @@
 @extends('layouts.homepage')
 @section('content')
+
+    <nav aria-label="breadcrumb" style="margin-left: 10px;">
+        <ol class="breadcrumb" style="background: none">
+            <li class="breadcrumb-item"><a href="#">Application</a></li>
+            <li class="breadcrumb-item"><a href="#">Create</a></li>
+
+        </ol>
+    </nav>
     <div class="my-container shadow p-3 mb-5 bg-white rounded">
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -17,23 +25,20 @@
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputEmail4">Name *</label>
-                    <input type="text" class="form-control" name="name" placeholder="Name"
-                        required>
+                    <input type="text" class="form-control" name="name" placeholder="Name" required>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputPassword4">App ID *</label>
-                    <input type="text" class="form-control" name="app_id"
-                        placeholder="App ID">
+                    <input type="text" class="form-control" name="app_id" placeholder="App ID">
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="inputPassword4">Client Secret *</label>
-                    <input type="text" class="form-control" name="client_secret"
-                        placeholder="App ID">
+                    <input type="text" class="form-control" name="client_secret" placeholder="App ID">
                 </div>
 
             </div>
-            
+
             <br>
 
             <div class="form-row">

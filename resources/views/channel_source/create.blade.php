@@ -1,5 +1,13 @@
 @extends('layouts.homepage')
 @section('content')
+
+    <nav aria-label="breadcrumb" style="margin-left: 10px;">
+        <ol class="breadcrumb" style="background: none">
+            <li class="breadcrumb-item"><a href="#">Channel Source</a></li>
+            <li class="breadcrumb-item"><a href="#">Create</a></li>
+
+        </ol>
+    </nav>
     <div class="my-container shadow p-3 mb-5 bg-white rounded">
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -36,7 +44,7 @@
                 <div class="form-group col-md-4">
                     <label for="custom_crop">Custom Crop</label>
                     <input type="text" class="form-control" name="custom_crop" placeholder="Custom Crop"
-                    id="custom-crop">
+                        id="custom-crop">
                 </div>
 
             </div>

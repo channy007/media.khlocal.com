@@ -1,5 +1,12 @@
 @extends('layouts.homepage')
 @section('content')
+
+    <nav aria-label="breadcrumb" style="margin-left: 10px;">
+        <ol class="breadcrumb" style="background: none">
+            <li class="breadcrumb-item"><a href="#">Media Project</a></li>
+
+        </ol>
+    </nav>
     <div class="my-container shadow p-3 mb-5 bg-white rounded">
         @if ($message = Session::get('success'))
             @include('includes.alerts.success')
@@ -43,7 +50,8 @@
                                 </a>
                             </td>
                             <td>{{ $mediaProject->page_id }}</td>
-                            <td>{{ $mediaProject->created_token_at ? getDateString($mediaProject->created_token_at, 'd-m-Y') : '' }}</td>
+                            <td>{{ $mediaProject->created_token_at ? getDateString($mediaProject->created_token_at, 'd-m-Y') : '' }}
+                            </td>
                             <td>{{ $mediaProject->expire_at ? getDateString($mediaProject->expire_at, 'd-m-Y') : '' }}</td>
                             <td>{{ ucfirst($mediaProject->status) }}</td>
                         </tr>
