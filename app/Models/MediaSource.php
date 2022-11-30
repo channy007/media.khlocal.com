@@ -31,7 +31,9 @@ class MediaSource extends Model
         'cut_off_side',
         'tags',
         'error',
-        'custom_crop'
+        'custom_crop',
+        'created_by_id',
+        'updated_by_id'
     ];
 
     public function project(){

@@ -30,7 +30,12 @@
                 <div class="sidebar-header">
                     <h3>MEDIA KH LOCAL</h3>
                 </div>
-                @include('includes.roles.admin')
+
+                @if (optional(auth()->user())->type == 'admin')
+                    @include('includes.roles.admin')
+                @else
+                    @include('includes.roles.editor')
+                @endif
 
             </nav>
 
@@ -48,7 +53,8 @@
                         </div>
 
                         <form class="form-inline">
-                            <span>Login as <a class="link" href="javascript:;"><b>{{ optional(auth()->user())->name }}</b></a></span>
+                            <span>Login as <a class="link"
+                                    href="javascript:;"><b>{{ optional(auth()->user())->name }}</b></a></span>
                         </form>
 
                     </div>

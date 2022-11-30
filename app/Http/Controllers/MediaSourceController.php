@@ -8,9 +8,11 @@ use App\Jobs\VideoDownloader;
 use App\Models\FileStorage;
 use App\Models\MediaProject;
 use App\Models\MediaSource;
+use App\Models\UserProject;
 use App\Utils\enums\MediaProjectStatus;
 use App\Utils\enums\MediaSourceStatus;
 use App\Utils\enums\QueueName;
+use App\Utils\enums\UserType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -20,6 +22,7 @@ class MediaSourceController extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->user();
         $status = $request['status'];
 
         $datas = MediaSource::with(
@@ -29,24 +32,42 @@ class MediaSourceController extends Controller
                 },
                 'channel_source'
             ]
-            );
-        $datas->when($status,function($query) use($status){
+        );
+
+        $datas->when($status, function ($query) use ($status) {
             $query->whereStatus($status);
-        });    
+        })->when($user->type == UserType::EDITOR, function ($query) use ($user) {
+            $query->whereCreatedById($user->id);
+        });
         $datas = $datas->orderBy('id', 'desc')->paginate(10);
 
-        return view('media_source.index', compact('datas','status'));
+        return view('media_source.index', compact('datas', 'status'));
     }
 
     public function create(Request $request)
     {
-        $projects = MediaProject::with('channel_sources.channel_source')->whereStatus(MediaProjectStatus::ACTIVE)->get();
+        $projects = $this->getMediaProject();
         return view('media_source.create', compact('projects'));
     }
+
+    private function getMediaProject()
+    {
+        $user = auth()->user();
+
+        if ($user->type == UserType::ADMIN) {
+            return MediaProject::with('channel_sources.channel_source')->whereStatus(MediaProjectStatus::ACTIVE)->get();
+        }
+        $userProjects = UserProject::with('media_project')->whereUserId($user->id)->get();
+
+        return $userProjects->pluck('media_project');
+    }
+
 
     public function store(Request $request)
     {
         $request['status'] = MediaSourceStatus::NEW;
+        $user = auth()->user();
+        $request['created_by_id'] = optional($user)->id;
 
         $validator = Validator::make($request->all(), ['source_url' => 'unique:media_sources,source_url']);
         if ($validator->fails()) {
@@ -83,7 +104,7 @@ class MediaSourceController extends Controller
     {
         Log::info("===== retry download =====");
 
-        $mediaSource = MediaSource::whereId($mediaSourceId)->where('status','<>',MediaSourceStatus::DOWNLOADING)->first();
+        $mediaSource = MediaSource::whereId($mediaSourceId)->where('status', '<>', MediaSourceStatus::DOWNLOADING)->first();
 
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
@@ -103,7 +124,7 @@ class MediaSourceController extends Controller
     public function retryCut(Request $request, $mediaSourceId)
     {
 
-        $mediaSource = MediaSource::whereId($mediaSourceId)->where('status','<>',MediaSourceStatus::CUTTING)->first();
+        $mediaSource = MediaSource::whereId($mediaSourceId)->where('status', '<>', MediaSourceStatus::CUTTING)->first();
         $fileStorage = FileStorage::whereMediaSourceId($mediaSource->id)->first();
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
@@ -125,7 +146,7 @@ class MediaSourceController extends Controller
     {
         Log::info("===== retry upload =====");
 
-        $mediaSource = MediaSource::whereId($mediaSourceId)->where('status','<>',MediaSourceStatus::UPLOADING)->first();
+        $mediaSource = MediaSource::whereId($mediaSourceId)->where('status', '<>', MediaSourceStatus::UPLOADING)->first();
         $fileStorage = FileStorage::whereMediaSourceId($mediaSource->id)->first();
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
@@ -140,20 +161,21 @@ class MediaSourceController extends Controller
             ->with('success', 'Record start uploading.');
     }
 
-    public function viewVideoCutted(Request $request,$mediaSourceId){
+    public function viewVideoCutted(Request $request, $mediaSourceId)
+    {
         $data = FileStorage::whereMediaSourceId($mediaSourceId)->first();
-        return view('media_source.video.display_video_cutted',compact('data'));
+        return view('media_source.video.display_video_cutted', compact('data'));
     }
 
-    public function viewVideoDownloaded(Request $request,$mediaSourceId){
+    public function viewVideoDownloaded(Request $request, $mediaSourceId)
+    {
         $data = FileStorage::whereMediaSourceId($mediaSourceId)->first();
-        return view('media_source.video.display_video_downloaded',compact('data'));
+        return view('media_source.video.display_video_downloaded', compact('data'));
     }
 
-    public function viewVideo(Request $request,$mediaSourceId){
+    public function viewVideo(Request $request, $mediaSourceId)
+    {
         $data = FileStorage::whereMediaSourceId($mediaSourceId)->first();
-        return view('media_source.video.display_video',compact('data'));
+        return view('media_source.video.display_video', compact('data'));
     }
-
-    
 }

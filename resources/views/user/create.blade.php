@@ -39,7 +39,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="type">Type *</label>
-                    <select name="type" class="form-control">
+                    <select name="type" class="form-control" id="type">
                         <option value="editor" selected>Editor</option>
                         <option value="admin">Admin</option>
                     </select>
@@ -51,10 +51,10 @@
                     <input type="text" class="form-control" name="email" placeholder="Email">
                 </div>
 
-               
+
             </div>
 
-            <div class="form-row">
+            <div class="form-row media-project-row">
                 <div class="form-group col-md-4">
                     <label for="inputState">Media Projects</label>
                     <select name="project_ids[]" class="projects form-control" multiple="multiple">
@@ -75,7 +75,7 @@
     </div>
 @stop
 @section('scripts')
-    
+
     <script type="text/javascript">
         var url = "{{ route('media-project-list') }}";
         $('.projects').select2({
@@ -105,6 +105,25 @@
                     };
                 }
             }
+        });
+
+        $('#type').on('change', function() {
+            var type = this.value;
+
+            switch (type) {
+                case 'admin':
+                    $('.media-project-row').css('display', 'none');
+                    break;
+                case 'editor':
+                    $('.media-project-row').css('display', 'block');
+                    break;
+                default:
+            }
+
+        });
+
+        $(document).ready(function() {
+            $('#type').trigger('change');
         });
     </script>
 @stop

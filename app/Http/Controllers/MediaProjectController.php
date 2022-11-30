@@ -6,6 +6,8 @@ use App\Models\Application;
 use App\Models\ChannelSource;
 use App\Models\MediaProject;
 use App\Models\ProjectChannelSource;
+use App\Models\UserProject;
+use App\Utils\enums\UserType;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -30,10 +32,19 @@ class MediaProjectController extends Controller
 
     public function index(Request $request)
     {
-        $datas = MediaProject::with('application', 'channel_sources.channel_source')->paginate(10);
+        $user = auth()->user();
+        $mediaProjects = MediaProject::with('application', 'channel_sources.channel_source');
+        if ($user->type == UserType::EDITOR) {
+            $mediaProjectIds = UserProject::whereUserId($user->id)->get()->pluck('media_project_id');
+            $mediaProjects->whereIn('id',$mediaProjectIds);
+        }
+
+        $datas = $mediaProjects->paginate(10);
 
         return view('media_project.index', compact('datas'));
     }
+
+
 
     public function edit(Request $request, $id)
     {
