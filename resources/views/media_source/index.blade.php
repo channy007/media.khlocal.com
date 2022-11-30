@@ -41,6 +41,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Creator</th>
                         <th scope="col">Project Name</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
@@ -68,6 +69,7 @@
                     @foreach ($datas as $count => $mediaSource)
                         <tr>
                             <td>{{ $count + 1 }}</td>
+                            <td>{{ optional($mediaSource->creator)->name }}</td>
                             <td>{{ optional($mediaSource->project)->name }}</td>
                             <td>
                                 <span class="badge {{ getMediaStatusClassBadge($mediaSource->status) }}">

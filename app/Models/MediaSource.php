@@ -43,4 +43,8 @@ class MediaSource extends Model
     public function channel_source(){
         return $this->belongsTo(ChannelSource::class,'channel_source_id','id');
     }
+
+    public function creator(){
+        return $this->belongsTo(User::class,'created_by_id','id');
+    }
 }

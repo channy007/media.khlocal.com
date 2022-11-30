@@ -30,7 +30,8 @@ class MediaSourceController extends Controller
                 'project' => function ($query) {
                     $query->select('id', 'name');
                 },
-                'channel_source'
+                'channel_source',
+                'creator'
             ]
         );
 
