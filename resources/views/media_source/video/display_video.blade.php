@@ -27,7 +27,7 @@
 
         <div class="col col-lg-6 col-md-6 col-sm-12">
             <div class="row" style="display: flex;justify-content: center;max-width: 770px;max-height: 480px;">
-                <h2>VIDEO DOWNLOADED</h2>
+                <h2 id="downloaded-heading">VIDEO DOWNLOADED</h2>
                 <video controls="" autoplay="" name="media" width="100%" height="100%" id="my-video">
                     <source src="{{ $data->play_url . '/' . $data->name . '.' . $data->extension }}" type="video/mp4">
                 </video>
@@ -37,7 +37,7 @@
 
         <div class="col col-lg-6 col-md-6 col-sm-12">
             <div class="row" style="display: flex;justify-content: center;max-width: 770px;max-height: 480px;">
-                <h2>VIDEO CUTTED</h2>
+                <h2 id="cutted-heading">VIDEO CUTTED</h2>
 
                 <video controls="" autoplay="" name="media" width="100%" height="100%" id="my-video-2">
                     <source src="{{ $data->play_url . '/' . $data->name_cutted . '.' . $data->extension }}"
@@ -49,25 +49,35 @@
 
     </div>
 
-    <div class="row" style="margin-top: 25px;">
+    {{-- <div class="row" style="margin-top: 25px;">
 
         <button onclick="displayVideoRatio1()">Show Ratio 1</button>
         <button onclick="displayVideoRatio2()">Show Ratio 2</button>
 
-    </div>
+    </div> --}}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
     <script type="text/javascript">
+        $(document).ready(function() {
+
+            displayVideoRatio1();
+            displayVideoRatio2();
+
+
+        });
 
         function displayVideoRatio1() {
             var vid = document.getElementById("my-video");
-            alert("video height: " + vid.videoHeight + " video width: " + vid.videoWidth)
+            const donwloadedHeading = document.getElementById('downloaded-heading');
+            donwloadedHeading.textContent = `VIDEO DOWNLOADED (${vid.videoHeight}x${vid.videoWidth})`;
         }
 
         function displayVideoRatio2() {
             var vid = document.getElementById("my-video-2");
-            alert("video height: " + vid.videoHeight + " video width: " + vid.videoWidth)
+            const cuttedHeading = document.getElementById('cutted-heading');
+            cuttedHeading.textContent = `VIDEO DOWNLOADED (${vid.videoHeight}x${vid.videoWidth})`;
         }
-
     </script>
 
 </body>
