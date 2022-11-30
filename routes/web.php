@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
 // Route for normal user (isAuthenticated)
 Route::middleware(['isAuthenticated'])->group(function () {
+
     Route::get('/', function () {
         return view('layouts.homepage');
     });
@@ -41,20 +41,6 @@ Route::middleware(['isAuthenticated'])->group(function () {
     Route::get('/source/create', [MediaSourceController::class, 'create'])->name('media-source-create');
     Route::post('/source/store', [MediaSourceController::class, 'store'])->name('media-source-store');
 
-    Route::get('/app/index', [ApplicationController::class, 'index'])->name('app-index');
-    Route::get('/app/edit/{id}', [ApplicationController::class, 'edit'])->name('app-edit');
-    Route::post('/app/update/{id}', [ApplicationController::class, 'update'])->name('app-update');
-    Route::get('/app/create', [ApplicationController::class, 'create'])->name('app-create');
-    Route::post('/app/store', [ApplicationController::class, 'store'])->name('app-store');
-
-    Route::get('/channel-source/index', [ChannelSourceController::class, 'index'])->name('channel-source-index');
-    Route::get('/channel-source/edit/{id}', [ChannelSourceController::class, 'edit'])->name('channel-source-edit');
-    Route::post('/channel-source/update/{id}', [ChannelSourceController::class, 'update'])->name('channel-source-update');
-    Route::get('/channel-source/create', [ChannelSourceController::class, 'create'])->name('channel-source-create');
-    Route::post('/channel-source/store', [ChannelSourceController::class, 'store'])->name('channel-source-store');
-    Route::get('/channel-source-list', [ChannelSourceController::class, 'listChannelSources'])->name('channel-source-list');
-
-
     Route::get('/source-retry-download/{id}', [MediaSourceController::class, 'retryDownload'])->name('media-source-retry-download');
     Route::post('/source-retry-cut/{id}', [MediaSourceController::class, 'retryCut'])->name('media-source-retry-cut');
     Route::post('/source-retry-upload/{id}', [MediaSourceController::class, 'retryUpload'])->name('media-source-retry-upload');
@@ -63,13 +49,34 @@ Route::middleware(['isAuthenticated'])->group(function () {
     Route::get('/source-view-video-downloaded/{id}', [MediaSourceController::class, 'viewVideoDownloaded'])->name('media-source-view-video-downloaded');
     Route::get('/source-view-video/{id}', [MediaSourceController::class, 'viewVideo'])->name('media-source-view-video');
 
-    Route::get('/user/index', [UserController::class, 'index'])->name('user-index');
-    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user-edit');
-    Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user-update');
-    Route::get('/user/create', [UserController::class, 'create'])->name('user-create');
-    Route::post('/user/store', [UserController::class, 'store'])->name('user-store');
 
+    Route::middleware(['isAdmin'])->group(function () {
+
+        Route::get('/app/index', [ApplicationController::class, 'index'])->name('app-index');
+        Route::get('/app/edit/{id}', [ApplicationController::class, 'edit'])->name('app-edit');
+        Route::post('/app/update/{id}', [ApplicationController::class, 'update'])->name('app-update');
+        Route::get('/app/create', [ApplicationController::class, 'create'])->name('app-create');
+        Route::post('/app/store', [ApplicationController::class, 'store'])->name('app-store');
+    
+        Route::get('/channel-source/index', [ChannelSourceController::class, 'index'])->name('channel-source-index');
+        Route::get('/channel-source/edit/{id}', [ChannelSourceController::class, 'edit'])->name('channel-source-edit');
+        Route::post('/channel-source/update/{id}', [ChannelSourceController::class, 'update'])->name('channel-source-update');
+        Route::get('/channel-source/create', [ChannelSourceController::class, 'create'])->name('channel-source-create');
+        Route::post('/channel-source/store', [ChannelSourceController::class, 'store'])->name('channel-source-store');
+        Route::get('/channel-source-list', [ChannelSourceController::class, 'listChannelSources'])->name('channel-source-list');
+    
+        Route::get('/user/index', [UserController::class, 'index'])->name('user-index');
+        Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user-edit');
+        Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user-update');
+        Route::get('/user/create', [UserController::class, 'create'])->name('user-create');
+        Route::post('/user/store', [UserController::class, 'store'])->name('user-store');
+    
+    });
+
+    
 });
+
+
 
 
 
