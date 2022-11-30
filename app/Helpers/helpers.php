@@ -244,6 +244,9 @@ function getMediaStatusClassBadge($status)
         case MediaSourceStatus::UPLOADED:
             $badge = 'badge-success';
             break;
+        case MediaSourceStatus::PENDING_QUEUE:
+            $badge = 'secondary';
+            break;
         default:
             $badge = '';
     }
