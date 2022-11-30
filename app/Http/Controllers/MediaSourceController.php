@@ -110,7 +110,8 @@ class MediaSourceController extends Controller
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
-
+        $mediaSource->status = MediaSourceStatus::PENDING_QUEUE;
+        $mediaSource->save();
         dispatch(new VideoDownloader(
             [
                 'mediaSource' => $mediaSource
@@ -130,6 +131,7 @@ class MediaSourceController extends Controller
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
+        $mediaSource->status = MediaSourceStatus::PENDING_QUEUE;
         $mediaSource->update($request->all());
 
         dispatch(new VideoCutter(
@@ -152,6 +154,7 @@ class MediaSourceController extends Controller
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
+        $mediaSource->status = MediaSourceStatus::PENDING_QUEUE;
         $mediaSource->update($request->all());
         dispatch(new Uploader([
             'mediaSource' => $mediaSource,

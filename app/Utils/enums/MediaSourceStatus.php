@@ -18,6 +18,8 @@ class MediaSourceStatus
     const UPLOAD_ERROR = 'upload_error';
     const DOWNLOAD_ERROR = 'download_error';
 
+    const PENDING_QUEUE = 'pending_queue';
+
 
     public static function getAllStatus()
     {
