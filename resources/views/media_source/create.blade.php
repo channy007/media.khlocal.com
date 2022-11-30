@@ -339,7 +339,7 @@
 
         function channelSourceChange(obj) {
             var customCrop = obj.options[obj.selectedIndex].getAttribute('data-custom_crop');
-            if (customCrop) {
+            if (customCrop && customCrop != 'null') {
                 $('#custom-crop').val(customCrop)
             }
         }
