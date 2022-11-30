@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\UserProject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -32,9 +33,12 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validator->errors());
         }
 
-        if (isset($request['password'])) {
+        if ($request['password']) {
             $request['password'] = bcrypt($request['password']);
+        } else {
+            unset($request['password']);
         }
+
         if ($user) {
             $user->update($request->all());
             $this->updateOrCreateUserProjects($user, $request);
