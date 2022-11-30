@@ -78,6 +78,7 @@ class MediaSourceController extends Controller
             $thumb = $request['thumbnail'];
             $request['thumb'] = Storage::disk('public')->put('images', $thumb);
         }
+        $request['status'] = MediaSourceStatus::NEW;
         $mediaSource = MediaSource::create($request->all());
 
         if ($mediaSource) {
@@ -110,7 +111,7 @@ class MediaSourceController extends Controller
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
-        $mediaSource->status = MediaSourceStatus::PENDING_QUEUE;
+        $mediaSource->status = MediaSourceStatus::PENDING_DOWNLOAD;
         $mediaSource->save();
         dispatch(new VideoDownloader(
             [
@@ -131,7 +132,7 @@ class MediaSourceController extends Controller
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
-        $mediaSource->status = MediaSourceStatus::PENDING_QUEUE;
+        $mediaSource->status = MediaSourceStatus::PENDING_CUT;
         $mediaSource->update($request->all());
 
         dispatch(new VideoCutter(
@@ -154,7 +155,7 @@ class MediaSourceController extends Controller
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
-        $mediaSource->status = MediaSourceStatus::PENDING_QUEUE;
+        $mediaSource->status = MediaSourceStatus::PENDING_UPLOAD;
         $mediaSource->update($request->all());
         dispatch(new Uploader([
             'mediaSource' => $mediaSource,
