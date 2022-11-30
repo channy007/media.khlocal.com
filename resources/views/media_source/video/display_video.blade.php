@@ -78,7 +78,7 @@
         function displayVideoCuttedRatio() {
             var vid = document.getElementById("my-video-cutted");
             const cuttedHeading = document.getElementById('cutted-heading');
-            cuttedHeading.textContent = `VIDEO DOWNLOADED (${vid.videoHeight}x${vid.videoWidth})`;
+            cuttedHeading.textContent = `VIDEO CUTTED (${vid.videoHeight}x${vid.videoWidth})`;
         }
     </script>
 
