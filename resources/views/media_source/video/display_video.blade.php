@@ -29,7 +29,7 @@
             <div class="row" style="display: flex;justify-content: center;max-width: 770px;max-height: 480px;">
                 <h2 id="downloaded-heading">VIDEO DOWNLOADED</h2>
                 <video controls="" autoplay="" name="media" width="100%" height="100%" id="my-video-downloaded">
-                    <source src="{{ url('/') . '/' . $data->name . '.' . $data->extension }}" type="video/mp4">
+                    <source src="{{ url('/') . '/video/' . $data->name . '.' . $data->extension }}" type="video/mp4">
                 </video>
             </div>
 
@@ -40,7 +40,7 @@
                 <h2 id="cutted-heading">VIDEO CUTTED</h2>
 
                 <video controls="" autoplay="" name="media" width="100%" height="100%" id="my-video-cutted">
-                    <source src="{{ url('/') . '/' . $data->name_cutted . '.' . $data->extension }}"
+                    <source src="{{ url('/') . '/video/' . $data->name_cutted . '.' . $data->extension }}"
                         type="video/mp4">
                 </video>
             </div>
