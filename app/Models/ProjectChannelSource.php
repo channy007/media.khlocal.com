@@ -17,4 +17,8 @@ class ProjectChannelSource extends Model
     public function channel_source(){
         return $this->belongsTo(ChannelSource::class,'channel_source_id','id');
     }
+
+    public function project(){
+        return $this->belongsTo(MediaProject::class,'project_id','id');
+    }
 }

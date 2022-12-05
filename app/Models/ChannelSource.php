@@ -16,8 +16,13 @@ class ChannelSource extends Model
         'url',
         'created_by_id',
         'updated_by_id',
-        'custom_crop'
+        'custom_crop',
+        'description',
+        'country'
     ];
 
+    public function media_projects(){
+        return $this->hasMany(ProjectChannelSource::class,'channel_source_id','id');
+    }
 
 }

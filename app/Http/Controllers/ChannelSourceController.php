@@ -24,7 +24,7 @@ class ChannelSourceController extends Controller
 
     public function index(Request $request)
     {
-        $datas = ChannelSource::paginate(10);
+        $datas = ChannelSource::with('media_projects.project')->paginate(10);
 
         return view('channel_source.index', compact('datas'));
     }
@@ -49,6 +49,8 @@ class ChannelSourceController extends Controller
         if ($channelSource) {
             $channelSource->updated_by_id = optional($user)->id;
             $channelSource->update($request->all());
+            $this->updateOrCreateProjectChannelSources($channelSource,$request);
+
         }
         return redirect()->route('channel-source-index')
             ->with('success', 'Update successfully.');
@@ -70,7 +72,35 @@ class ChannelSourceController extends Controller
         }
         
         $channelSource = ChannelSource::create($request->all());
+        if($channelSource){
+            $this->updateOrCreateProjectChannelSources($channelSource,$request);
+        }
+
         return redirect()->route('channel-source-index')
             ->with('success', 'Create successfully.');
+    }
+
+    private function updateOrCreateProjectChannelSources($channelSource, $request)
+    {
+        $mediaProjectIds =  $request['media_project_ids'];
+        if (!isset($mediaProjectIds) || empty($mediaProjectIds)) {
+            $mediaProjectIds = [];
+        }
+
+        ProjectChannelSource::whereChannelSourceId($channelSource->id)
+            ->whereNotIn('project_id', $mediaProjectIds)->delete();
+
+        foreach ($mediaProjectIds as $projectId) {
+            ProjectChannelSource::updateOrCreate(
+                [
+                    'project_id' => $projectId,
+                    'channel_source_id' => $channelSource->id
+                ],
+                [
+                    'project_id' => $projectId,
+                    'channel_source_id' => $channelSource->id
+                ]
+            );
+        }
     }
 }

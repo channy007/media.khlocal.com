@@ -26,7 +26,8 @@
                         <th scope="col">Name</th>
                         <th scope="col">URL</th>
                         <th scope="col">Custom Crop</th>
-
+                        <th scope="col">Country</th>
+                        <th scope="col">Description</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -38,6 +39,8 @@
                             <td>{{ $channelSource->name }}</td>
                             <td><a class="link" href="{{ $channelSource->url }}"
                                     target="__blank">{{ $channelSource->url }}</a></td>
+                            <td>{{ $channelSource->country }}</td>
+                            <td>{{ $channelSource->description }}</td>
                             <td>{{ $channelSource->custom_crop }}</td>
 
                             <td style="text-align: center">

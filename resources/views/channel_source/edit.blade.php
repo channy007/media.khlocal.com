@@ -49,6 +49,30 @@
                         value="{{ $data->custom_crop }}" id="custom-crop">
                 </div>
 
+                <div class="form-group col-md-4">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" name="description" placeholder="Description" value="{{ $data->description }}">
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="country">Country</label>
+                    <input type="text" class="form-control" name="country" placeholder="Country" value="{{ $data->country }}">
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="inputState">Media Projects</label>
+                    <select name="media_project_ids[]" class="media-project form-control" multiple="multiple">
+                        @foreach ($data->media_projects as $mediaProject)
+                            @if (isset($mediaProject->project))
+                                <option value="{{ $mediaProject->project->id }}" selected>
+                                    {{ $mediaProject->project->name }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
             <br>
@@ -64,3 +88,38 @@
         </form>
     </div>
 @stop
+@section('scripts')
+
+    <script type="text/javascript">
+        var url = "{{ route('media-project-list') }}";
+        $('.media-project').select2({
+            placeholder: "Select media projects..",
+            ajax: {
+                url: url,
+                data: function(params) {
+                    var query = {
+                        search: params.term,
+                        type: 'public'
+                    };
+                    return query;
+                },
+                processResults: function(data) {
+                    var newdata = data.data.map(function(mediaProject) {
+                        return {
+                            id: mediaProject.id,
+                            text: mediaProject.name
+                        };
+                    });
+                    newdata.unshift({
+                        id: '',
+                        text: 'Select channel sources..'
+                    });
+                    return {
+                        results: newdata
+                    };
+                }
+            }
+        });
+    </script>
+@stop
+
