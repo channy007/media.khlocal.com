@@ -181,7 +181,6 @@ return [
             'connection' => 'redis-long-process',
             'queue' => ['video-downloader','video-cutter','uploader'],
             'balance' => 'auto',
-            'minProcesses' => 3,
             'maxProcesses' => 3,
             'maxTime' => 0,
             'maxJobs' => 0,
