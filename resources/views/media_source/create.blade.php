@@ -70,7 +70,7 @@
 
                                 <div class="custom-file source-file-container" style="display: none">
                                     <input name="source_file" type='file' class="custom-file-input source-file"
-                                        style="display: none" />
+                                        style="display: none" accept=".mp4"/>
                                     <label id="label-source-file" class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                 </div>
 
