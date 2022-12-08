@@ -9,6 +9,7 @@ use App\Models\FileStorage;
 use App\Models\MediaProject;
 use App\Models\MediaSource;
 use App\Models\UserProject;
+use App\Services\FileStorageService;
 use App\Utils\enums\MediaProjectStatus;
 use App\Utils\enums\MediaSourceStatus;
 use App\Utils\enums\QueueName;
@@ -78,16 +79,33 @@ class MediaSourceController extends Controller
             $thumb = $request['thumbnail'];
             $request['thumb'] = Storage::disk('public')->put('images', $thumb);
         }
+
+
+
         $request['status'] = MediaSourceStatus::NEW;
         $mediaSource = MediaSource::create($request->all());
 
         if ($mediaSource) {
             $mediaSource->refresh();
-            dispatch(new VideoDownloader(
-                [
-                    'mediaSource' => $mediaSource
-                ]
-            ))->onQueue(QueueName::VIDEO_DOWNLOADER);
+
+            if($sourceFile = $request->file('source_file')){
+                $fileStorage = FileStorageService::createFileStorage($mediaSource);
+                $path = Storage::disk('public')->put('videos', $sourceFile);
+                $fileName = $fileStorage->name . '.' . $fileStorage->extension;
+                $sourceFile->storeAs('videos', $fileName, 'public');
+                dispatch(new VideoCutter(
+                    [
+                        'mediaSource' => $mediaSource,
+                        'fileStorage' => $fileStorage
+                    ]
+                ))->onQueue(QueueName::VIDEO_CUTTER)->delay(5);
+            }else{
+                dispatch(new VideoDownloader(
+                    [
+                        'mediaSource' => $mediaSource
+                    ]
+                ))->onQueue(QueueName::VIDEO_DOWNLOADER);
+            }
         }
 
         return redirect()->route('media-source-index')

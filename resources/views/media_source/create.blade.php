@@ -1,4 +1,6 @@
 @extends('layouts.homepage')
+
+
 @section('content')
     <nav aria-label="breadcrumb" style="margin-left: 10px;">
         <ol class="breadcrumb" style="background: none">
@@ -19,7 +21,7 @@
             </div>
         @endif
 
-        <form action="{{ route('media-source-store') }}" method="POST" enctype="multipart/form-data">
+        <form id="form-data" action="{{ route('media-source-store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-row">
                 <div class="col-md-4">
@@ -60,8 +62,25 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="source_url">Source URL *</label>
-                            <input type="text" class="form-control" name="source_url" placeholder="Source URL" required>
+                            <label for="source_url" id="label-source-url">Source URL *</label>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control input-source-url" name="source_url"
+                                    placeholder="Source URL">
+
+                                <div class="custom-file source-file-container" style="display: none">
+                                    <input name="source_file" type='file' class="custom-file-input source-file"
+                                        style="display: none" />
+                                    <label id="label-source-file" class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                </div>
+
+                                <div style="width: 20%; margin: 0px;padding: 0px;">
+                                    <select class="custom-select source-option" id="inputGroupSelect01">
+                                        <option value="url">URL</option>
+                                        <option value="file">FILE</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="source_text">Source Text</label>
@@ -306,6 +325,9 @@
             </div>
         </form>
     </div>
+    <div class="submit-loader">
+        <img src="{{ asset('images/spinner.gif') }}" alt="">
+    </div>
 @stop
 
 @section('scripts')
@@ -344,7 +366,24 @@
             }
         }
 
+        $('.source-option').on('change', function() {
+            var option = this.value;
+            if (option === 'file') {
+                $('.input-source-url').css('display', 'none')
+                $('.input-source-url').val("")
+                $('.source-file-container').css('display', 'block')
+                $('#label-source-url').text("Source File *")
+                $('.source-file').css('display', 'block')
 
+            } else {
+                $('.source-file-container').css('display', 'none')
+                $('.source-file').css('display', 'none')
+                $('#label-source-url').text("Source URL *")
+
+                $('.source-file').val(null);
+                $('.input-source-url').css('display', 'block')
+            }
+        });
 
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -361,9 +400,53 @@
         $(document).on('change', '.input-file', function() {
             readURL(this);
         });
+
+        $(document).on('change', '.source-file', function() {
+            var filename = this.files[0].name;
+            $('#label-source-file').text(filename);
+        });
+
         $(document).on('click', '.img-thumb', function() {
             var inputPhoto = $(this).parent().find(".input-file");
             inputPhoto.click();
+        });
+
+
+
+
+        $(document).on('submit', '#form-data', function(e) {
+            e.preventDefault();
+            $('.submit-loader').show();
+            $.ajax({
+                method: "POST",
+                url: $(this).prop('action'),
+                data: new FormData(this),
+                dataType: 'JSON',
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(data) {
+                    // if ((data.errors)) {
+
+                    // } else {
+                    //     $('.submit-loader').hide();
+                    // }
+                    $('.submit-loader').hide();
+
+                },
+                failure: function(response){
+                    console.log("===================== failure",response);
+                    $('.submit-loader').hide();
+
+                },
+                error: function(response){
+                    console.log("===================== error",response);
+                    $('.submit-loader').hide();
+
+                }
+
+            });
+
         });
     </script>
 @stop
