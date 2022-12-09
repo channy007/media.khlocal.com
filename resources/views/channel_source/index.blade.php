@@ -22,7 +22,7 @@
                     <span>Channel</span>
                 </div>
                 <div class="p-2">
-                    <select name="channel" class="form-control" required>
+                    <select name="channel" class="form-control">
                         <option value="" selected>All</option>
                         <option value="youtube" {{ $channel == 'youtube' ? 'selected' : '' }}>Youtube
                         </option>
