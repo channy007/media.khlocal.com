@@ -12,12 +12,28 @@
         @if ($message = Session::get('success'))
             @include('includes.alerts.success')
         @endif
+        
+        <form action="{{ route('app-index') }}" method="GET" enctype="multipart/form-data">
+            <div class="d-flex" >
+                
+                <div class="p-2">
+                    <div class="input-group">
+                        <input class="form-control" name="search" type="search" placeholder="search" value="{{ $search }}" id="example-search-input">
+                        <span class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="ml-auto p-2">
+                    <a class="btn btn-primary" href="{{ route('app-create') }}">
+                        <i class="fas fa-plus"></i> <span class="remove-mobile">{{ __('Add New') }}<span>
+                    </a>
+                </div>
+            </div>
+        </form>
 
-        <div class="d-flex justify-content-end">
-            <a class="btn btn-primary" href="{{ route('app-create') }}">
-                <i class="fas fa-plus"></i> <span class="remove-mobile">{{ __('Add New') }}<span>
-            </a>
-        </div>
         <br>
         <div class="table-responsive text-nowrap">
             <table class="table table-bordered table-striped">

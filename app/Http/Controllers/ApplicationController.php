@@ -9,9 +9,13 @@ class ApplicationController extends Controller
 {
     public function index(Request $request)
     {
-        $datas = Application::paginate(10);
-
-        return view('application.index', compact('datas'));
+        $search = $request['search'];
+        $datas = Application::query();
+        $datas->when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        });
+        $datas = $datas->paginate(10);
+        return view('application.index', compact('datas','search'));
     }
 
     public function edit(Request $request, $id)

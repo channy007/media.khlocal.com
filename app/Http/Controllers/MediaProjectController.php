@@ -33,15 +33,20 @@ class MediaProjectController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
+        $search = $request['search'];
+
         $mediaProjects = MediaProject::with('application', 'channel_sources.channel_source');
         if ($user->type == UserType::EDITOR) {
             $mediaProjectIds = UserProject::whereUserId($user->id)->get()->pluck('media_project_id');
             $mediaProjects->whereIn('id',$mediaProjectIds);
         }
+        $mediaProjects->when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        });
 
         $datas = $mediaProjects->paginate(10);
 
-        return view('media_project.index', compact('datas'));
+        return view('media_project.index', compact('datas','search'));
     }
 
 

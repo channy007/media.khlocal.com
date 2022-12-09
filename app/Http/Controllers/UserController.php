@@ -12,9 +12,15 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $datas = User::with('projects.media_project')->paginate(10);
+        $search = $request['search'];
+        $datas = User::with('projects.media_project');
+        $datas->when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', '%' . $search . '%')
+                ->orWhere('username', 'LIKE', '%' . $search . '%');
+        });
+        $datas = $datas->paginate(10);
 
-        return view('user.index', compact('datas'));
+        return view('user.index', compact('datas','search'));
     }
 
     public function edit(Request $request, $id)
