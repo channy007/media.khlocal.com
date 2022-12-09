@@ -26,6 +26,8 @@ class MediaSourceController extends Controller
         $user = auth()->user();
         $status = $request['status'];
         $search = $request['search'];
+        $projectId = $request['project_id']??0;
+        $project = MediaProject::whereId($projectId)->first();
         $datas = MediaSource::with(
             [
                 'project' => function ($query) {
@@ -44,10 +46,12 @@ class MediaSourceController extends Controller
             $query->where('source_name','LIKE','%'.$search.'%')
             ->orWhere('source_url','LIKE','%'.$search.'%')
             ->orWhere('source_text','LIKE','%'.$search.'%');
+        })->when($projectId, function ($query) use ($projectId) {
+            $query->whereProjectId($projectId);
         });
         $datas = $datas->orderBy('id', 'desc')->paginate(10);
 
-        return view('media_source.index', compact('datas', 'status','search'));
+        return view('media_source.index', compact('datas', 'status','search','project'));
     }
 
     public function create(Request $request)

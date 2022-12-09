@@ -12,7 +12,20 @@
         @endif
 
         <form action="{{ route('media-source-index') }}" method="GET" enctype="multipart/form-data">
+
             <div class="d-flex">
+                <div class="p-2" style="align-items: center;justify-content: center;text-align: center;display: flex">
+                    <label for="inputState">Project</label>
+                </div>
+                <div class="p-2">
+                    <select name="project_id" class="media-project form-control" style="min-width: 100px; width: 250px;">
+                        @if (isset($project))
+                            <option value="{{ $project->id }}" selected>
+                                {{ $project->name }}</option>
+                        @endif
+                    </select>
+                </div>
+
                 <div class="p-2" style="align-items: center;justify-content: center;text-align: center;display: flex">
                     <span>Status</span>
                 </div>
@@ -28,7 +41,8 @@
 
                 <div class="p-2">
                     <div class="input-group">
-                        <input class="form-control" name="search" type="search" placeholder="search" value="{{ $search }}" id="example-search-input">
+                        <input class="form-control" name="search" type="search" placeholder="search"
+                            value="{{ $search }}" id="example-search-input">
                         <span class="input-group-append">
                             <button class="btn btn-primary" type="submit">
                                 <i class="fa fa-search"></i>
@@ -309,6 +323,36 @@
                 }
             });
             return false;
+        });
+
+        var url = "{{ route('media-project-list') }}";
+        $('.media-project').select2({
+            placeholder: "All projects",
+            ajax: {
+                url: url,
+                data: function(params) {
+                    var query = {
+                        search: params.term,
+                        type: 'public'
+                    };
+                    return query;
+                },
+                processResults: function(data) {
+                    var newdata = data.data.map(function(mediaProject) {
+                        return {
+                            id: mediaProject.id,
+                            text: mediaProject.name
+                        };
+                    });
+                    newdata.unshift({
+                        id: '',
+                        text: 'Select Project..'
+                    });
+                    return {
+                        results: newdata
+                    };
+                }
+            }
         });
     </script>
 @stop
