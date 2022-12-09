@@ -75,7 +75,7 @@
                             <td>{{ $channelSource->custom_crop }}</td>
                             <td>{{ $channelSource->country }}</td>
                             <td>{{ $channelSource->description }}</td>
-                            <td>{{ $user->created_at ? getDateString($user->created_at, 'd-M-Y') : '' }}</td>
+                            <td>{{ $channelSource->created_at ? getDateString($channelSource->created_at, 'd-M-Y') : '' }}</td>
                             <td style="text-align: center">
                                 <a href="{{ route('channel-source-edit', $channelSource->id) }}"
                                     class="btn btn-primary btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
