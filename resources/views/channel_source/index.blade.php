@@ -24,7 +24,7 @@
                 <div class="p-2">
                     <select name="channel" class="form-control" required>
                         <option value="" selected>All</option>
-                        <option value="youtube" {{ $channel == 'youtube' ? 'selected' : '' }} selected>Youtube
+                        <option value="youtube" {{ $channel == 'youtube' ? 'selected' : '' }}>Youtube
                         </option>
                         <option value="facebook" {{ $channel == 'facebook' ? 'selected' : '' }}>Facebook</option>
                         <option value="tiktok" {{ $channel == 'tiktok' ? 'selected' : '' }}>Tiktok</option>
