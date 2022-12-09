@@ -24,9 +24,15 @@ class ChannelSourceController extends Controller
 
     public function index(Request $request)
     {
-        $datas = ChannelSource::with('media_projects.project')->paginate(10);
+        $search = $request['search'];
+        $datas = ChannelSource::with('media_projects.project');
+        $datas->when($search,function($query)use($search){
+            $query->where('name','LIKE','%'.$search.'%')
+            ->orWhere('description','LIKE','%'.$search.'%');
+        });
+        $datas = $datas->paginate(10);
 
-        return view('channel_source.index', compact('datas'));
+        return view('channel_source.index', compact('datas','search'));
     }
 
     public function edit(Request $request, $id)
