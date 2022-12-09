@@ -18,6 +18,18 @@
 
         <form action="{{ route('channel-source-index') }}" method="GET" enctype="multipart/form-data">
             <div class="d-flex" >
+                <div class="p-2" style="align-items: center;justify-content: center;text-align: center;display: flex">
+                    <span>Channel</span>
+                </div>
+                <div class="p-2">
+                    <select name="channel" class="form-control" required>
+                        <option value="" selected>All</option>
+                        <option value="youtube" {{ $channel == 'youtube' ? 'selected' : '' }} selected>Youtube
+                        </option>
+                        <option value="facebook" {{ $channel == 'facebook' ? 'selected' : '' }}>Facebook</option>
+                        <option value="tiktok" {{ $channel == 'tiktok' ? 'selected' : '' }}>Tiktok</option>
+                    </select>
+                </div>
                 <div class="p-2">
                     <div class="input-group">
                         <input class="form-control" name="search" type="search" placeholder="search" value="{{ $search }}" id="example-search-input">
