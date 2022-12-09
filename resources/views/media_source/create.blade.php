@@ -70,8 +70,9 @@
 
                                 <div class="custom-file source-file-container" style="display: none">
                                     <input name="source_file" type='file' class="custom-file-input source-file"
-                                        style="display: none" accept=".mp4"/>
-                                    <label id="label-source-file" class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                        style="display: none" accept=".mp4" />
+                                    <label id="label-source-file" class="custom-file-label" for="inputGroupFile01">Choose
+                                        file</label>
                                 </div>
 
                                 <div style="width: 20%; margin: 0px;padding: 0px;">
@@ -425,22 +426,19 @@
                 contentType: false,
                 cache: false,
                 processData: false,
+                timeout: 0,
                 success: function(data) {
-                    // if ((data.errors)) {
 
-                    // } else {
-                    //     $('.submit-loader').hide();
-                    // }
                     $('.submit-loader').hide();
 
                 },
-                failure: function(response){
-                    console.log("===================== failure",response);
+                failure: function(response) {
+                    console.log("===================== failure", response);
                     $('.submit-loader').hide();
 
                 },
-                error: function(response){
-                    console.log("===================== error",response);
+                error: function(response) {
+                    console.log("===================== error", response);
                     $('.submit-loader').hide();
 
                 }

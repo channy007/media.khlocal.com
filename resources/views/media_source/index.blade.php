@@ -346,7 +346,7 @@
                     });
                     newdata.unshift({
                         id: '',
-                        text: 'Select Project..'
+                        text: 'All projects'
                     });
                     return {
                         results: newdata
