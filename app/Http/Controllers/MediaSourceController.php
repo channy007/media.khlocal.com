@@ -25,7 +25,7 @@ class MediaSourceController extends Controller
     {
         $user = auth()->user();
         $status = $request['status'];
-
+        $search = $request['search'];
         $datas = MediaSource::with(
             [
                 'project' => function ($query) {
@@ -40,10 +40,14 @@ class MediaSourceController extends Controller
             $query->whereStatus($status);
         })->when($user->type == UserType::EDITOR, function ($query) use ($user) {
             $query->whereCreatedById($user->id);
+        })->when($search, function ($query) use ($search) {
+            $query->where('source_name','LIKE','%'.$search.'%')
+            ->orWhere('source_url','LIKE','%'.$search.'%')
+            ->orWhere('source_text','LIKE','%'.$search.'%');
         });
         $datas = $datas->orderBy('id', 'desc')->paginate(10);
 
-        return view('media_source.index', compact('datas', 'status'));
+        return view('media_source.index', compact('datas', 'status','search'));
     }
 
     public function create(Request $request)
@@ -79,8 +83,6 @@ class MediaSourceController extends Controller
             $thumb = $request['thumbnail'];
             $request['thumb'] = Storage::disk('public')->put('images', $thumb);
         }
-
-
 
         $request['status'] = MediaSourceStatus::NEW;
         $mediaSource = MediaSource::create($request->all());
