@@ -39,9 +39,9 @@
                             <td>{{ $channelSource->name }}</td>
                             <td><a class="link" href="{{ $channelSource->url }}"
                                     target="__blank">{{ $channelSource->url }}</a></td>
+                            <td>{{ $channelSource->custom_crop }}</td>
                             <td>{{ $channelSource->country }}</td>
                             <td>{{ $channelSource->description }}</td>
-                            <td>{{ $channelSource->custom_crop }}</td>
 
                             <td style="text-align: center">
                                 <a href="{{ route('channel-source-edit', $channelSource->id) }}"
