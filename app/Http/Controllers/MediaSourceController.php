@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class MediaSourceController extends Controller
 {
@@ -26,7 +27,7 @@ class MediaSourceController extends Controller
         $user = auth()->user();
         $status = $request['status'];
         $search = $request['search'];
-        $projectId = $request['project_id']??0;
+        $projectId = $request['project_id'] ?? 0;
         $project = MediaProject::whereId($projectId)->first();
         $datas = MediaSource::with(
             [
@@ -43,15 +44,15 @@ class MediaSourceController extends Controller
         })->when($user->type == UserType::EDITOR, function ($query) use ($user) {
             $query->whereCreatedById($user->id);
         })->when($search, function ($query) use ($search) {
-            $query->where('source_name','LIKE','%'.$search.'%')
-            ->orWhere('source_url','LIKE','%'.$search.'%')
-            ->orWhere('source_text','LIKE','%'.$search.'%');
+            $query->where('source_name', 'LIKE', '%' . $search . '%')
+                ->orWhere('source_url', 'LIKE', '%' . $search . '%')
+                ->orWhere('source_text', 'LIKE', '%' . $search . '%');
         })->when($projectId, function ($query) use ($projectId) {
             $query->whereProjectId($projectId);
         });
         $datas = $datas->orderBy('id', 'desc')->paginate(10);
 
-        return view('media_source.index', compact('datas', 'status','search','project'));
+        return view('media_source.index', compact('datas', 'status', 'search', 'project'));
     }
 
     public function create(Request $request)
@@ -75,11 +76,22 @@ class MediaSourceController extends Controller
 
     public function store(Request $request)
     {
+        Log::info("===== reqeust in");
         $request['status'] = MediaSourceStatus::NEW;
         $user = auth()->user();
         $request['created_by_id'] = optional($user)->id;
 
-        $validator = Validator::make($request->all(), ['source_url' => 'unique:media_sources,source_url']);
+        $sourceUrl = $request['source_url'];
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'source_url' => [
+                    Rule::unique('media_sources')->where(function ($query) use ($sourceUrl) {
+                        return $query->whereNotNull('source_url')->whereSourceUrl($sourceUrl);
+                    })
+                ],
+            ]
+        );
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         }
@@ -94,7 +106,7 @@ class MediaSourceController extends Controller
         if ($mediaSource) {
             $mediaSource->refresh();
 
-            if($sourceFile = $request->file('source_file')){
+            if ($sourceFile = $request->file('source_file')) {
                 $fileStorage = FileStorageService::createFileStorage($mediaSource);
                 $path = Storage::disk('public')->put('videos', $sourceFile);
                 $fileName = $fileStorage->name . '.' . $fileStorage->extension;
@@ -105,7 +117,7 @@ class MediaSourceController extends Controller
                         'fileStorage' => $fileStorage
                     ]
                 ))->onQueue(QueueName::VIDEO_CUTTER)->delay(5);
-            }else{
+            } else {
                 dispatch(new VideoDownloader(
                     [
                         'mediaSource' => $mediaSource
@@ -114,8 +126,7 @@ class MediaSourceController extends Controller
             }
         }
 
-        return redirect()->route('media-source-index')
-            ->with('success', 'Create successfully.');
+        return response()->json(['success' => "Create successfully."]);
     }
 
 

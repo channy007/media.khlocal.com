@@ -20,6 +20,7 @@
                 </ul>
             </div>
         @endif
+        @include('includes.alerts.manual_success')
 
         <form id="form-data" action="{{ route('media-source-store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -318,7 +319,7 @@
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary btn-submit">Save</button>
                     <a href="javascript:history.back()" class="btn btn-default waves-effect waves-themed">
                         <span class="fal fa-times"></span> Close
                     </a>
@@ -428,9 +429,10 @@
                 processData: false,
                 timeout: 0,
                 success: function(data) {
-
+                    console.log("===================== sucess", data);
                     $('.submit-loader').hide();
-
+                    $('.btn-submit').prop('disabled', true);
+                    $('.alert-success').css('display','flex').text("Create successfully.");
                 },
                 failure: function(response) {
                     console.log("===================== failure", response);
