@@ -63,22 +63,26 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="source_url" id="label-source-url">Source URL *</label>
+                            <label for="source_url" id="source-label">Source URL *</label>
 
                             <div class="input-group">
                                 <input type="text" class="form-control input-source-url" name="source_url"
                                     placeholder="Source URL">
+                                <input type="text" class="form-control input-source-file-path" name="file_path"
+                                    placeholder="File Path" style="display: none">
 
                                 <div class="custom-file source-file-container" style="display: none">
                                     <input name="source_file" type='file' class="custom-file-input source-file"
                                         style="display: none" accept=".mp4" />
-                                    <label id="label-source-file" class="custom-file-label" for="inputGroupFile01">Choose
+                                    <label id="label-source-file" class="custom-file-label" for="inputGroupFile01"
+                                        style="overflow: hidden;;text-overflow: ellipsis;">Choose
                                         file</label>
                                 </div>
 
-                                <div style="width: 20%; margin: 0px;padding: 0px;">
-                                    <select class="custom-select source-option" id="inputGroupSelect01">
+                                <div style="width: 22%; margin: 0px;padding: 0px;">
+                                    <select class="custom-select source-option" id="inputGroupSelect01" style="text-align: center;">
                                         <option value="url">URL</option>
+                                        <option value="path">PATH</option>
                                         <option value="file">FILE</option>
                                     </select>
                                 </div>
@@ -370,22 +374,43 @@
 
         $('.source-option').on('change', function() {
             var option = this.value;
-            if (option === 'file') {
-                $('.input-source-url').css('display', 'none')
-                $('.input-source-url').val("")
-                $('.source-file-container').css('display', 'block')
-                $('#label-source-url').text("Source File *")
-                $('.source-file').css('display', 'block')
 
-            } else {
-                $('.source-file-container').css('display', 'none')
-                $('.source-file').css('display', 'none')
-                $('#label-source-url').text("Source URL *")
-
-                $('.source-file').val(null);
-                $('.input-source-url').css('display', 'block')
+            switch (option) {
+                case "file":
+                    $('#source-label').text("Source File *");
+                    displaySourceFile(true);
+                    displayInputFilePath(false);
+                    displayInputFileURL(false);
+                    break;
+                case "path":
+                    $('#source-label').text("Source File Path *");
+                    displaySourceFile(false);
+                    displayInputFilePath(true);
+                    displayInputFileURL(false);
+                    break;
+                default:
+                    $('#source-label').text("Source URL *");
+                    displaySourceFile(false);
+                    displayInputFilePath(false);
+                    displayInputFileURL(true);
             }
         });
+
+        function displaySourceFile(display) {
+            $('.source-file-container').css('display', display ? 'block' : 'none');
+            $('.source-file').val('');
+            $('.source-file').css('display', display ? 'block' : 'none');
+        }
+
+        function displayInputFilePath(display) {
+            $('.input-source-file-path').css('display', display ? 'block' : 'none');
+            $('.input-source-file-path').val("");
+        }
+
+        function displayInputFileURL(display) {
+            $('.input-source-url').css('display', display ? 'block' : 'none');
+            $('.input-source-url').val("");
+        }
 
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -413,9 +438,6 @@
             inputPhoto.click();
         });
 
-
-
-
         $(document).on('submit', '#form-data', function(e) {
             e.preventDefault();
             $('.submit-loader').show();
@@ -432,7 +454,7 @@
                     console.log("===================== sucess", data);
                     $('.submit-loader').hide();
                     $('.btn-submit').prop('disabled', true);
-                    $('.alert-success').css('display','flex').text("Create successfully.");
+                    $('.alert-success').css('display', 'flex').text("Create successfully.");
                 },
                 failure: function(response) {
                     console.log("===================== failure", response);

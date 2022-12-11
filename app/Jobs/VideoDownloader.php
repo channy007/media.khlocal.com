@@ -3,9 +3,9 @@
 namespace App\Jobs;
 
 use App\Models\FileStorage;
-use App\Utils\enums\FileExtension;
-use App\Utils\enums\MediaSourceStatus;
-use App\Utils\enums\QueueName;
+use App\Utils\Enums\FileExtension;
+use App\Utils\Enums\MediaSourceStatus;
+use App\Utils\Enums\QueueName;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;

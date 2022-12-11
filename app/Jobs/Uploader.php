@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\MediaProject;
-use App\Utils\enums\MediaSourceStatus;
+use App\Utils\Enums\MediaSourceStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;

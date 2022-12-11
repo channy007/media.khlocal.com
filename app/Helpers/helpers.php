@@ -1,7 +1,7 @@
 <?php
 
-use App\Utils\enums\MediaSourceStatus;
-use App\Utils\enums\Timezone;
+use App\Utils\Enums\MediaSourceStatus;
+use App\Utils\Enums\Timezone;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;

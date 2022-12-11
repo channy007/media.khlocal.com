@@ -10,10 +10,11 @@ use App\Models\MediaProject;
 use App\Models\MediaSource;
 use App\Models\UserProject;
 use App\Services\FileStorageService;
-use App\Utils\enums\MediaProjectStatus;
-use App\Utils\enums\MediaSourceStatus;
-use App\Utils\enums\QueueName;
-use App\Utils\enums\UserType;
+use App\Utils\Enums\MediaProjectStatus;
+use App\Utils\Enums\MediaSourceStatus;
+use App\Utils\Enums\QueueName;
+use App\Utils\Enums\UserType;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -80,8 +81,9 @@ class MediaSourceController extends Controller
         $request['status'] = MediaSourceStatus::NEW;
         $user = auth()->user();
         $request['created_by_id'] = optional($user)->id;
-
+        $filePath = $request['file_path'];
         $sourceUrl = $request['source_url'];
+
         $validator = Validator::make(
             $request->all(),
             [
@@ -101,12 +103,16 @@ class MediaSourceController extends Controller
         }
 
         $request['status'] = MediaSourceStatus::NEW;
-        $mediaSource = MediaSource::create($request->all());
 
-        if ($mediaSource) {
+        try{
+            $mediaSource = MediaSource::create($request->all());
+            if(!$mediaSource){
+                return redirect()->back()->withErrors("Something went wrong! can not create media source.");
+            }
+
             $mediaSource->refresh();
-
-            if ($sourceFile = $request->file('source_file')) {
+            $sourceFile = $request->file('source_file');
+            if ($sourceFile) {
                 $fileStorage = FileStorageService::createFileStorage($mediaSource);
                 $path = Storage::disk('public')->put('videos', $sourceFile);
                 $fileName = $fileStorage->name . '.' . $fileStorage->extension;
@@ -117,18 +123,28 @@ class MediaSourceController extends Controller
                         'fileStorage' => $fileStorage
                     ]
                 ))->onQueue(QueueName::VIDEO_CUTTER)->delay(5);
-            } else {
+            }else if($filePath){
+                $fileStorage = FileStorageService::createFileStorageByFilePath($mediaSource,$filePath);
+
+                dispatch(new VideoCutter(
+                    [
+                        'mediaSource' => $mediaSource,
+                        'fileStorage' => $fileStorage
+                    ]
+                ))->onQueue(QueueName::VIDEO_CUTTER)->delay(5);
+            }else {
                 dispatch(new VideoDownloader(
                     [
                         'mediaSource' => $mediaSource
                     ]
                 ))->onQueue(QueueName::VIDEO_DOWNLOADER);
             }
+            return response()->json(['success' => "Create successfully."]);
+
+        }catch(Exception $e){
+            return redirect()->back()->withErrors($e->getMessage());
         }
-
-        return response()->json(['success' => "Create successfully."]);
     }
-
 
     public function edit(Request $request, $id)
     {

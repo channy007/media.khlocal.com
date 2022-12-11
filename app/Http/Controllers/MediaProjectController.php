@@ -7,7 +7,7 @@ use App\Models\ChannelSource;
 use App\Models\MediaProject;
 use App\Models\ProjectChannelSource;
 use App\Models\UserProject;
-use App\Utils\enums\UserType;
+use App\Utils\Enums\UserType;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
