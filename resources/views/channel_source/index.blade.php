@@ -74,7 +74,7 @@
                             <td><a class="link" href="{{ $channelSource->url }}"
                                     target="__blank">{{ $channelSource->url }}</a></td>
                             <td>{{ $channelSource->custom_crop }}</td>
-                            <td>{{ $mediaSource->segment_cut }}</td>
+                            <td>{{ $channelSource->segment_cut }}</td>
                             <td>{{ $channelSource->country }}</td>
                             <td>{{ $channelSource->description }}</td>
                             <td>{{ $channelSource->created_at ? getDateString($channelSource->created_at, 'd-M-Y') : '' }}</td>
