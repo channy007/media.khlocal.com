@@ -58,6 +58,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">URL</th>
                         <th scope="col">Custom Crop</th>
+                        <th scope="col">Segment Cute</th>
                         <th scope="col">Country</th>
                         <th scope="col">Description</th>
                         <th scope="col">Created At</th>
@@ -73,6 +74,7 @@
                             <td><a class="link" href="{{ $channelSource->url }}"
                                     target="__blank">{{ $channelSource->url }}</a></td>
                             <td>{{ $channelSource->custom_crop }}</td>
+                            <td>{{ $mediaSource->segment_cut }}</td>
                             <td>{{ $channelSource->country }}</td>
                             <td>{{ $channelSource->description }}</td>
                             <td>{{ $channelSource->created_at ? getDateString($channelSource->created_at, 'd-M-Y') : '' }}</td>
