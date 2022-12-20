@@ -274,6 +274,9 @@
             if (mediaSource.custom_crop) {
                 $(this).find('#custom-crop').val(mediaSource.custom_crop);
             }
+            if (mediaSource.segment_cut) {
+                $(this).find('#segment-cut').val(mediaSource.segment_cut);
+            }
 
         });
         //##### END CUT #####
