@@ -58,7 +58,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">URL</th>
                         <th scope="col">Custom Crop</th>
-                        <th scope="col">Segment Cute</th>
+                        <th scope="col">Segments Cute</th>
                         <th scope="col">Country</th>
                         <th scope="col">Description</th>
                         <th scope="col">Created At</th>
