@@ -317,6 +317,12 @@
                         id="custom-crop">
                 </div>
 
+                <div class="form-group col-md-4">
+                    <label for="segment_cut">Segment Cut</label>
+                    <input type="text" class="form-control" name="segment_cut" placeholder="Segment Cut (00:05:00,00:06:25)"
+                        id="segment-cut">
+                </div>
+
             </div>
 
             <br>
@@ -356,7 +362,7 @@
             var sourceFromOptions = `<option value="" selected>{{ __('Choose source from..') }}</option>`;
             selectedProject.channel_sources.forEach(channelSource => {
                 sourceFromOptions +=
-                    `<option value="${channelSource.channel_source.id}" data-custom_crop="${channelSource.channel_source.custom_crop}">${channelSource.channel_source.name}</option>`;
+                    `<option value="${channelSource.channel_source.id}" data-custom_crop="${channelSource.channel_source.custom_crop}" data-segment-cut="${channelSource.channel_source.segment_cut}">${channelSource.channel_source.name}</option>`;
             });
             $('.source-from').html(sourceFromOptions);
 
@@ -370,6 +376,13 @@
             if (customCrop && customCrop != 'null') {
                 $('#custom-crop').val(customCrop)
             }
+
+            var segmentCut = obj.options[obj.selectedIndex].getAttribute('data-segment-cut');
+            if (segmentCut && segmentCut != 'null') {
+                $('#segment-cut').val(segmentCut)
+            }
+
+
         }
 
         $('.source-option').on('change', function() {

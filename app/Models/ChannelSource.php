@@ -18,7 +18,8 @@ class ChannelSource extends Model
         'updated_by_id',
         'custom_crop',
         'description',
-        'country'
+        'country',
+        'segment_cut'
     ];
 
     public function media_projects(){

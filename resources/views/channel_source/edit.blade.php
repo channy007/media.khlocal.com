@@ -59,6 +59,12 @@
                     <input type="text" class="form-control" name="country" placeholder="Country" value="{{ $data->country }}">
                 </div>
 
+                <div class="form-group col-md-4">
+                    <label for="segment_cut">Segment Cut</label>
+                    <input type="text" class="form-control" name="segment_cut" placeholder="Segment Cut (00:05:00,00:06:25)" value="{{ $data->segment_cut }}"
+                        id="segment-cut">
+                </div>
+
             </div>
 
             <div class="form-row">

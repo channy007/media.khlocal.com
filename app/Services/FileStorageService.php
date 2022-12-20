@@ -35,7 +35,7 @@ class FileStorageService
 
         Log::info("================= path: ".dirname($fullFilePath));
         Log::info("================= filename: ".basename($fullFilePath,'.mp4'));
-
+        
         $fileStorage = FileStorage::whereMediaSourceId($mediaSource->id)->first();
         if (!$fileStorage) {
             $fileStorage = new FileStorage();

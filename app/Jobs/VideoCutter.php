@@ -47,7 +47,7 @@ class VideoCutter implements ShouldQueue
         $fileStorage = $this->data['fileStorage'];
         $fileName = $fileStorage->path . '/' . $fileStorage->name . '.' . $fileStorage->extension;
 
-        if($this->isMediaSourceCutting($mediaSource->id)){
+        if ($this->isMediaSourceCutting($mediaSource->id)) {
             Log::info("===== END CUTTING VIDEO (This source are cutting by other!)=====");
             return;
         }
@@ -73,7 +73,8 @@ class VideoCutter implements ShouldQueue
                 $projectName,
                 $mediaSource->cut_off ?? 0,
                 $mediaSource->cut_off_side ?? 0,
-                $mediaSource->custom_crop ?? ""
+                $mediaSource->custom_crop ?? "",
+                $mediaSource->segment_cut ?? ""
             ]
         );
 
@@ -85,9 +86,10 @@ class VideoCutter implements ShouldQueue
         Log::info("===== END CUTTING VIDEO OUTPUT: " . $process->getOutput());
     }
 
-    private function isMediaSourceCutting($mediaSourceId){
+    private function isMediaSourceCutting($mediaSourceId)
+    {
         $mediaSource = MediaSource::whereId($mediaSourceId)->first();
-        if($mediaSource->status == MediaSourceStatus::CUTTING){
+        if ($mediaSource->status == MediaSourceStatus::CUTTING) {
             return true;
         }
         return false;

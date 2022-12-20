@@ -33,7 +33,8 @@ class MediaSource extends Model
         'error',
         'custom_crop',
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
+        'segment_cut'
     ];
 
     public function project(){

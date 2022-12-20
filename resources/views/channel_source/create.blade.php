@@ -57,6 +57,12 @@
                     <input type="text" class="form-control" name="country" placeholder="Country">
                 </div>
 
+                <div class="form-group col-md-4">
+                    <label for="segment_cut">Segment Cut</label>
+                    <input type="text" class="form-control" name="segment_cut" placeholder="Segment Cut (00:05:00,00:06:25)"
+                        id="segment-cut">
+                </div>
+
             </div>
 
             <div class="form-row">
