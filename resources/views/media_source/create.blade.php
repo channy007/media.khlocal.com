@@ -313,13 +313,13 @@
 
                 <div class="form-group col-md-4">
                     <label for="custom_crop">Custom Crop</label>
-                    <input type="text" class="form-control" name="custom_crop" placeholder="Custom Crop"
+                    <input type="text" class="form-control" name="custom_crop" placeholder="width:hieght:x:y"
                         id="custom-crop">
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="segment_cut">Segments Cut</label>
-                    <input type="text" class="form-control" name="segment_cut" placeholder="Segment Cut (00:05:00,00:06:25)"
+                    <label for="segment_cut">Exclude Segments (second)</label>
+                    <input type="text" class="form-control" name="segment_cut" placeholder="Start-End (e.g 10-15;100-105;...)"
                         id="segment-cut">
                 </div>
 

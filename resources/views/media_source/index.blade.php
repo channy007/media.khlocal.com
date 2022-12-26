@@ -86,7 +86,7 @@
                         <th scope="col">Cut Off</th>
                         <th scope="col">Cut Off Side</th>
                         <th scope="col">Custom Crop</th>
-                        <th scope="col">Segments Cut</th>
+                        <th scope="col">Exclude Segments (second)</th>
 
                         <th scope="col">Created At</th>
                         <th scope="col">Error</th>

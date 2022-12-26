@@ -45,7 +45,7 @@
 
                 <div class="form-group col-md-4">
                     <label for="custom_crop">Custom Crop</label>
-                    <input type="text" class="form-control" name="custom_crop" placeholder="Custom Crop"
+                    <input type="text" class="form-control" name="custom_crop" placeholder="width:hieght:x:y"
                         value="{{ $data->custom_crop }}" id="custom-crop">
                 </div>
 
@@ -60,8 +60,8 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="segment_cut">Segments Cut</label>
-                    <input type="text" class="form-control" name="segment_cut" placeholder="Segment Cut (00:05:00,00:06:25)" value="{{ $data->segment_cut }}"
+                    <label for="segment_cut">Exclude Segments (second)</label>
+                    <input type="text" class="form-control" name="segment_cut" placeholder="Start-End (e.g 10-15;100-105;...)" value="{{ $data->segment_cut }}"
                         id="segment-cut">
                 </div>
 
