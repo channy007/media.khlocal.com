@@ -8,6 +8,7 @@
     <style>
         .col-container {
             display: flex;
+            flex-wrap: wrap;
             width: 100%;
             max-width: 100%;
         }
@@ -18,6 +19,32 @@
             justify-content: center;
             max-height: 100%;
         }
+
+        .flex-item-left {
+            padding: 10px;
+            flex: 50%;
+        }
+
+        .flex-item-right {
+            padding: 10px;
+            flex: 50%;
+        }
+        video {
+            width: 95%;
+            height: 100%;
+        }
+
+        /* Responsive layout - makes a one column-layout instead of a two-column layout */
+        @media (max-width: 800px) {
+            .flex-item-right, .flex-item-left {
+                flex: 100%;
+                margin: 15px;
+            }
+            .box{
+                height: 75px;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -25,21 +52,23 @@
 
     <div class="col-container">
 
-        <div class="col col-lg-6 col-md-12 col-sm-12">
-            <div class="row" style="display: flex;justify-content: center;max-width: 770px;max-height: 480px;">
+        <div class="col col-lg-6 col-md-12 col-sm-12 flex-item-left">
+            <div class="row" style="display: flex;justify-content: center;max-width: 750px;max-height: 480px;">
                 <h2 id="downloaded-heading">VIDEO DOWNLOADED</h2>
-                <video controls="" autoplay="" name="media" width="100%" height="100%" id="my-video-downloaded">
+                <video controls="" autoplay="" name="media" id="my-video-downloaded" controls>
                     <source src="{{ url('/') . '/video/' . $data->name . '.' . $data->extension }}" type="video/mp4">
                 </video>
             </div>
 
         </div>
 
-        <div class="col col-lg-6 col-md-12 col-sm-12">
-            <div class="row" style="display: flex;justify-content: center;max-width: 770px;max-height: 480px;">
+        <div class="box"></div>
+
+        <div class="col col-lg-6 col-md-12 col-sm-12 flex-item-right">
+            <div class="row" style="display: flex;justify-content: center;max-width: 750px;max-height: 480px;">
                 <h2 id="cutted-heading">VIDEO CUTTED</h2>
 
-                <video controls="" autoplay="" name="media" width="100%" height="100%" id="my-video-cutted">
+                <video controls="" autoplay="" name="media" id="my-video-cutted" controls>
                     <source src="{{ url('/') . '/video/' . $data->name_cutted . '.' . $data->extension }}"
                         type="video/mp4">
                 </video>
