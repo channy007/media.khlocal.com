@@ -67,7 +67,7 @@
                             <td>{{ $mediaProject->page_id }}</td>
                             <td>{{ $mediaProject->created_token_at ? getDateString($mediaProject->created_token_at, 'd-m-Y') : '' }}
                             </td>
-                            <td>{{ $mediaProject->expire_at ? getDateString($mediaProject->expire_at, 'd-m-Y') : '' }}</td>
+                            <td>{{ $mediaProject->long_user_access_token_expire_at ? getDateString($mediaProject->long_user_access_token_expire_at, 'd-m-Y') : '' }}</td>
                             <td>{{ ucfirst($mediaProject->status) }}</td>
                         </tr>
                     @endforeach

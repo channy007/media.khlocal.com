@@ -7,6 +7,8 @@ use App\Models\ChannelSource;
 use App\Models\MediaProject;
 use App\Models\ProjectChannelSource;
 use App\Models\UserProject;
+use App\Services\MediaProjectService;
+use App\Utils\Generics\ResponseDTO;
 use App\Utils\Enums\UserType;
 use Carbon\Carbon;
 use Exception;
@@ -18,6 +20,13 @@ use Illuminate\Support\Facades\Validator;
 
 class MediaProjectController extends Controller
 {
+    private $mediaProjectService;
+
+    public function __construct(MediaProjectService $mediaProjectService)
+    {
+        $this->mediaProjectService = $mediaProjectService;
+    }
+
 
     public function listMediaProjects(Request $request)
     {
@@ -73,21 +82,22 @@ class MediaProjectController extends Controller
         
 
         $result = DB::transaction(function () use ($mediaProject, $request) {
-            $oldToken = $mediaProject->access_token;
+            $oldToken = $mediaProject->short_user_access_token;
+            
             $mediaProject->update($request->all());
-            $result = ['success' => true, 'message' => 'Successful', 'errors' => null];
-            if ($oldToken != $request['access_token']) {
-                $result = $this->generateLongLifeToken($mediaProject);
+            $result = new ResponseDTO([]);// ['success' => true, 'message' => 'Successful', 'errors' => null];
+            if ($oldToken != $request['short_user_access_token']) {
+                $result = $this->mediaProjectService->updateToken($mediaProject);
             }
             $this->updateOrCreateProjectChannelSources($mediaProject, $request);
 
-            if (!$result['success']) {
+            if ($result->hasError()) {
                 DB::rollBack();
             }
             return $result;
         });
-        if (!$result['success']) {
-            return redirect()->back()->withErrors($result['errors']);
+        if ($result->hasError()) {
+            return redirect()->back()->withErrors($result->error);
         }
 
         return redirect()->route('media-project-index')
@@ -109,19 +119,19 @@ class MediaProjectController extends Controller
         
         $result = DB::transaction(function () use ($request) {
             $mediaProject = MediaProject::create($request->all());
-            $result = ['success' => true, 'message' => 'Successful', 'errors' => null];
+            $result = new ResponseDTO([]);
             if ($mediaProject) {
-                $result = $this->generateLongLifeToken($mediaProject);
+                $result = $this->mediaProjectService->updateToken($mediaProject);
             }
             $this->updateOrCreateProjectChannelSources($mediaProject, $request);
 
-            if (!$result['success']) {
+            if ($result->hasError()) {
                 DB::rollBack();
             }
             return $result;
         });
 
-        if (!$result['success']) {
+        if ($result->hasError()) {
             return redirect()->back()->withErrors($result['errors']);
         }
         return redirect()->route('media-project-index')

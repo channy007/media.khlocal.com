@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\FileStorage;
-use App\Sources\Generics\ResponseDTO;
+use App\Utils\Generics\ResponseDTO;
 use App\Utils\Enums\FileExtension;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;

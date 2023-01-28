@@ -61,7 +61,7 @@ class Uploader implements ShouldQueue
                 'bash',
                 $shellFile,
                 $mediaProject->page_id,
-                $mediaProject->long_access_token,
+                $mediaProject->long_page_access_token,
                 $fileName,
                 $mediaSource->source_name ?? "",
                 $mediaSource->source_text ?? "",

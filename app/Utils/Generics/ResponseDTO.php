@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Sources\Generics;
+namespace App\Utils\Generics;
 
-use App\Sources\Utils\Enums\StatusCode;
-use App\Sources\Utils\Enums\StatusType;
+use App\Utils\Enums\StatusCode;
 
 class ResponseDTO
 {
@@ -13,6 +12,10 @@ class ResponseDTO
     public $total;
     public $statusCode;
     public $metaData;
+
+    public function hasError(){
+        return $this->error != null ? true : (empty($this->error) ? false : true);
+    }
 
     public function __construct($data)
     {
