@@ -101,7 +101,7 @@
                                     placeholder="Source URL" style="flex: 70%;">
                                     
                                 <input type="text" class="form-control input-source-file-path" name="file_path"
-                                    placeholder="File Path" style="display: none; flex: 70%;">
+                                    placeholder="/user/video/my-video.mp4" style="display: none; flex: 70%;">
 
                                 <div class="custom-file source-file-container" style="display: none; flex: 70%;">
                                     <input name="source_file" type='file' class="custom-file-input source-file"
