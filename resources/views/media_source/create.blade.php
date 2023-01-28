@@ -1,6 +1,30 @@
 @extends('layouts.homepage')
 
+@section("style")
+    <style>
 
+        .btn-fill-source-info:hover{
+            cursor: pointer;
+        }
+
+        @keyframes colorChange {
+            30% {
+                background: rgb(66, 90, 224);  
+                color: white ;  
+            }
+            20% {
+                background: rgb(33, 33, 156);    
+                color: white ;
+            }
+            50% {
+                background: rgb(73, 89, 231);
+                color: white ;  
+            }
+        }
+
+    </style>
+
+@stop
 @section('content')
     <nav aria-label="breadcrumb" style="margin-left: 10px;">
         <ol class="breadcrumb" style="background: none">
@@ -24,6 +48,7 @@
 
         <form id="form-data" action="{{ route('media-source-store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            <input type="hidden" value="{{url('/')}}" id="base_url">
             <div class="form-row">
                 <div class="col-md-4">
                     <div class="form-group col-md-12">
@@ -58,20 +83,27 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="source_name">Source Name <em class="em-red">*</em></label>
-                            <input type="text" class="form-control" name="source_name" placeholder="Source Name"
+                            <input type="text" class="form-control" id="source-name" name="source_name" placeholder="Source Name"
                                 required>
                         </div>
 
                         <div class="form-group col-md-6">
+                            <label for="source_text">Source Text</label>
+                            <input type="text" class="form-control" id="source-text" name="source_text" placeholder="Source Text"
+                                required>
+                        </div>
+                        
+                        <div class="form-group col-md-6">
                             <label for="source_url" id="source-label">Source URL <em class="em-red">*</em></label>
 
-                            <div class="input-group">
+                            <div class="input-group" style="display: flex;flex-wrap: wrap">
                                 <input type="text" class="form-control input-source-url" name="source_url"
-                                    placeholder="Source URL">
+                                    placeholder="Source URL" style="flex: 70%;">
+                                    
                                 <input type="text" class="form-control input-source-file-path" name="file_path"
-                                    placeholder="File Path" style="display: none">
+                                    placeholder="File Path" style="display: none; flex: 70%;">
 
-                                <div class="custom-file source-file-container" style="display: none">
+                                <div class="custom-file source-file-container" style="display: none; flex: 70%;">
                                     <input name="source_file" type='file' class="custom-file-input source-file"
                                         style="display: none" accept=".mp4" />
                                     <label id="label-source-file" class="custom-file-label" for="inputGroupFile01"
@@ -79,20 +111,20 @@
                                         file</label>
                                 </div>
 
-                                <div style="width: 22%; margin: 0px;padding: 0px;">
+                                <div style="flex: 20%; margin: 0px;padding: 0px;">
                                     <select class="custom-select source-option" id="inputGroupSelect01" style="text-align: center;">
                                         <option value="url">URL</option>
                                         <option value="path">PATH</option>
                                         <option value="file">FILE</option>
                                     </select>
                                 </div>
+
+                                <div style="flex: 15%; margin: 0px;padding: 0px;">
+                                    <button type="button" class="form-control btn-fill-source-info" onclick="fillSourceInfo()" >Fill Info</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="source_text">Source Text</label>
-                            <input type="text" class="form-control" name="source_text" placeholder="Source Text"
-                                required>
-                        </div>
+
                         <div class="form-group col-md-6">
                             <label for="tag">Tags</label>
                             <input type="text" class="form-control" name="tags" id="tags" placeholder="Tags">
@@ -343,6 +375,8 @@
 @stop
 
 @section('scripts')
+    <script src="{{ asset('js/media-project.js') }}"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#project-id').change();
@@ -368,8 +402,6 @@
 
             $('#tags').val(selectedProject.tags)
         }
-
-
 
         function channelSourceChange(obj) {
             var customCrop = obj.options[obj.selectedIndex].getAttribute('data-custom_crop');
@@ -423,6 +455,7 @@
         function displayInputFileURL(display) {
             $('.input-source-url').css('display', display ? 'block' : 'none');
             $('.input-source-url').val("");
+            $('.btn-fill-source-info').css('display', display ? 'block' : 'none');
         }
 
         function readURL(input) {
@@ -484,4 +517,6 @@
 
         });
     </script>
+
+
 @stop

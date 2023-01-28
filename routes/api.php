@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Facebook\FacebookUploadController;
+use App\Http\Controllers\Youtube\YoutubeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('/youtube-download',[FacebookUploadController::class,'download']);
+
+
+Route::get('/youtube/video-details',[YoutubeController::class,'getVideoDetails']);

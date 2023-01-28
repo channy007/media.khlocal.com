@@ -2,6 +2,7 @@
 
 use App\Utils\Enums\MediaSourceStatus;
 use App\Utils\Enums\Timezone;
+use App\Utils\Generics\ResponseDTO;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -17,6 +18,26 @@ const DEFAULT_TIMESTAMP_FORMAT = array(
     'i' => ' m',
     's' => ' s'
 );
+
+########## Related to response ##########
+
+function responseJson(array $data, $statusCode = null)
+{
+    $dto = new ResponseDTO($data);
+    if (!isset($statusCode)) {
+        $statusCode = $dto->statusCode;
+    }
+    return response()->json($dto, $statusCode);
+}
+
+function responseDto(ResponseDTO $dto, $statusCode = null)
+{
+    if (!isset($statusCode)) {
+        $statusCode = $dto->statusCode;
+    }
+    return response()->json($dto, $statusCode);
+}
+
 
 function clearCacheAll()
 {
