@@ -158,7 +158,7 @@
 
                                     @case('cutted')
                                     @case('upload_error')
-                                        <a class="link" href="{{ route('media-source-view-video', $mediaSource->id) }}">
+                                        <a class="link" href="{{ route('media-source-view-video', $mediaSource->id) }}" target="__blank">
                                             {{ $mediaSource->source_name }}
                                         </a>
                                     @break
