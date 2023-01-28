@@ -105,7 +105,7 @@
             <div class="form-row">
 
                 <div class="form-group col-md-4">
-                    <label for="trainsition">Transition *</label>
+                    <label for="trainsition">Transition <em class="em-red">*</em></label>
                     <select name="transition" class="form-control">
                         <option value="circleclose">
                             circleclose
@@ -252,7 +252,7 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="resolution">Resolution *</label>
+                    <label for="resolution">Resolution <em class="em-red">*</em></label>
                     <select name="resolution" class="form-control" id="resolution">
                         <option value="16:9">16:9</option>
                         <option value="4:3" selected>4:3</option>
@@ -261,20 +261,20 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="seg_start">Segment Start *</label>
+                    <label for="seg_start">Segment Start <em class="em-red">*</em></label>
                     <input type="number" class="form-control" name="seg_start" placeholder="Segment Start" required
                         value="5">
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="seg_length">Segment Length *</label>
+                    <label for="seg_length">Segment Length <em class="em-red">*</em></label>
                     <input type="number" class="form-control" name="seg_length" placeholder="Segment Length" required
                         value="90">
 
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="seg_gap">Segment Gap *</label>
+                    <label for="seg_gap">Segment Gap <em class="em-red">*</em></label>
                     <input type="number" class="form-control" name="seg_gap" placeholder="Segment Gap" required
                         value="25">
 
