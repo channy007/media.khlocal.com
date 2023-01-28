@@ -21,14 +21,17 @@ class MediaTagController extends Controller
     public function index(Request $request)
     {
         $search = $request['search'];
+        $channel = $request['channel'];
         $datas = MediaTag::query();
         $datas->when($search,function($query)use($search){
             $query->where('tag_name','LIKE','%'.$search.'%')
             ->orWhere('tag_description','LIKE','%'.$search.'%');
+        })->when($channel, function ($query) use ($channel) {
+            $query->where('tag_channel',$channel);
         });
         $datas = $datas->paginate(10);
 
-        return view('media_tag.index', compact('datas','search'));
+        return view('media_tag.index', compact('datas','search','channel'));
     }
 
     public function edit(Request $request, $id)
