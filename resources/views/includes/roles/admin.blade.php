@@ -11,6 +11,9 @@
     <li @if(in_array($routeName,['channel-source-index','channel-source-create','channel-source-edit'])) class="active" @endif>
         <a href="{{ route('channel-source-index') }}">Channel Source</a>
     </li>
+    <li @if(in_array($routeName,['media-tag-index','media-tag-create','media-tag-edit'])) class="active" @endif>
+        <a href="{{ route('media-tag-index') }}">Media Tag</a>
+    </li>
     <li @if(in_array($routeName,['media-source-index','media-source-create','media-source-edit'])) class="active" @endif>
         <a href="{{ route('media-source-index') }}">Media Source</a>
     </li>

@@ -4,6 +4,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ChannelSourceController;
 use App\Http\Controllers\MediaProjectController;
 use App\Http\Controllers\MediaSourceController;
+use App\Http\Controllers\MediaTagController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -70,14 +71,18 @@ Route::middleware(['isAuthenticated'])->group(function () {
         Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user-update');
         Route::get('/user/create', [UserController::class, 'create'])->name('user-create');
         Route::post('/user/store', [UserController::class, 'store'])->name('user-store');
+
+
+        Route::get('/media-tag/index', [MediaTagController::class, 'index'])->name('media-tag-index');
+        Route::get('/media-tag/edit/{id}', [MediaTagController::class, 'edit'])->name('media-tag-edit');
+        Route::post('/media-tag/update/{id}', [MediaTagController::class, 'update'])->name('media-tag-update');
+        Route::get('/media-tag/create', [MediaTagController::class, 'create'])->name('media-tag-create');
+        Route::post('/media-tag/store', [MediaTagController::class, 'store'])->name('media-tag-store');
     
     });
 
     
 });
-
-
-
 
 
 Route::get('/login', [UserAuthController::class, 'index'])->name('login');
