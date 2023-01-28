@@ -157,7 +157,7 @@ class MediaProjectController extends Controller
                 $mediaProject->expire_at = Carbon::now()->addDays((int)($facebookResult->expires_in / 86400));
                 $mediaProject->created_token_at = Carbon::now();
                 $mediaProject->save();
-                Log::info("============ generat long life token success response: " . $facebookResponse->body());
+                Log::info("============ generate long life token success response: " . $facebookResponse->body());
             }
             if ($facebookResponse->failed()) {
                 Log::info("============ generat long life token fails response: " . $facebookResponse->body());

@@ -12,6 +12,8 @@ class Application extends Model
     protected $fillable = [
         'name',
         'app_id',
-        'client_secret'
+        'client_secret',
+        'user_id',
+        'user_name'
     ];
 }

@@ -23,7 +23,7 @@
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="inputEmail4">Name *</label>
+                    <label for="inputEmail4">App Name *</label>
                     <input type="text" class="form-control" name="name" value="{{ $data->name }}" placeholder="Name"
                         required>
                 </div>
@@ -37,6 +37,16 @@
                     <label for="inputPassword4">Client Secret *</label>
                     <input type="text" class="form-control" name="client_secret" value="{{ $data->client_secret }}"
                         placeholder="App ID">
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="inputPassword4">User ID</label>
+                    <input type="text" class="form-control" name="user_id" placeholder="User Id" value="{{ $data->user_id }}">
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="inputPassword4">User Name</label>
+                    <input type="text" class="form-control" name="user_name" placeholder="User Name" value="{{ $data->user_name }}">
                 </div>
 
             </div>

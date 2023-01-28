@@ -24,7 +24,7 @@
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="inputEmail4">Name *</label>
+                    <label for="inputEmail4">App Name *</label>
                     <input type="text" class="form-control" name="name" placeholder="Name" required>
                 </div>
                 <div class="form-group col-md-4">
@@ -37,6 +37,15 @@
                     <input type="text" class="form-control" name="client_secret" placeholder="App ID">
                 </div>
 
+                <div class="form-group col-md-4">
+                    <label for="inputPassword4">User ID</label>
+                    <input type="text" class="form-control" name="user_id" placeholder="User Id">
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="inputPassword4">User Name</label>
+                    <input type="text" class="form-control" name="user_name" placeholder="User Name">
+                </div>
             </div>
 
             <br>

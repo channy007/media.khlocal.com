@@ -40,9 +40,11 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
+                        <th scope="col">App Name</th>
                         <th scope="col">App ID</th>
                         <th scope="col">Client Secret</th>
+                        <th scope="col">User Name</th>
+                        <th scope="col">User ID</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -53,6 +55,8 @@
                             <td>{{ $application->name }}</td>
                             <td>{{ $application->app_id }}</td>
                             <td class="hidetext">{{ $application->client_secret }}</td>
+                            <td>{{ $application->user_name }}</td>
+                            <td>{{ $application->user_id }}</td>
                             <td style="text-align: center">
                                 <a href="{{ route('app-edit', $application->id) }}"
                                     class="btn btn-primary btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
