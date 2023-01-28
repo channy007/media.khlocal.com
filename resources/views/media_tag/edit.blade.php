@@ -23,11 +23,11 @@
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="inputEmail4">Tag ID *</label>
+                    <label for="inputEmail4">Tag ID <em class="em-red">*</em></label>
                     <input type="text" class="form-control" name="tag_id" placeholder="Tag ID" required value="{{ $data->tag_id }}">
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="inputPassword4">Tag Name *</label>
+                    <label for="inputPassword4">Tag Name <em class="em-red">*</em></label>
                     <input type="text" class="form-control" name="tag_name" placeholder="Tag Name" required value="{{ $data->tag_name }}">
                 </div>
 

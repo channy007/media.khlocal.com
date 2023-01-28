@@ -24,21 +24,21 @@
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="inputEmail4">Name *</label>
+                    <label for="inputEmail4">Name <em class="em-red">*</em></label>
                     <input type="text" class="form-control" name="name" placeholder="Name" required>
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="inputPassword4">Username *</label>
+                    <label for="inputPassword4">Username <em class="em-red">*</em>*</label>
                     <input type="text" class="form-control" name="username" placeholder="Username">
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="inputPassword4">Password *</label>
+                    <label for="inputPassword4">Password <em class="em-red">*</em></label>
                     <input type="password" class="form-control" name="password" placeholder="Password">
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="type">Type *</label>
+                    <label for="type">Type <em class="em-red">*</em></label>
                     <select name="type" class="form-control" id="type">
                         <option value="editor" selected>Editor</option>
                         <option value="admin">Admin</option>

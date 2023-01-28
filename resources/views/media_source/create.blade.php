@@ -40,7 +40,7 @@
                 <div class="col-md-8">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="project_id">Project Name *</label>
+                            <label for="project_id">Project Name <em class="em-red">*</em></label>
                             <select name="project_id" class="form-control" id="project-id"
                                 onchange="projectChange({{ $projects }})">
                                 @foreach ($projects as $project)
@@ -51,19 +51,19 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="inputPassword4">Channel Source *</label>
+                            <label for="inputPassword4">Channel Source <em class="em-red">*</em></label>
                             <select name="channel_source_id" class="form-control source-from"
                                 onchange="channelSourceChange(this)" required id="channel-source-id">
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="source_name">Source Name *</label>
+                            <label for="source_name">Source Name <em class="em-red">*</em></label>
                             <input type="text" class="form-control" name="source_name" placeholder="Source Name"
                                 required>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="source_url" id="source-label">Source URL *</label>
+                            <label for="source_url" id="source-label">Source URL <em class="em-red">*</em></label>
 
                             <div class="input-group">
                                 <input type="text" class="form-control input-source-url" name="source_url"

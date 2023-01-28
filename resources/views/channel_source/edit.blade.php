@@ -23,7 +23,7 @@
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="channel">Channel *</label>
+                    <label for="channel">Channel <em class="em-red">*</em></label>
                     <select name="channel" class="form-control" required>
                         <option value="youtube" {{ $data->channel == 'youtube' ? 'selected' : '' }} selected>Youtube
                         </option>
@@ -32,13 +32,13 @@
                     </select>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="name">Name *</label>
+                    <label for="name">Name <em class="em-red">*</em></label>
                     <input type="text" class="form-control" name="name" value="{{ $data->name }}" placeholder="Name"
                         required>
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="url">URL *</label>
+                    <label for="url">URL <em class="em-red">*</em></label>
                     <input type="text" class="form-control" name="url" value="{{ $data->url }}" placeholder="URL"
                         required>
                 </div>

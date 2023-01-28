@@ -32,12 +32,12 @@
                     </select>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="name">Name *</label>
+                    <label for="name">Name <em class="em-red">*</em></label>
                     <input type="text" class="form-control" name="name" placeholder="Name" required>
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="url">URL *</label>
+                    <label for="url">URL <em class="em-red">*</em></label>
                     <input type="text" class="form-control" name="url" placeholder="URL" required>
                 </div>
 

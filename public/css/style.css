@@ -224,3 +224,7 @@ a.article:hover {
     line-height: 35px !important;
 }
 /* END SELECT 2 */
+
+.em-red {
+    color: red;
+}
