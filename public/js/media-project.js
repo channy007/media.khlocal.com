@@ -21,7 +21,7 @@ function fillSourceInfo() {
     setTimeout(function () {
         $("#source-text").css({"animation-name":"none","color":"black"});
         $("#source-name").css({"animation-name": "none","color":"black"});
-    }, 7000);
+    }, 10000);
 }
 
 function getYoutubeVideoDetails() {
