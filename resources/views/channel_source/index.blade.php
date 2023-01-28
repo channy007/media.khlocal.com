@@ -17,7 +17,7 @@
         @endif
 
         <form action="{{ route('channel-source-index') }}" method="GET" enctype="multipart/form-data">
-            <div class="d-flex" >
+            <div class="d-flex" style="flex-wrap: wrap;">
                 <div class="p-2" style="align-items: center;justify-content: center;text-align: center;display: flex">
                     <span>Channel</span>
                 </div>

@@ -15,7 +15,7 @@
 
 
         <form action="{{ route('user-index') }}" method="GET" enctype="multipart/form-data">
-            <div class="d-flex" >
+            <div class="d-flex" style="flex-wrap: wrap;">
                 
                 <div class="p-2">
                     <div class="input-group">
