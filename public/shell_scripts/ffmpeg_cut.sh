@@ -1,5 +1,5 @@
 #!/bin/bash
-#usage: ./ffmpeg.sh filename(1) transition(2) seg_start(3) seg_length(4) seg_gap(5) flip(6) resolution(7) project-name(8) cut_off(9) cut_off_side(10) custom_crop(11)
+#usage: ./ffmpeg.sh filename(1) transition(2) seg_start(3) seg_length(4) seg_gap(5) flip(6) resolution(7) project-name(8) cut_off(9) cut_off_side(10) custom_crop(11) exclude_segment(12)
 
 #set -vx
 file="$1"
@@ -16,8 +16,10 @@ project_name="$8"
 cutoff="$9"
 cutoff_side="${10}"
 custom_crop="${11}"
+exclude_segment="${12}"
 start_time=$(/bin/date +%s)
-##### 
+
+#####################22 
 if [[ -z "$flip" ]];
 then
     flip=""
@@ -80,33 +82,44 @@ fade_duration=1
 fade_prev=0
 fade_next=1
 all_duration=0
+IFS=";" read -a exclude_segment <<< $exclude_segment
 while (($(echo "$video_length >= $seg_end" | bc))); do
-        all_video_fade="$all_video_fade$video_fade"
-        all_audio_fade="$all_audio_fade$audio_fade"
+	for segment in "${exclude_segment[@]}"; do
+		IFS="-" read -a seg_exc <<< $segment
+		if [[ $seg_start -lt ${seg_exc[1]} && $seg_end -gt ${seg_exc[0]} ]]; then
+			if [[ $seg_start -ge ${seg_exc[0]} ]]; then
+				seg_start=${seg_exc[1]}
+			else
+				seg_end=${seg_exc[0]}
+			fi
+		fi
+	done
+	if [[ $seg_start -lt $seg_end ]]; then
+	        all_video_fade="$all_video_fade$video_fade"
+	        all_audio_fade="$all_audio_fade$audio_fade"
 
-	speed=$(bc -l <<< "1 - $(( $RANDOM%5+5 )) / 100")
-	#speed=1
-        all_duration=$(bc -l <<< "$all_duration + $seg_length * $speed")
-        offset=$(bc -l <<< "$all_duration - $fade_duration * $fade_next")
+		speed=$(bc -l <<< "1 - $(( $RANDOM%5+5 )) / 100")
+	        all_duration=$(bc -l <<< "$all_duration + $seg_length * $speed")
+        	offset=$(bc -l <<< "$all_duration - $fade_duration * $fade_next")
+		
+		video_scale="$video_scale[0:v]trim=start=$seg_start:end=$seg_end,setpts=$speed*(PTS-STARTPTS)[v$fade_prev];"
+	        video_fade="[vfade$fade_prev][v$fade_next]xfade=transition=$transition:duration=$fade_duration:offset=$offset[vfade$fade_next];"
 	
-	video_scale="$video_scale[0:v]trim=start=$seg_start:end=$seg_end,setpts=$speed*(PTS-STARTPTS)[v$fade_prev];"
-	#video_scale="$video_scale[0:v]trim=start=$seg_start:end=$seg_end[v$fade_prev];"
-        video_fade="[vfade$fade_prev][v$fade_next]xfade=transition=$transition:duration=$fade_duration:offset=$offset[vfade$fade_next];"
-
-	audio_scale="$audio_scale[0:a]atrim=start=$seg_start:end=$seg_end,asetpts=PTS-STARTPTS,atempo=1/$speed[a$fade_prev];"
-	#audio_scale="$audio_scale[0:a]atrim=start=$seg_start:end=$seg_end[a$fade_prev];"
-        audio_fade="[afade$fade_prev][a$fade_next]acrossfade=d=$fade_duration[afade$fade_next];"
+		audio_scale="$audio_scale[0:a]atrim=start=$seg_start:end=$seg_end,asetpts=PTS-STARTPTS,atempo=1/$speed[a$fade_prev];"
+        	audio_fade="[afade$fade_prev][a$fade_next]acrossfade=d=$fade_duration[afade$fade_next];"
+        	(( fade_prev++ ))
+	        (( fade_next++ ))
+	fi
 
 	seg_length=$(shuf -i $min_length-$length -n 1)
 	seg_gap=$(shuf -i 5-$gap -n 1)
         seg_start=$(( $seg_end+$seg_gap ))
         seg_end=$(( $seg_start+$seg_length ))
-        (( fade_prev++ ))
-        (( fade_next++ ))
 done
 fade_prev=$(( fade_prev - 1 ))
 all_video_fade="[v0]copy[vfade0];$all_video_fade[vfade$fade_prev]format=yuv420p"
 all_audio_fade="[a0]acopy[afade0];$all_audio_fade[afade$fade_prev]acopy"
+##exit 0
 set -vx
 ffmpeg -y -hide_banner -i "${file_name}_crop.${extension}" \
         -filter_complex "$video_scale$all_video_fade;$audio_scale$all_audio_fade" \
