@@ -107,6 +107,7 @@
                                 <div class="row justify-content-around">
 
                                     @switch($mediaSource->status)
+                                        @case("new")
                                         @case('download_error')
                                             <a data-href="{{ route('media-source-retry-download', $mediaSource->id) }}"
                                                 class="btn btn-primary btn-sm btn-icon rounded-circle waves-effect waves-themed btn-edit"
@@ -155,7 +156,6 @@
                                 @switch($mediaSource->status)
                                     @case('downloaded')
                                     @case('cut_error')
-
                                     @case('cutted')
                                     @case('upload_error')
                                         <a class="link" href="{{ route('media-source-view-video', $mediaSource->id) }}" target="__blank">
