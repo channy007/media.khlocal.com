@@ -11,6 +11,7 @@ class ChannelSource extends Model
 
     protected $fillable = [
         'channel',
+        'channel_id',
         'name',
         'app_id',
         'url',

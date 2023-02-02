@@ -20,4 +20,11 @@ class YoutubeController extends Controller
             );
         return responseDto($result);
     }
+
+    public function autoDonwload(Request $request){
+        YoutubeService::autoDownload();
+
+        $result = new ResponseDTO([]);
+        return responseDto($result);
+    }
 }
