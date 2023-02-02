@@ -27,4 +27,8 @@ class ChannelSource extends Model
         return $this->hasMany(ProjectChannelSource::class,'channel_source_id','id');
     }
 
+    public function media_project(){
+        return $this->hasOne(ProjectChannelSource::class,'channel_source_id','id');
+    }
+
 }

@@ -37,7 +37,7 @@ class YoutubeService
 
     public static function autoDownload()
     {
-        $channels = ChannelSource::all();
+        $channels = ChannelSource::with('media_project.project')->get();
 
         foreach ($channels as $channel) {
             $channelId = self::getChannelId($channel);
@@ -62,13 +62,26 @@ class YoutubeService
                 continue;
             Log::info("=== channel video: " . json_encode($videoSnipet));
             $videoUrl = "https://www.youtube.com/watch?v=" . $video->id->videoId;
+            $mediaProject = optional($channel->media_project)->project;
+
+            if(MediaSource::whereSourceVid($video->id->videoId)->exists()){
+                continue;
+            }
             MediaSource::create(
                 [
+                    'project_id' => optional($mediaProject)->id,
+                    'created_by_id' => 1,
                     'channel_id' => $channel->id,
                     'source_name' => $videoSnipet->title,
                     'source_text' => $videoSnipet->description,
                     'source_url' => $videoUrl,
-                    'status' => MediaSourceStatus::NEW
+                    'status' => MediaSourceStatus::NEW,
+                    'custom_crop' => $channel->custom_crop,
+                    'segment_cut' => $channel->segment_cut,
+                    'tags' => optional($mediaProject)->tags,
+                    'source_channel' => $videoSnipet->channelTitle,
+                    'source_vid' => $video->id->videoId,
+                    'channel_source_id' => $channel->id
                 ]
             );
         }

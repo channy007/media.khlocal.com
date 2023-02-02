@@ -78,7 +78,7 @@ Route::middleware(['isAuthenticated'])->group(function () {
         Route::post('/media-tag/update/{id}', [MediaTagController::class, 'update'])->name('media-tag-update');
         Route::get('/media-tag/create', [MediaTagController::class, 'create'])->name('media-tag-create');
         Route::post('/media-tag/store', [MediaTagController::class, 'store'])->name('media-tag-store');
-    
+        Route::get('/tags-list', [MediaTagController::class, 'listMediaTags'])->name('tags-list');
     });
 
     

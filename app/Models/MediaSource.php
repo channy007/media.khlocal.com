@@ -16,6 +16,7 @@ class MediaSource extends Model
         'source_url',
         'source_channel',
         'source_text',
+        'source_vid',
         'transition',
         'resolution',
         'seg_start',

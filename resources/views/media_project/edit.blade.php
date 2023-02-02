@@ -68,12 +68,7 @@
                     <input type="text" class="form-control" name="short_user_access_token" value="{{ $data->short_user_access_token }}"
                         placeholder="Access Token" required>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="tags">Tags</label>
-                    <input type="text" class="form-control" name="tags" value="{{ $data->tags }}"
-                        placeholder="Tags">
-                </div>
-
+                
                 <div class="form-group col-md-4">
                     <label for="inputState">Status</label>
                     <select name="status" class="form-control">
@@ -81,9 +76,18 @@
                         <option value="inactive" {{ $data->status == 'inactive' ? 'selected' : '' }}>InActive</option>
                     </select>
                 </div>
-            </div>
 
-            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="inputState">Tags</label>
+                    <select name="tags[]" class="tags form-control" multiple="multiple">
+                        @foreach ($data->media_tags as $tag)
+                        <option value="{{ $tag->tag_id }}" selected>
+                            {{ $tag->tag_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+
                 <div class="form-group col-md-4">
                     <label for="inputState">Channel Sources</label>
                     <select name="channel_source_ids[]" class="channel-sources form-control" multiple="multiple">
@@ -95,6 +99,8 @@
                         @endforeach
                     </select>
                 </div>
+
+
             </div>
 
 
@@ -136,6 +142,36 @@
                     newdata.unshift({
                         id: '',
                         text: 'Select channel sources..'
+                    });
+                    return {
+                        results: newdata
+                    };
+                }
+            }
+        });
+
+        var url = "{{ route('tags-list') }}";
+        $('.tags').select2({
+            placeholder: "Select Tags..",
+            ajax: {
+                url: url,
+                data: function(params) {
+                    var query = {
+                        search: params.term,
+                        type: 'public'
+                    };
+                    return query;
+                },
+                processResults: function(data) {
+                    var newdata = data.data.map(function(tag) {
+                        return {
+                            id: tag.tag_id,
+                            text: tag.tag_name
+                        };
+                    });
+                    newdata.unshift({
+                        id: '',
+                        text: 'Select Tags..'
                     });
                     return {
                         results: newdata

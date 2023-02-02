@@ -154,7 +154,7 @@ class MediaSourceController extends Controller
     }
 
     public function retryDownload(Request $request, $mediaSourceId)
-    {
+    { 
         Log::info("===== retry download =====");
 
         $mediaSource = MediaSource::whereId($mediaSourceId)->where('status', '<>', MediaSourceStatus::DOWNLOADING)->first();
@@ -168,7 +168,7 @@ class MediaSourceController extends Controller
             [
                 'mediaSource' => $mediaSource
             ]
-        ))->onQueue(QueueName::VIDEO_DOWNLOADER);
+        ))->onQueue(QueueName::VIDEO_DOWNLOADER);  
 
         return redirect()->route('media-source-index')
             ->with('success', 'Record start downloading.');

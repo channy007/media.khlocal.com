@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\ChannelSource;
 use App\Models\MediaProject;
+use App\Models\MediaTag;
 use App\Models\ProjectChannelSource;
 use App\Models\UserProject;
 use App\Services\MediaProjectService;
@@ -65,6 +66,7 @@ class MediaProjectController extends Controller
         $data = MediaProject::whereId($id)->first();
         $applications = Application::all();
         $channelSources = ChannelSource::all();
+        $data->media_tags = $data->tags ? MediaTag::whereIn('tag_id',explode(",",$data->tags))->get() : null;
 
         return view('media_project.edit', compact('data', 'applications', 'channelSources'));
     }
@@ -79,11 +81,10 @@ class MediaProjectController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         }
-        
 
         $result = DB::transaction(function () use ($mediaProject, $request) {
             $oldToken = $mediaProject->short_user_access_token;
-            
+            $request['tags'] = $request['tags'] ? implode(",",$request['tags']) : null;
             $mediaProject->update($request->all());
             $result = new ResponseDTO([]);// ['success' => true, 'message' => 'Successful', 'errors' => null];
             if ($oldToken != $request['short_user_access_token']) {
@@ -118,6 +119,7 @@ class MediaProjectController extends Controller
         }
         
         $result = DB::transaction(function () use ($request) {
+            $request['tags'] = $request['tags'] ? implode(",",$request['tags']) : null;
             $mediaProject = MediaProject::create($request->all());
             $result = new ResponseDTO([]);
             if ($mediaProject) {
@@ -132,7 +134,7 @@ class MediaProjectController extends Controller
         });
 
         if ($result->hasError()) {
-            return redirect()->back()->withErrors($result['errors']);
+            return redirect()->back()->withErrors($result->error);
         }
         return redirect()->route('media-project-index')
             ->with('success', 'Update successfully.');
