@@ -12,8 +12,8 @@ class FacebookTokenService
 {
     const FB_ACCESS_TOKEN_URL = 'https://graph.facebook.com/v15.0/oauth/access_token';
 
-    public static function generateLongLifeUserToken($mediaProject,Application $application,ResponseDTO $result){
-        if (!isset($mediaProject->short_user_access_token)) {
+    public static function generateLongLifeUserToken($shortAccessToken,Application $application,ResponseDTO $result){
+        if (!isset($shortAccessToken)) {
             $result->error = "Media project access token required!";
             return $result;
         }
@@ -25,7 +25,7 @@ class FacebookTokenService
                 'grant_type' => 'fb_exchange_token',
                 'client_id' => $application->app_id,
                 'client_secret' => $application->client_secret,
-                'fb_exchange_token' => $mediaProject->short_user_access_token
+                'fb_exchange_token' => $shortAccessToken
             ];
 
             $timeOut = 20;

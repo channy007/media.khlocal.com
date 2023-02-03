@@ -49,6 +49,12 @@
                     <input type="text" class="form-control" name="user_name" placeholder="User Name" value="{{ $data->user_name }}">
                 </div>
 
+                <div class="form-group col-md-4">
+                    <label for="inputEmail4">Access Token <em class="em-red">*</em></label>
+                    <input type="text" class="form-control" name="short_access_token" value="{{ $data->short_access_token }}"
+                        placeholder="Access Token" required>
+                </div>
+
             </div>
 
             <br>

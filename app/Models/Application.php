@@ -14,6 +14,7 @@ class Application extends Model
         'app_id',
         'client_secret',
         'user_id',
-        'user_name'
+        'user_name',
+        'short_access_token'
     ];
 }

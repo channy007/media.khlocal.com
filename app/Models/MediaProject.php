@@ -15,7 +15,6 @@ class MediaProject extends Model
         'name',
         'channel',
         'resolution',
-        'app_id',
         'page_id',
         'short_user_access_token',
         'long_user_access_token_expire_at',
