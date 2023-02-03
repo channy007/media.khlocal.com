@@ -122,7 +122,7 @@ class MediaProjectController extends Controller
             $request['tags'] = $request['tags'] ? implode(",",$request['tags']) : null;
             $mediaProject = MediaProject::create($request->all());
             $result = new ResponseDTO([]);
-            if ($mediaProject) {
+            if (isset($mediaProject->short_user_access_token)) {
                 $result = $this->mediaProjectService->updateToken($mediaProject);
             }
             $this->updateOrCreateProjectChannelSources($mediaProject, $request);

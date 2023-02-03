@@ -61,8 +61,8 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="inputEmail4">Access Token <em class="em-red">*</em></label>
-                    <input type="text" class="form-control" name="short_user_access_token" placeholder="Access Token" required>
+                    <label for="inputEmail4">Access Token</label>
+                    <input type="text" class="form-control" name="short_user_access_token" placeholder="Access Token">
                 </div>
 
                 
