@@ -26,4 +26,4 @@ Route::post('/youtube-download',[FacebookUploadController::class,'download']);
 
 Route::get('/youtube/video-details',[YoutubeController::class,'getVideoDetails']);
 Route::get('/youtube/auto-donwload',[YoutubeController::class,'autoDonwload']);
-
+Route::get('/youtube/channel-details',[YoutubeController::class,'getChannelDetails']);

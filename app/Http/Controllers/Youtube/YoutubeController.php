@@ -9,19 +9,32 @@ use Illuminate\Http\Request;
 
 class YoutubeController extends Controller
 {
-
-
-    public function getVideoDetails(Request $request){
+    public function getVideoDetails(Request $request)
+    {
 
         $result = new ResponseDTO(
             [
                 'data' => YoutubeService::getVideoDetails($request['url'])
             ]
-            );
+        );
         return responseDto($result);
     }
 
-    public function autoDonwload(Request $request){
+    public function getChannelDetails(Request $request)
+    {
+
+        $result = new ResponseDTO(
+            [
+                'data' => YoutubeService::getChannel($request['url'])
+            ]
+        );
+        return responseDto($result);
+    }
+
+
+
+    public function autoDonwload(Request $request)
+    {
         YoutubeService::autoDownload();
 
         $result = new ResponseDTO([]);

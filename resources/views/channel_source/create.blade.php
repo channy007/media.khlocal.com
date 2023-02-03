@@ -1,4 +1,29 @@
 @extends('layouts.homepage')
+@section("style")
+    <style>
+
+        .btn-fill-channel-info:hover{
+            cursor: pointer;
+        }
+
+        @keyframes colorChange {
+            30% {
+                background: rgb(66, 90, 224);  
+                color: white ;  
+            }
+            20% {
+                background: rgb(33, 33, 156);    
+                color: white ;
+            }
+            50% {
+                background: rgb(73, 89, 231);
+                color: white ;  
+            }
+        }
+
+    </style>
+
+@stop
 @section('content')
 
     <nav aria-label="breadcrumb" style="margin-left: 10px;">
@@ -22,6 +47,7 @@
 
         <form action="{{ route('channel-source-store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            <input type="hidden" value="{{url('/')}}" id="base_url">
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="channel">Channel</label>
@@ -33,12 +59,19 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="name">Name <em class="em-red">*</em></label>
-                    <input type="text" class="form-control" name="name" placeholder="Name" required>
+                    <input type="text" class="form-control" id="channel-name" name="name" placeholder="Name" required>
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="url">URL <em class="em-red">*</em></label>
-                    <input type="text" class="form-control" name="url" placeholder="URL" required>
+                    
+                    <div class="input-group" style="display: flex;flex-wrap: wrap">
+                        <input type="text" class="form-control" id="input-channel-url" name="url" style="flex: 70%;" placeholder="URL" required>
+                        <div style="flex: 30%; margin: 0px;min-width: 95px;">
+                            <button type="button" class="form-control btn-fill-source-info" onclick="fillChannelInfo()" >Auto Fill</button>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="form-group col-md-4">
@@ -49,7 +82,7 @@
 
                 <div class="form-group col-md-4">
                     <label for="description">Description</label>
-                    <input type="text" class="form-control" name="description" placeholder="Description">
+                    <input type="text" class="form-control" id="channel-description" name="description" placeholder="Description">
                 </div>
 
                 <div class="form-group col-md-4">
@@ -87,7 +120,7 @@
     </div>
 @stop
 @section('scripts')
-
+    <script src="{{ asset('js/channel-source.js') }}"></script>
     <script type="text/javascript">
         var url = "{{ route('media-project-list') }}";
         $('.media-project').select2({

@@ -111,6 +111,7 @@ class YoutubeService
     {
         if (!$channel->channel_id) {
             $youtubeChannel = self::getChannel($channel);
+
             return optional($youtubeChannel)->id->channelId;
         }
         return $channel->channel_id;
@@ -120,19 +121,17 @@ class YoutubeService
     * ex: $url = "http://twitter.com/pwsdedtch";
     * return pwsdedtch
     */
-    private static function getChannel($channel)
+    public static function getChannel($channelUrl)
     {
-
-        $channelUrl = "https://www.googleapis.com/youtube/v3/search";
+        $channelYoutubeAPI = "https://www.googleapis.com/youtube/v3/search";
         $query = [
             "part" => "id,snippet",
             "type" => "channel"
         ];
-        $path = parse_url($channel->url, PHP_URL_PATH); // gives "/pwsdedtech"
+        $path = parse_url($channelUrl, PHP_URL_PATH); // gives "/pwsdedtech"
         $channelId = substr($path, 1); // gives "pwsdedtech"\
-        $query["q"] = str_replace("@", "", $channelId);
-        $channelYoutube = self::makeRequest($channelUrl, $query);
-        Log::info("============== channel: " . json_encode($channelYoutube));
+        $query["q"] = $channelId;
+        $channelYoutube = self::makeRequest($channelYoutubeAPI, $query);
         if (isset($channelYoutube->items)) {
             return $channelYoutube->items[0];
         }
