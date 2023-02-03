@@ -8,6 +8,7 @@ use App\Jobs\VideoDownloader;
 use App\Models\FileStorage;
 use App\Models\MediaProject;
 use App\Models\MediaSource;
+use App\Models\MediaTag;
 use App\Models\UserProject;
 use App\Services\FileStorageService;
 use App\Utils\Enums\MediaProjectStatus;
@@ -65,13 +66,20 @@ class MediaSourceController extends Controller
     private function getMediaProject()
     {
         $user = auth()->user();
-
+        
         if ($user->type == UserType::ADMIN) {
-            return MediaProject::with('channel_sources.channel_source')->whereStatus(MediaProjectStatus::ACTIVE)->get();
+            $mediaProjects = MediaProject::with('channel_sources.channel_source')->whereStatus(MediaProjectStatus::ACTIVE)->get();
+        }else{
+            $userProjects = UserProject::with('media_project')->whereUserId($user->id)->get();
+            
+            $mediaProjects = $userProjects->pluck('media_project');
         }
-        $userProjects = UserProject::with('media_project')->whereUserId($user->id)->get();
 
-        return $userProjects->pluck('media_project');
+        foreach($mediaProjects as $project){
+            $project->media_tags = $project->tags ? MediaTag::whereIn('tag_id',explode(",",$project->tags))->get() : null;
+        }
+
+        return $mediaProjects;
     }
 
 
@@ -103,7 +111,7 @@ class MediaSourceController extends Controller
         }
 
         $request['status'] = MediaSourceStatus::NEW;
-
+        $request['tags'] = $request['tags'] ? implode(",",$request['tags']) : null;
         try{
             $mediaSource = MediaSource::create($request->all());
             if(!$mediaSource){

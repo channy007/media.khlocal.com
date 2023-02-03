@@ -120,14 +120,20 @@
                                 </div>
 
                                 <div style="flex: 15%; margin: 0px;padding: 0px;">
-                                    <button type="button" class="form-control btn-fill-source-info" onclick="fillSourceInfo()" >Fill Info</button>
+                                    <button type="button" class="form-control btn-fill-source-info" onclick="fillSourceInfo()" >Auto Fill</button>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group col-md-6">
+                        {{-- <div class="form-group col-md-6">
                             <label for="tag">Tags</label>
                             <input type="text" class="form-control" name="tags" id="tags" placeholder="Tags">
+                        </div> --}}
+
+                        <div class="form-group col-md-6">
+                            <label for="inputState">Tags</label>
+                            <select name="tags[]" class="tags form-control" id="tags" multiple="multiple">
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -400,8 +406,44 @@
             });
             $('.source-from').html(sourceFromOptions);
 
-            $('#tags').val(selectedProject.tags)
+            var tags = "";
+            selectedProject.media_tags.forEach(mediaTag => {
+                tags +=
+                    `<option value="${mediaTag.tag_id}" selected>${mediaTag.tag_name}</option>`;
+            });
+
+            $('#tags').html(tags);
         }
+
+        var url = "{{ route('tags-list') }}";
+        $('.tags').select2({
+            placeholder: "Select Tags..",
+            ajax: {
+                url: url,
+                data: function(params) {
+                    var query = {
+                        search: params.term,
+                        type: 'public'
+                    };
+                    return query;
+                },
+                processResults: function(data) {
+                    var newdata = data.data.map(function(tag) {
+                        return {
+                            id: tag.tag_id,
+                            text: tag.tag_name
+                        };
+                    });
+                    newdata.unshift({
+                        id: '',
+                        text: 'Select Tags..'
+                    });
+                    return {
+                        results: newdata
+                    };
+                }
+            }
+        });
 
         function channelSourceChange(obj) {
             var customCrop = obj.options[obj.selectedIndex].getAttribute('data-custom_crop');
