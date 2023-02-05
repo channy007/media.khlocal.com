@@ -50,25 +50,19 @@ class YoutubeService
                     continue;
                 self::insertMediaSource($channel,$listVideo->items);
             }
-
-            break;
         }
     }
 
     private static function insertMediaSource($channel, $youtubeVideos)
     {
         foreach ($youtubeVideos as $video) {
-
-            
-
             $videoSnipet = $video->snippet;
             if(!isset($videoSnipet))
                 continue;
             $videoUrl = "https://www.youtube.com/watch?v=" . $video->id->videoId;
             $mediaProject = optional($channel->media_project)->project;
 
-            self::downloadThumbnail($videoSnipet->thumbnails->default->url);
-
+            // self::downloadThumbnail($videoSnipet->thumbnails->default->url);
             if(MediaSource::whereSourceVid($video->id->videoId)->exists()){
                 continue;
             }
