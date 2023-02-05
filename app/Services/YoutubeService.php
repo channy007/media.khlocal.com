@@ -49,8 +49,6 @@ class YoutubeService
                     continue;
                 self::insertMediaSource($channel,$listVideo->items);
             }
-
-            break;
         }
     }
 
