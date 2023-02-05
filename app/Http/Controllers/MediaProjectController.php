@@ -139,52 +139,7 @@ class MediaProjectController extends Controller
         return redirect()->route('media-project-index')
             ->with('success', 'Update successfully.');
     }
-
-    private function generateLongLifeToken($mediaProject)
-    {
-        $result = ['success' => true, 'message' => 'Successful', 'errors' => null];
-
-        if (!isset($mediaProject->access_token)) {
-            return $result;
-        }
-        $application = Application::whereId($mediaProject->application_id)->first();
-
-        try {
-            Log::info("============ starting generat long life token ============");
-            $facebookUrl = 'https://graph.facebook.com/v15.0/oauth/access_token';
-            $params = [
-                'grant_type' => 'fb_exchange_token',
-                'client_id' => $application->app_id,
-                'client_secret' => $application->client_secret,
-                'fb_exchange_token' => $mediaProject->access_token
-            ];
-            $timeOut = 20;
-            $facebookResponse = Http::asJson()->timeout($timeOut)->post(
-                $facebookUrl . "?" . http_build_query($params)
-            );
-
-            if ($facebookResponse->successful()) {
-                $facebookResult = json_decode($facebookResponse->body());
-                $mediaProject->long_access_token = $facebookResult->access_token;
-                $mediaProject->expire_at = Carbon::now()->addDays((int)($facebookResult->expires_in / 86400));
-                $mediaProject->created_token_at = Carbon::now();
-                $mediaProject->save();
-                Log::info("============ generate long life token success response: " . $facebookResponse->body());
-            }
-            if ($facebookResponse->failed()) {
-                Log::info("============ generat long life token fails response: " . $facebookResponse->body());
-                $result['success'] = false;
-                $result['errors'] = "Facebook generate long token " . json_decode($facebookResponse->body())->error->message;
-            }
-        } catch (Exception $e) {
-            Log::info("============ generat long life token error ============" . $e->getMessage());
-            $result['success'] = false;
-            $result['errors'] = $e->getMessage();
-        } finally {
-            return $result;
-        }
-    }
-
+    
     private function updateOrCreateProjectChannelSources($mediaProject, $request)
     {
         $channelSourceIds =  $request['channel_source_ids'];

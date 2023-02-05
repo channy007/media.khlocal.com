@@ -85,7 +85,6 @@ class MediaSourceController extends Controller
 
     public function store(Request $request)
     {
-        Log::info("===== reqeust in");
         $request['status'] = MediaSourceStatus::NEW;
         $user = auth()->user();
         $request['created_by_id'] = optional($user)->id;

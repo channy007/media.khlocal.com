@@ -7,6 +7,7 @@ use App\Models\MediaSource;
 use App\Utils\Enums\MediaSourceStatus;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class YoutubeService
 {
@@ -49,18 +50,24 @@ class YoutubeService
                     continue;
                 self::insertMediaSource($channel,$listVideo->items);
             }
+
+            break;
         }
     }
 
     private static function insertMediaSource($channel, $youtubeVideos)
     {
         foreach ($youtubeVideos as $video) {
+
+            
+
             $videoSnipet = $video->snippet;
             if(!isset($videoSnipet))
                 continue;
-            Log::info("=== channel video: " . json_encode($videoSnipet));
             $videoUrl = "https://www.youtube.com/watch?v=" . $video->id->videoId;
             $mediaProject = optional($channel->media_project)->project;
+
+            self::downloadThumbnail($videoSnipet->thumbnails->default->url);
 
             if(MediaSource::whereSourceVid($video->id->videoId)->exists()){
                 continue;
@@ -83,6 +90,13 @@ class YoutubeService
                 ]
             );
         }
+    }
+
+    private static function downloadThumbnail($thumbnailUrl){
+        $contents = file_get_contents($thumbnailUrl);
+        $localUrl = Storage::disk('public')->put('images', $contents);
+
+        Log::info("===== downloaded thumbnail: ".$localUrl);
     }
 
     private static function getChannelVideo($channelId)
@@ -110,7 +124,7 @@ class YoutubeService
         if (!$channel->channel_id) {
             $youtubeChannel = self::getChannel($channel);
 
-            return optional($youtubeChannel)->id->channelId;
+            return optional($youtubeChannel)->id->channelId ?? null;
         }
         return $channel->channel_id;
     }
@@ -130,8 +144,8 @@ class YoutubeService
         $channelId = substr($path, 1); // gives "pwsdedtech"\
         $query["q"] = $channelId;
         $channelYoutube = self::makeRequest($channelYoutubeAPI, $query);
-        if (isset($channelYoutube->items)) {
-            return $channelYoutube->items[0];
+        if (isset($channelYoutube->items) && sizeof($channelYoutube->items) > 0) {
+            return $channelYoutube->items[0]??null;
         }
 
         return null;
