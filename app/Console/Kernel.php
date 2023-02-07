@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
-        $schedule->command('youtbue:auto-download')->at("23:00")->timezone('Asia/Phnom_Penh');
+        $schedule->command('youtube:auto-download')->at("23:00")->timezone('Asia/Phnom_Penh');
     }
 
     /**
