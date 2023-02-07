@@ -1,4 +1,20 @@
 @extends('layouts.homepage')
+@section('style')
+    <style>
+
+        table tbody tr td img {
+            max-width: 50px;
+            max-height: 50px;
+        }
+
+        .table td {
+            align-items: center;
+            vertical-align: middle;
+        }
+
+    </style>
+@stop
+
 @section('content')
     <nav aria-label="breadcrumb" style="margin-left: 10px;">
         <ol class="breadcrumb" style="background: none">
@@ -96,6 +112,7 @@
                     @foreach ($datas as $count => $mediaSource)
                         <tr>
                             <td>{{ $count + 1 }}</td>
+                            <td><img src="{{ $mediaSource->thumb ?? asset('images/default_image.png') }}" alt="" width="50px" height="50px"></td>
                             <td>{{ optional($mediaSource->creator)->name }}</td>
                             <td>{{ optional($mediaSource->project)->name }}</td>
                             <td>
