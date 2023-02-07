@@ -133,3 +133,6 @@ ffmpeg -y -hide_banner -i "${file_name}_crop.${extension}" \
 end_time=$(/bin/date +%s)
 elapsed=$((end_time - start_time))
 eval "echo Cut elapsed time: $(date -ud "@$elapsed" +'$((%s/3600/24)) days %H hr %M min %S sec')"
+
+####################### remove crop video file #############################
+rm -rf "${file_name}_crop.${extension}"
