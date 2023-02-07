@@ -113,7 +113,6 @@
                         <tr>
                             <td>{{ $count + 1 }}</td>
                             <td><img src="{{ $mediaSource->thumb ? asset('storage/'.$mediaSource->thumb) : asset('images/default_image.png') }}" alt=""></td>
-                            <td><img src="{{ $mediaSource->thumb ?? asset('images/default_image.png') }}" alt="" width="50px" height="50px"></td>
                             <td>{{ optional($mediaSource->creator)->name }}</td>
                             <td>{{ optional($mediaSource->project)->name }}</td>
                             <td>
