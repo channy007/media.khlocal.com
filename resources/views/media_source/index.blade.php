@@ -9,7 +9,12 @@
 
         .table td {
             align-items: center;
+            justify-content: center;
             vertical-align: middle;
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
         }
 
     </style>
@@ -83,6 +88,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Thumbnail</th>
                         <th scope="col">Creator</th>
                         <th scope="col">Project Name</th>
                         <th scope="col">Status</th>
@@ -189,7 +195,7 @@
                                 <a class="link" href="{{ $mediaSource->source_url }}"
                                     target="__blank">{{ $mediaSource->source_url }}</a>
                             </td>
-                            <td>{{ $mediaSource->source_text }}</td>
+                            <td >{{ $mediaSource->source_text }}</td>
                             <td>{{ optional($mediaSource->channel_source)->name }}</td>
                             <td>{{ $mediaSource->transition }}</td>
                             <td>{{ $mediaSource->resolution }}</td>
