@@ -2,25 +2,22 @@
 
 namespace App\Services;
 
-use App\Models\Application;
 use App\Utils\Generics\ResponseDTO;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
-class MediaProjectService
+class ApplicationService
 {
 
-    public function updateToken($mediaProject){
+    public function updateToken($application){
 
         $result = new ResponseDTO([]);
-        $application = Application::whereId($mediaProject->application_id)->first();
         if(!$application->user_id){
             $result->error = "User ID on Application is null!";
             return $result;
         }
 
-        $result = FacebookTokenService::generateLongLifeUserToken($mediaProject->short_user_access_token,$application,$result);
+        $result = FacebookTokenService::generateLongLifeUserToken($application->short_access_token,$application,$result);
         if($result->hasError())
             return $result;
         $longLifeUserTokenResult = $result->data;
@@ -33,6 +30,7 @@ class MediaProjectService
         $createdTokenAt = Carbon::now();
         foreach($longLifePageTokensResult->data as $page){
             DB::table('media_projects')
+            ->where("application_id",$application->id)
             ->where("page_id",$page->id)
             ->update(
                 [

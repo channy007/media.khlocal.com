@@ -1,4 +1,25 @@
 @extends('layouts.homepage')
+@section('style')
+    <style>
+
+        table tbody tr td img {
+            max-width: 50px;
+            max-height: 50px;
+        }
+
+        .table td {
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+    </style>
+@stop
+
 @section('content')
     <nav aria-label="breadcrumb" style="margin-left: 10px;">
         <ol class="breadcrumb" style="background: none">
@@ -67,6 +88,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Thumbnail</th>
                         <th scope="col">Creator</th>
                         <th scope="col">Project Name</th>
                         <th scope="col">Status</th>
@@ -96,6 +118,7 @@
                     @foreach ($datas as $count => $mediaSource)
                         <tr>
                             <td>{{ $count + 1 }}</td>
+                            <td><img src="{{ $mediaSource->thumb ? asset('storage/'.$mediaSource->thumb) : asset('images/default_image.png') }}" alt=""></td>
                             <td>{{ optional($mediaSource->creator)->name }}</td>
                             <td>{{ optional($mediaSource->project)->name }}</td>
                             <td>
@@ -172,7 +195,7 @@
                                 <a class="link" href="{{ $mediaSource->source_url }}"
                                     target="__blank">{{ $mediaSource->source_url }}</a>
                             </td>
-                            <td>{{ $mediaSource->source_text }}</td>
+                            <td >{{ $mediaSource->source_text }}</td>
                             <td>{{ optional($mediaSource->channel_source)->name }}</td>
                             <td>{{ $mediaSource->transition }}</td>
                             <td>{{ $mediaSource->resolution }}</td>

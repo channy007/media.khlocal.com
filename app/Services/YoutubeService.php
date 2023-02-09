@@ -5,12 +5,15 @@ namespace App\Services;
 use App\Models\ChannelSource;
 use App\Models\MediaSource;
 use App\Utils\Enums\MediaSourceStatus;
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class YoutubeService
 {
-    const API_KEY = "AIzaSyCVrNioJIunahYWbxuLs6oIneLAd_ttFrI"; //"AIzaSyA11Z621PzZJc2Ff8HqKUY2xAs9n5CoHwQ";
+    const API_KEY = "AIzaSyA11Z621PzZJc2Ff8HqKUY2xAs9n5CoHwQ"; //"AIzaSyCVrNioJIunahYWbxuLs6oIneLAd_ttFrI";
 
     public static function getVideoDetails($url)
     {
@@ -41,16 +44,12 @@ class YoutubeService
 
         foreach ($channels as $channel) {
             $channelId = self::getChannelId($channel);
-            Log::info("=== channel ID: " . $channelId);
             if ($channelId) {
                 $listVideo = self::getChannelVideo($channelId);
-                Log::info("=== channel video: " . json_encode($listVideo));
                 if(!isset($listVideo->items))
                     continue;
                 self::insertMediaSource($channel,$listVideo->items);
             }
-
-            break;
         }
     }
 
@@ -60,10 +59,10 @@ class YoutubeService
             $videoSnipet = $video->snippet;
             if(!isset($videoSnipet))
                 continue;
-            Log::info("=== channel video: " . json_encode($videoSnipet));
             $videoUrl = "https://www.youtube.com/watch?v=" . $video->id->videoId;
             $mediaProject = optional($channel->media_project)->project;
 
+            $thumbnail = self::downloadThumbnail($videoSnipet->thumbnails->default->url);
             if(MediaSource::whereSourceVid($video->id->videoId)->exists()){
                 continue;
             }
@@ -82,10 +81,29 @@ class YoutubeService
                     'source_channel' => $videoSnipet->channelTitle,
                     'source_vid' => $video->id->videoId,
                     'channel_source_id' => $channel->id,
+<<<<<<< HEAD
                     'resolution' => optional($mediaProject)->resolution ?? '4:3'
+=======
+                    'thumb' => $thumbnail
+>>>>>>> b22f453bfa9778900d0240470256018131cb8c01
                 ]
             );
         }
+    }
+
+    private static function downloadThumbnail($thumbnailUrl){
+        $filename = 'images/'.(string) Str::uuid() . ".png";
+        $localUrl = 0;
+        try{
+            $contents = file_get_contents($thumbnailUrl);
+            $localUrl = Storage::disk('public')->put($filename, $contents);
+            
+        }catch(Exception $e){
+            Log::error("===== error download thumbnail =====".$e->getMessage());
+        }finally{
+            return $localUrl ? $filename : null;
+        }
+        
     }
 
     private static function getChannelVideo($channelId)
@@ -95,10 +113,10 @@ class YoutubeService
             "part" => "snippet,id",
             "order" => "date",
             "type" => "video",
-            "maxResults" => 2
+            "maxResults" => 10
         ];
         $youtubeLink = "https://www.googleapis.com/youtube/v3/search";
-        $timeOut = 20;
+        $timeOut = 25;
         $response = Http::asJson()->withHeaders(
             [
                 "X-goog-api-key" => self::API_KEY
@@ -111,8 +129,9 @@ class YoutubeService
     private function getChannelId($channel)
     {
         if (!$channel->channel_id) {
-            $youtubeChannel = self::getChannel($channel);
-            return optional($youtubeChannel)->id->channelId;
+            $youtubeChannel = self::getChannel($channel->url);
+
+            return optional($youtubeChannel)->id->channelId ?? null;
         }
         return $channel->channel_id;
     }
@@ -121,21 +140,21 @@ class YoutubeService
     * ex: $url = "http://twitter.com/pwsdedtch";
     * return pwsdedtch
     */
-    private static function getChannel($channel)
+    public static function getChannel($channelUrl)
     {
-
-        $channelUrl = "https://www.googleapis.com/youtube/v3/search";
+        $channelYoutubeAPI = "https://www.googleapis.com/youtube/v3/search";
         $query = [
             "part" => "id,snippet",
             "type" => "channel"
         ];
-        $path = parse_url($channel->url, PHP_URL_PATH); // gives "/pwsdedtech"
+        $path = parse_url($channelUrl, PHP_URL_PATH); // gives "/pwsdedtech"
         $channelId = substr($path, 1); // gives "pwsdedtech"\
-        $query["q"] = str_replace("@", "", $channelId);
-        $channelYoutube = self::makeRequest($channelUrl, $query);
-        Log::info("============== channel: " . json_encode($channelYoutube));
-        if (isset($channelYoutube->items)) {
-            return $channelYoutube->items[0];
+        $query["q"] = $channelId;
+
+        $channelYoutube = self::makeRequest($channelYoutubeAPI, $query);
+
+        if (isset($channelYoutube->items) && sizeof($channelYoutube->items) > 0) {
+            return $channelYoutube->items[0]??null;
         }
 
         return null;
@@ -143,7 +162,7 @@ class YoutubeService
 
     private function makeRequest($url, $query)
     {
-        $timeOut = 20;
+        $timeOut = 25;
         $response = Http::asJson()->withHeaders(
             [
                 "X-goog-api-key" => self::API_KEY

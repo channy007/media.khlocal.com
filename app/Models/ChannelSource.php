@@ -13,7 +13,6 @@ class ChannelSource extends Model
         'channel',
         'channel_id',
         'name',
-        'app_id',
         'url',
         'created_by_id',
         'updated_by_id',
