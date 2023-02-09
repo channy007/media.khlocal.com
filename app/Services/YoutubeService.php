@@ -81,7 +81,8 @@ class YoutubeService
                     'tags' => optional($mediaProject)->tags,
                     'source_channel' => $videoSnipet->channelTitle,
                     'source_vid' => $video->id->videoId,
-                    'channel_source_id' => $channel->id
+                    'channel_source_id' => $channel->id,
+                    'resolution' => optional($mediaProject)->resolution ?? '4:3'
                 ]
             );
         }
