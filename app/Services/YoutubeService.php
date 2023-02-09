@@ -81,11 +81,8 @@ class YoutubeService
                     'source_channel' => $videoSnipet->channelTitle,
                     'source_vid' => $video->id->videoId,
                     'channel_source_id' => $channel->id,
-<<<<<<< HEAD
-                    'resolution' => optional($mediaProject)->resolution ?? '4:3'
-=======
+                    'resolution' => optional($mediaProject)->resolution ?? '4:3',
                     'thumb' => $thumbnail
->>>>>>> b22f453bfa9778900d0240470256018131cb8c01
                 ]
             );
         }
