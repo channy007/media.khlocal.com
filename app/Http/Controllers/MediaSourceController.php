@@ -54,6 +54,10 @@ class MediaSourceController extends Controller
         });
         $datas = $datas->orderBy('id', 'desc')->paginate(10);
 
+        foreach($datas as $data){
+            $data->media_tags = $data->tags ? MediaTag::whereIn('tag_id',explode(",",$data->tags))->get() : null;
+        }
+
         return view('media_source.index', compact('datas', 'status', 'search', 'project'));
     }
 
@@ -223,7 +227,7 @@ class MediaSourceController extends Controller
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
-
+        $mediaSource->tags = $request['tags'] ? implode(",",$request['tags']) : $mediaSource->tags;
         $mediaSource->thumb = $this->saveThumnail($request,$mediaSource);
         $mediaSource->status = MediaSourceStatus::PENDING_UPLOAD;
         $mediaSource->update($request->all());

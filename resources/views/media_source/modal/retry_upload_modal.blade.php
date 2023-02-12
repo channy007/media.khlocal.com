@@ -36,9 +36,12 @@
                             <input type="text" class="form-control" name="source_text" placeholder="Source Text" id="source-text"
                                 required>
                         </div>
+
                         <div class="form-group col-md-12">
-                            <label for="tag">Tags</label>
-                            <input type="text" class="form-control" name="tags" id="tags" placeholder="Tags" id="tags">
+                            <label for="tags" style="width: 100%;">Tags</label>
+                            <select name="tags[]" style="width: 100%;"
+                            class="tags form-control" id="tags" multiple="multiple">
+                            </select>
                         </div>
 
                     </div>

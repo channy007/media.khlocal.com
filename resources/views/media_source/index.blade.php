@@ -324,12 +324,17 @@
 
             $(this).find('#source-name').val(mediaSource.source_name);
             $(this).find('#source-text').val(mediaSource.source_text);
-            $(this).find('#tags').val(mediaSource.tags);
+            
             
             var thumbnail = mediaSource.thumb ? ('{{ asset("storage/") }}/' + mediaSource.thumb) : '{{ asset("images/default_image.png") }}';
             $('.img-thumb').attr('src',thumbnail);
-         
 
+            var tags = "";
+            mediaSource.media_tags.forEach(mediaTag => {
+                tags +=
+                    `<option value="${mediaTag.tag_id}" selected>${mediaTag.tag_name}</option>`;
+            });
+            $(this).find('#tags').html(tags);
         });
         //##### END UPLOAD #####
 
@@ -379,6 +384,8 @@
             }
         });
 
+
+        /* select thumnail */
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -403,6 +410,37 @@
         $(document).on('click', '.img-thumb', function() {
             var inputPhoto = $(this).parent().find(".input-file");
             inputPhoto.click();
+        });
+
+        /* select tags */
+        var url = "{{ route('tags-list') }}";
+        $('.tags').select2({
+            placeholder: "Select Tags..",
+            ajax: {
+                url: url,
+                data: function(params) {
+                    var query = {
+                        search: params.term,
+                        type: 'public'
+                    };
+                    return query;
+                },
+                processResults: function(data) {
+                    var newdata = data.data.map(function(tag) {
+                        return {
+                            id: tag.tag_id,
+                            text: tag.tag_name
+                        };
+                    });
+                    newdata.unshift({
+                        id: '',
+                        text: 'Select Tags..'
+                    });
+                    return {
+                        results: newdata
+                    };
+                }
+            }
         });
     </script>
 @stop
