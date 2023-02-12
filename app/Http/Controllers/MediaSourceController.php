@@ -153,6 +153,15 @@ class MediaSourceController extends Controller
         }
     }
 
+    private function saveThumnail($request,$mediaSource){
+        if ($request->hasFile('thumbnail')) {
+            $thumb = $request['thumbnail'];
+            return Storage::disk('public')->put('images', $thumb);
+        }
+
+        return $mediaSource->thumb;
+    }
+
     public function edit(Request $request, $id)
     {
         $data = MediaSource::whereId($id)->first();
@@ -169,6 +178,7 @@ class MediaSourceController extends Controller
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
+
         $mediaSource->status = MediaSourceStatus::PENDING_DOWNLOAD;
         $mediaSource->save();
         dispatch(new VideoDownloader(
@@ -213,6 +223,8 @@ class MediaSourceController extends Controller
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
+
+        $mediaSource->thumb = $this->saveThumnail($request,$mediaSource);
         $mediaSource->status = MediaSourceStatus::PENDING_UPLOAD;
         $mediaSource->update($request->all());
         dispatch(new Uploader([

@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 class YoutubeService
 {
-    const API_KEY = "AIzaSyA11Z621PzZJc2Ff8HqKUY2xAs9n5CoHwQ"; //"AIzaSyCVrNioJIunahYWbxuLs6oIneLAd_ttFrI";
+    const API_KEY = "AIzaSyCVrNioJIunahYWbxuLs6oIneLAd_ttFrI"; //"AIzaSyA11Z621PzZJc2Ff8HqKUY2xAs9n5CoHwQ";
 
     public static function getVideoDetails($url)
     {
@@ -41,7 +41,6 @@ class YoutubeService
     public static function autoDownload()
     {
         $channels = ChannelSource::with('media_project.project')->get();
-
         foreach ($channels as $channel) {
             $channelId = self::getChannelId($channel);
             if ($channelId) {

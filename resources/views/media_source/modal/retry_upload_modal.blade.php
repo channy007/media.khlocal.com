@@ -15,6 +15,17 @@
                     <div class="modal-body">
 
                         <div class="form-group col-md-12">
+                            <label for="project_id">Thumbnail</label>
+                            <div class="containerImg" style="width: 100%;height:100%;">
+                                <img class="img-thumb"
+                                    style="width: 100%;height: 100%;object-fit: cover" />
+                                <input name="thumbnail" type='file' class="input-file" style="display: none"
+                                    accept=".jpeg,.png" />
+                            </div>
+    
+                        </div>
+
+                        <div class="form-group col-md-12">
                             <label for="source_name">Source Name *</label>
                             <input type="text" class="form-control" name="source_name" placeholder="Source Name" id="source-name"
                                 required>

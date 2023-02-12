@@ -325,6 +325,10 @@
             $(this).find('#source-name').val(mediaSource.source_name);
             $(this).find('#source-text').val(mediaSource.source_text);
             $(this).find('#tags').val(mediaSource.tags);
+            
+            var thumbnail = mediaSource.thumb ? ('{{ asset("storage/") }}/' + mediaSource.thumb) : '{{ asset("images/default_image.png") }}';
+            $('.img-thumb').attr('src',thumbnail);
+         
 
         });
         //##### END UPLOAD #####
@@ -373,6 +377,32 @@
                     };
                 }
             }
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $(input).parent().find('.img-thumb').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).on('change', '.input-file', function() {
+            readURL(this);
+        });
+
+        $(document).on('change', '.source-file', function() {
+            var filename = this.files[0].name;
+            $('#label-source-file').text(filename);
+        });
+
+        $(document).on('click', '.img-thumb', function() {
+            var inputPhoto = $(this).parent().find(".input-file");
+            inputPhoto.click();
         });
     </script>
 @stop
