@@ -63,7 +63,7 @@ class YoutubeService
             $mediaProject = optional($channel->media_project)->project;
 
             $thumbnail = self::downloadThumbnail($videoSnipet->thumbnails->default->url);
-            if(MediaSource::whereSourceVid($video->id->videoId)->orWhereSourceUrl($videoUrl)->exists()){
+            if(MediaSource::whereSourceVid($video->id->videoId)->orWhere('source_url',$videoUrl)->exists()){
                 continue;
             }
             MediaSource::create(
