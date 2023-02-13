@@ -329,12 +329,16 @@
             var thumbnail = mediaSource.thumb ? ('{{ asset("storage/") }}/' + mediaSource.thumb) : '{{ asset("images/default_image.png") }}';
             $('.img-thumb').attr('src',thumbnail);
 
-            var tags = "";
-            mediaSource.media_tags.forEach(mediaTag => {
-                tags +=
-                    `<option value="${mediaTag.tag_id}" selected>${mediaTag.tag_name}</option>`;
-            });
-            $(this).find('#tags').html(tags);
+            
+            if(mediaSource.media_tags != null && mediaSource.media_tags != undefined){
+                var tags = "";
+                mediaSource.media_tags.forEach(mediaTag => {
+                    tags +=
+                        `<option value="${mediaTag.tag_id}" selected>${mediaTag.tag_name}</option>`;
+                });
+                $(this).find('#tags').html(tags);
+            }
+            
         });
         //##### END UPLOAD #####
 
