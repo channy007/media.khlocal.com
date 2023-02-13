@@ -22,7 +22,13 @@
                                 <input name="thumbnail" type='file' class="input-file" style="display: none"
                                     accept=".jpeg,.png" />
                             </div>
-    
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label for="project_id">Project Name <em class="em-red">*</em></label>
+                            <select name="project_id" class="form-control media-project" id="project-id" required>
+                            </select>
+
                         </div>
 
                         <div class="form-group col-md-12">

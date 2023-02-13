@@ -227,6 +227,7 @@ class MediaSourceController extends Controller
         if (!$mediaSource) {
             return redirect()->back()->withErrors("Media source record not found!");
         }
+        $mediaSource->project_id = $request['project_id'] ?? $mediaSource->project_id;
         $mediaSource->tags = $request['tags'] ? implode(",",$request['tags']) : $mediaSource->tags;
         $mediaSource->thumb = $this->saveThumnail($request,$mediaSource);
         $mediaSource->status = MediaSourceStatus::PENDING_UPLOAD;

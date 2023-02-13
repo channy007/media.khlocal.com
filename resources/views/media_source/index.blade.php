@@ -338,7 +338,9 @@
                 });
                 $(this).find('#tags').html(tags);
             }
-            
+            if(mediaSource.project){
+                $(this).find('#project-id').html(`<option value="${mediaSource.project.id}" selected>${mediaSource.project.name}</option>`);
+            }
         });
         //##### END UPLOAD #####
 
