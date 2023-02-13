@@ -25,8 +25,9 @@
                         </div>
 
                         <div class="form-group col-md-12">
-                            <label for="project_id">Project Name <em class="em-red">*</em></label>
-                            <select name="project_id" class="form-control media-project" id="project-id" required>
+                            <label for="project_id" style="width: 100%;">Project Name <em class="em-red">*</em></label>
+                            <select name="project_id" style="width: 100%;"
+                             class="form-control media-project" id="project-id" required>
                             </select>
 
                         </div>
