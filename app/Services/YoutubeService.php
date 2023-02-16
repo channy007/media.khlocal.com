@@ -122,7 +122,7 @@ class YoutubeService
         return json_decode($response->body());
     }
 
-    private function getChannelId($channel)
+    private static function getChannelId($channel)
     {
         if (!$channel->channel_id) {
             $youtubeChannel = self::getChannel($channel->url);
