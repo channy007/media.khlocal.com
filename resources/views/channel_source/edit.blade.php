@@ -61,6 +61,7 @@
                     <label for="name">Name <em class="em-red">*</em></label>
                     <input type="text" class="form-control" name="name" id="channel-name" value="{{ $data->name }}" placeholder="Name"
                         required>
+                    <input type="text" class="form-control" id="channel-id" name="channel_id" value="{{ $data->channel_id }}" placeholder="Channel ID" hidden>
                 </div>
 
                 <div class="form-group col-md-4">
@@ -105,13 +106,12 @@
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputState">Media Projects</label>
-                    <select name="media_project_ids[]" class="media-project form-control" multiple="multiple">
-                        @foreach ($data->media_projects as $mediaProject)
-                            @if (isset($mediaProject->project))
-                                <option value="{{ $mediaProject->project->id }}" selected>
-                                    {{ $mediaProject->project->name }}</option>
-                            @endif
-                        @endforeach
+                    <select name="media_project_id" class="media-project form-control">
+                        
+                        @if (isset($data->media_project->project))
+                            <option value="{{ $data->media_project->project->id }}" selected>
+                                {{ $data->media_project->project->name }}</option>
+                        @endif
                     </select>
                 </div>
             </div>

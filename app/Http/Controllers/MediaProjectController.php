@@ -90,7 +90,6 @@ class MediaProjectController extends Controller
             if ($oldToken != $request['short_user_access_token']) {
                 $result = $this->mediaProjectService->updateToken($mediaProject);
             }
-            $this->updateOrCreateProjectChannelSources($mediaProject, $request);
 
             if ($result->hasError()) {
                 DB::rollBack();
@@ -125,7 +124,6 @@ class MediaProjectController extends Controller
             if (isset($mediaProject->short_user_access_token)) {
                 $result = $this->mediaProjectService->updateToken($mediaProject);
             }
-            $this->updateOrCreateProjectChannelSources($mediaProject, $request);
 
             if ($result->hasError()) {
                 DB::rollBack();

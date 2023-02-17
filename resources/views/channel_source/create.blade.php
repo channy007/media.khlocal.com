@@ -60,6 +60,7 @@
                 <div class="form-group col-md-4">
                     <label for="name">Name <em class="em-red">*</em></label>
                     <input type="text" class="form-control" id="channel-name" name="name" placeholder="Name" required>
+                    <input type="text" class="form-control" id="channel-id" name="channel_id" placeholder="Channel ID" hidden>
                 </div>
 
                 <div class="form-group col-md-4">
@@ -101,7 +102,7 @@
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputState">Media Projects</label>
-                    <select name="media_project_ids[]" class="media-project form-control" multiple="multiple">
+                    <select name="media_project_id" class="media-project form-control">
                     </select>
                 </div>
             </div>

@@ -4,9 +4,11 @@ function fillChannelInfo() {
         return;
     }
 
+    alert(channelDetails.snippet.channelId);
+
     $("#channel-name").val(channelDetails.snippet.title);
     $("#channel-description").val(channelDetails.snippet.description);
-
+    $("#channel-id").val(channelDetails.snippet.channelId);
     $("#channel-description").css({
         "animation-name": "colorChange",
         "animation-duration": "7s",

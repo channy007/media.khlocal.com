@@ -26,20 +26,22 @@ class ChannelSourceController extends Controller
         $search = $request['search'];
         $channel = $request['channel'];
         $datas = ChannelSource::with('media_projects.project');
-        $datas->when($search,function($query)use($search){
-            $query->where('name','LIKE','%'.$search.'%')
-            ->orWhere('description','LIKE','%'.$search.'%');
+        $datas->when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', '%' . $search . '%')
+                ->orWhere('description', 'LIKE', '%' . $search . '%');
         })->when($channel, function ($query) use ($channel) {
             $query->whereChannel($channel);
         });
         $datas = $datas->paginate(10);
 
-        return view('channel_source.index', compact('datas','search','channel'));
+        return view('channel_source.index', compact('datas', 'search', 'channel'));
     }
 
     public function edit(Request $request, $id)
     {
-        $data = ChannelSource::whereId($id)->first();
+        $data = ChannelSource::with([
+            'media_project.project'
+        ])->whereId($id)->first();
 
 
         return view('channel_source.edit', compact('data'));
@@ -47,7 +49,7 @@ class ChannelSourceController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), ['url' => 'unique:channel_sources,url,'.$id]);
+        $validator = Validator::make($request->all(), ['url' => 'unique:channel_sources,url,' . $id]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         }
@@ -57,8 +59,7 @@ class ChannelSourceController extends Controller
         if ($channelSource) {
             $channelSource->updated_by_id = optional($user)->id;
             $channelSource->update($request->all());
-            $this->updateOrCreateProjectChannelSources($channelSource,$request);
-
+            $this->updateOrCreateProjectChannelSources($channelSource, $request);
         }
         return redirect()->route('channel-source-index')
             ->with('success', 'Update successfully.');
@@ -78,10 +79,10 @@ class ChannelSourceController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         }
-        
+
         $channelSource = ChannelSource::create($request->all());
-        if($channelSource){
-            $this->updateOrCreateProjectChannelSources($channelSource,$request);
+        if ($channelSource) {
+            $this->updateOrCreateProjectChannelSources($channelSource, $request);
         }
 
         return redirect()->route('channel-source-index')
@@ -90,25 +91,20 @@ class ChannelSourceController extends Controller
 
     private function updateOrCreateProjectChannelSources($channelSource, $request)
     {
-        $mediaProjectIds =  $request['media_project_ids'];
-        if (!isset($mediaProjectIds) || empty($mediaProjectIds)) {
-            $mediaProjectIds = [];
-        }
+        $mediaProjectId =  $request['media_project_id'];
 
         ProjectChannelSource::whereChannelSourceId($channelSource->id)
-            ->whereNotIn('project_id', $mediaProjectIds)->delete();
+            ->where('project_id', '<>', $mediaProjectId)->delete();
 
-        foreach ($mediaProjectIds as $projectId) {
-            ProjectChannelSource::updateOrCreate(
-                [
-                    'project_id' => $projectId,
-                    'channel_source_id' => $channelSource->id
-                ],
-                [
-                    'project_id' => $projectId,
-                    'channel_source_id' => $channelSource->id
-                ]
-            );
-        }
+        ProjectChannelSource::updateOrCreate(
+            [
+                'project_id' => $mediaProjectId,
+                'channel_source_id' => $channelSource->id
+            ],
+            [
+                'project_id' => $mediaProjectId,
+                'channel_source_id' => $channelSource->id
+            ]
+        );
     }
 }
