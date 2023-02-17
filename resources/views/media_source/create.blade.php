@@ -377,7 +377,7 @@
 @stop
 
 @section('scripts')
-    <script src="{{ asset('js/media-project.js') }}"></script>
+    <script src="{{ asset('js/media-source.js') }}"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {

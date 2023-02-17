@@ -3,9 +3,16 @@ function fillSourceInfo() {
     if (videoDetails === undefined) {
         return;
     }
-    alert(videoDetails);
-
-    return;
+    var channel = videoDetails.channel;
+    if(channel === null || channel === undefined){
+        alert("Can not get channel by this video link!");
+        return;
+    }
+    var mediaProject = channel.media_project.project;
+    if(mediaProject === null || mediaProject === undefined){
+        alert(`The channel ${channel.name} not link with the Media Project yet!`);
+        return;
+    }
 
     $("#source-name").val(videoDetails.items[0].snippet.title);
     $("#source-text").val(videoDetails.items[0].snippet.description);
