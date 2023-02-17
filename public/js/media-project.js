@@ -3,6 +3,9 @@ function fillSourceInfo() {
     if (videoDetails === undefined) {
         return;
     }
+    alert(videoDetails);
+
+    return;
 
     $("#source-name").val(videoDetails.items[0].snippet.title);
     $("#source-text").val(videoDetails.items[0].snippet.description);

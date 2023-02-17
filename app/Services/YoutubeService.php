@@ -15,9 +15,8 @@ class YoutubeService
 {
     const API_KEY = "AIzaSyCVrNioJIunahYWbxuLs6oIneLAd_ttFrI"; //"AIzaSyA11Z621PzZJc2Ff8HqKUY2xAs9n5CoHwQ";
 
-    public static function getVideoDetails($url)
-    {
 
+    public function loadVideoDetailsFromLink($url){
         // Use parse_url() function to parse the URL
         // and return an associative array which
         // contains its various components
@@ -36,6 +35,20 @@ class YoutubeService
         )->timeout($timeOut)->get($youtubeLink);
 
         return json_decode($response->body());
+    }
+
+    public static function getVideoDetails($url)
+    {
+        $videoDetails = self::loadVideoDetailsFromLink($url);
+        
+        if(sizeof($videoDetails->items) < 0)
+            return null;
+
+        $videoDetails = $videoDetails->items[0];
+        $videoDetails->channel = ChannelSource::with("media_project.project")
+            ->whereChannelId($videoDetails->snippet->channelId)->first();
+        Log::info("===== video-details: ".json_encode($videoDetails));
+        return $videoDetails;
     }
 
     public static function autoDownload()

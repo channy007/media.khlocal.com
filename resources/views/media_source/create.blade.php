@@ -64,35 +64,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="project_id">Project Name <em class="em-red">*</em></label>
-                            <select name="project_id" class="form-control" id="project-id"
-                                onchange="projectChange({{ $projects }})">
-                                @foreach ($projects as $project)
-                                    <option value="{{ $project->id }}">{{ $project->name }}</option>
-                                @endforeach
-                            </select>
 
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="inputPassword4">Channel Source <em class="em-red">*</em></label>
-                            <select name="channel_source_id" class="form-control source-from"
-                                onchange="channelSourceChange(this)" required id="channel-source-id">
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="source_name">Source Name <em class="em-red">*</em></label>
-                            <input type="text" class="form-control" id="source-name" name="source_name" placeholder="Source Name"
-                                required>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="source_text">Source Text</label>
-                            <input type="text" class="form-control" id="source-text" name="source_text" placeholder="Source Text"
-                                required>
-                        </div>
-                        
                         <div class="form-group col-md-6">
                             <label for="source_url" id="source-label">Source URL <em class="em-red">*</em></label>
 
@@ -125,10 +97,34 @@
                             </div>
                         </div>
 
-                        {{-- <div class="form-group col-md-6">
-                            <label for="tag">Tags</label>
-                            <input type="text" class="form-control" name="tags" id="tags" placeholder="Tags">
-                        </div> --}}
+                        <div class="form-group col-md-6">
+                            <label for="project_id">Project Name <em class="em-red">*</em></label>
+                            <select name="project_id" class="form-control" id="project-id"
+                                onchange="projectChange({{ $projects }})">
+                                @foreach ($projects as $project)
+                                    <option value="{{ $project->id }}">{{ $project->name }}</option>
+                                @endforeach
+                            </select>
+
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword4">Channel Source <em class="em-red">*</em></label>
+                            <select name="channel_source_id" class="form-control source-from"
+                                onchange="channelSourceChange(this)" required id="channel-source-id">
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="source_name">Source Name <em class="em-red">*</em></label>
+                            <input type="text" class="form-control" id="source-name" name="source_name" placeholder="Source Name"
+                                required>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="source_text">Source Text</label>
+                            <input type="text" class="form-control" id="source-text" name="source_text" placeholder="Source Text"
+                                required>
+                        </div>
 
                         <div class="form-group col-md-6">
                             <label for="inputState">Tags</label>
